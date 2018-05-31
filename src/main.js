@@ -10,6 +10,8 @@ import '../static/font/iconfont.css'
 
 import App from './App'
 import router from './router'
+import axios from 'axios'
+import './config/constants'
 
 Vue.use(ElementUI)
 
@@ -19,5 +21,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  axios,
   render: h => h(App)
 }).$mount('#app')

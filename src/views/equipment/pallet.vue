@@ -23,16 +23,16 @@
         </div>
         <div class="table">
           <el-table :data="tableData" stripe style="width: 100%">
-            <el-table-column prop="id" label="设备编号"></el-table-column>
-            <el-table-column prop="name" label="所属公司"></el-table-column>
-            <el-table-column prop="shop" label="门店"></el-table-column>
+            <el-table-column prop="device_id" label="设备编号"></el-table-column>
+            <el-table-column prop="merchant_name" label="所属公司"></el-table-column>
+            <el-table-column prop="merchant_store_name" label="门店"></el-table-column>
             <el-table-column prop="version" label="版本"></el-table-column>
-            <el-table-column prop="time" label="添加时间"></el-table-column>
-            <el-table-column prop="startTime" label="启用时间"></el-table-column>
+            <el-table-column prop="created_at" label="添加时间"></el-table-column>
+            <el-table-column prop="start_at" label="启用时间"></el-table-column>
             </el-table-column>
             <el-table-column label="状态">
               <template slot-scope="scope">
-                <el-switch v-model="value3"></el-switch>
+                <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`"></el-switch>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="150">
@@ -42,7 +42,7 @@
             </el-table-column>
           </el-table>
           <div class="pages">
-            <el-pagination background layout="prev, pager, next" :total="1000">
+            <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
             </el-pagination>
           </div>
         </div>
@@ -65,7 +65,7 @@
             </el-table-column>
           </el-table>
           <div class="pages">
-            <el-pagination background layout="prev, pager, next" :total="1000">
+            <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
             </el-pagination>
           </div>
         </div>
@@ -99,44 +99,14 @@
 </template>
 
 <script>
+import equipmentApi from '../../api/equipment'
 export default {
   name: 'pallet',
   data () {
     return {
-      value3: true,
       activeName: 'first',
-      tableData: [{
-        id: 'SFGT001',
-        name: '金梦园',
-        shop: '湖州浙北店',
-        version: '1.0',
-        time: '2018-1-1',
-        startTime: '2018-1-15'
-      }, {
-        id: 'SFGT002',
-        name: '湖州金店',
-        shop: '湖州浙北店',
-        version: '1.0',
-        time: '2018-1-1',
-        startTime: '2018-1-15'
-      }, {
-        id: 'SFGT003',
-        name: '王小虎',
-        shop: '湖州浙北店',
-        version: '1.0',
-        time: '2018-1-1',
-        startTime: '2018-1-15'
-      }],
-      businessData: [{
-        name: '金梦园',
-        number: '100'
-      }, {
-        name: '湖州金店',
-        number: '200'
-      }, {
-        name: '王小虎',
-        number: '300'
-      }],
+      tableData: [],
+      pages: {},
       addPallet: false
     }
   },
@@ -145,10 +115,23 @@ export default {
     let templates = this.$parent
     templates.navMenu = this.$route.name
     templates.upperLevelMenu = ''
+
+    this.request()
   },
   mounted: function () {
   },
   methods: {
+    request () {
+      equipmentApi.palletList().then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.tableData = returnData.data.list
+          this.pages = returnData.data.pagination
+        } else {
+          console.log('bbb')
+        }
+      })
+    }
   }
 }
 </script>
