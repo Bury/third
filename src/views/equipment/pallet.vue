@@ -22,13 +22,13 @@
           </div>
         </div>
         <div class="table">
-          <el-table :data="tableData" stripe style="width: 100%">
+          <el-table :data="tableData" stripe style="width: 100%" :default-sort = "{prop: 'created_at', order: 'descending'}">
             <el-table-column prop="device_id" label="设备编号"></el-table-column>
             <el-table-column prop="merchant_name" label="所属公司"></el-table-column>
             <el-table-column prop="merchant_store_name" label="门店"></el-table-column>
             <el-table-column prop="version" label="版本"></el-table-column>
-            <el-table-column prop="created_at" label="添加时间"></el-table-column>
-            <el-table-column prop="start_at" label="启用时间"></el-table-column>
+            <el-table-column prop="created_at" sortable label="添加时间"></el-table-column>
+            <el-table-column prop="start_at" sortable label="启用时间"></el-table-column>
             </el-table-column>
             <el-table-column label="状态">
               <template slot-scope="scope">

@@ -12,7 +12,7 @@
         <el-table-column prop="name" label="商家名称"></el-table-column>
         <el-table-column label="模块">
           <template slot-scope="scope">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-menu" @click="modules(scope.row)"></i>
           </template>
         </el-table-column>
         <el-table-column label="账号管理">
@@ -116,7 +116,11 @@ export default {
           this.tableData = returnData.data.list
           this.pages = returnData.data.pagination
         } else {
-          console.log('bbb')
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
         }
       })
     },
@@ -125,6 +129,7 @@ export default {
       this.title = '新增商家'
       this.addButton = true
     },
+    // 删除
     handleDele (row) {
       this.$confirm('此操作将删除该记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -140,7 +145,11 @@ export default {
             })
             this.request()
           } else {
-            console.log(returnData.msg)
+            this.$alert(returnData.msg, {
+              type: 'error',
+              callback: action => {
+              }
+            })
           }
         })
       }).catch(() => {
@@ -151,7 +160,6 @@ export default {
       })
     },
     handleEdit (row) {
-      console.log(row)
       this.title = '修改商家'
       this.id = row.id
       this.add.name = row.name
@@ -161,6 +169,7 @@ export default {
       this.addVisible = true
       this.addButton = false
     },
+    // 修改
     editForm () {
       let qs = require('querystring')
       businessApi.editBusiness(qs.stringify(this.add), this.id).then((response) => {
@@ -169,10 +178,15 @@ export default {
           this.addVisible = false
           this.request()
         } else {
-          console.log(returnData.msg)
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
         }
       })
     },
+    // 添加
     addForm () {
       let qs = require('querystring')
       businessApi.addBusiness(qs.stringify(this.add)).then((response) => {
@@ -181,9 +195,17 @@ export default {
           this.addVisible = false
           this.request()
         } else {
-          console.log(returnData.msg)
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
         }
       })
+    },
+    // 跳转到模块
+    modules (row) {
+      this.$router.replace({name: 'Modules'})
     }
   }
 }

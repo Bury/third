@@ -30,13 +30,17 @@
     <div class="table">
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="id" label="ID"></el-table-column>
-        <el-table-column prop="name" label="账号"></el-table-column>
-        <el-table-column prop="ip" label="IP"></el-table-column>
-        <el-table-column prop="active" label="状态"></el-table-column>
-        <el-table-column prop="time" label="登录时间"></el-table-column>
+        <el-table-column prop="actor_name" label="账号"></el-table-column>
+        <el-table-column prop="actor_ip" label="IP"></el-table-column>
+        <el-table-column prop="msg" label="状态"></el-table-column>
+        <el-table-column label="登录时间">
+          <template slot-scope="scope" v-if="scope.row.created_at">
+            {{scope.row.created_at | date(2)}}
+          </template>
+        </el-table-column>
       </el-table>
       <div class="pages">
-        <el-pagination background layout="prev, pager, next" :total="1000">
+        <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
         </el-pagination>
       </div>
     </div>
@@ -44,29 +48,14 @@
 </template>
 
 <script>
+import worklogApi from '../../api/worklog'
+
 export default {
   name: 'login-list',
   data () {
     return {
-      tableData: [{
-        id: '001',
-        name: 'admin',
-        ip: '36.24.35.126',
-        active: '登录成功',
-        time: '2018.03.06 12:35:12'
-      }, {
-        id: '002',
-        name: '运营',
-        ip: '36.24.35.126',
-        active: '登录成功',
-        time: '2018.03.06 12:35:12'
-      }, {
-        id: '003',
-        name: '运营',
-        ip: '36.24.35.126',
-        active: '登录成功',
-        time: '2018.03.06 12:35:12'
-      }]
+      tableData: [],
+      pages: {}
     }
   },
   created: function () {
@@ -74,10 +63,27 @@ export default {
     let templates = this.$parent
     templates.navMenu = this.$route.name
     templates.upperLevelMenu = ''
+
+    this.request()
   },
   mounted: function () {
   },
   methods: {
+    request () {
+      worklogApi.loginList().then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.tableData = returnData.data.list
+          this.pages = returnData.data.pagination
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    }
   }
 }
 </script>

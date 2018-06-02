@@ -11,6 +11,7 @@ import Home from '../views/Home'
 
 //商家
 import BusinessList from '../views/business/businessList'
+import Modules from '../views/business/modules'
 
 import Counter from '../views/equipment/counter'
 import Face from '../views/equipment/face'
@@ -46,7 +47,8 @@ const router = new Router({
       component: Templates,
       children: [
           // 商家列表
-          { path: '', name: 'BusinessList', component: BusinessList }
+          { path: '', name: 'BusinessList', component: BusinessList },
+          { path: 'modules', name: 'Modules', component: Modules }
       ]
     },{
       path: 'equipment',

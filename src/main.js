@@ -11,9 +11,12 @@ import '../static/font/iconfont.css'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import * as filters from './filters'
 import './config/constants'
 
 Vue.use(ElementUI)
+
+Vue.filter('date', filters.dateFilter)
 
 Vue.config.productionTip = false
 

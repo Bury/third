@@ -45,6 +45,7 @@ export default {
       switch (pathName) {
         // 商家
         case 'BusinessList':
+        case 'Modules':
           sidebar.defaultActive = '2-1'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
@@ -79,11 +80,11 @@ export default {
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
         // 工作日志
-        case 'ActiveList':
+        case 'LoginList':
           sidebar.defaultActive = '5-1'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
-        case 'LoginList':
+        case 'ActiveList':
           sidebar.defaultActive = '5-2'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
