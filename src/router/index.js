@@ -17,6 +17,7 @@ import Counter from '../views/equipment/counter'
 import Face from '../views/equipment/face'
 import Flow from '../views/equipment/flow'
 import Pallet from '../views/equipment/pallet'
+import Store from '../views/equipment/store'
 
 import AccountNumber from '../views/setup/accountNumber'
 import Power from '../views/setup/power'
@@ -58,7 +59,8 @@ const router = new Router({
           { path: 'counter', name: 'Counter', component: Counter },
           { path: 'face', name: 'Face', component: Face },
           { path: 'flow', name: 'Flow', component: Flow },
-          { path: 'pallet', name: 'Pallet', component: Pallet }
+          { path: 'pallet', name: 'Pallet', component: Pallet },
+          { path: 'store/:storeId', name: 'Store', component: Store }
       ]
     },{
       path: 'setup',

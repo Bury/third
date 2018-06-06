@@ -39,7 +39,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pages">
+      <div class="pages" v-if="pages.pageCount > 0">
         <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
         </el-pagination>
       </div>

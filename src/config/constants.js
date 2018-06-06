@@ -16,6 +16,12 @@ global.DELETE_BUSINESS = `${SERVER_IP}${COMMON}merchant/delete/`
 
 // post /v1/device-pallet/list 货盘列表
 global.GET_PALLET_LIST = `${SERVER_IP}${COMMON}device-pallet/list`
+// post /v1/device-pallet/list-by-merchant 按商家查看
+global.GET_MERCHANT_LIST = `${SERVER_IP}${COMMON}device-pallet/list-by-merchant`
+// post /v1/device-pallet/list-by-merchant-store 获取门店列表
+global.GET_STORE_LIST = `${SERVER_IP}${COMMON}device-pallet/list-by-merchant-store`
+// post /v1/device-pallet/import 导入设备
+global.IMPORT_ORDER = `${SERVER_IP}${COMMON}device-pallet/import`
 
 // post /v1/user/list 获取账号列表
 global.GET_USER_LIST = `${SERVER_IP}${COMMON}user/list`

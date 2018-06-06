@@ -17,7 +17,7 @@
         </el-table-column>
         <el-table-column label="账号管理">
           <template slot-scope="scope">
-            <i class="el-icon-edit-outline"></i>
+            <i class="el-icon-edit-outline" @click="accountActive(scope.row)"></i>
           </template>
         </el-table-column>
         <el-table-column label="状态">
@@ -32,14 +32,14 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pages">
+      <div class="pages" v-if="pages.pageCount > 0">
         <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
         </el-pagination>
       </div>
     </div>
     <!-- 新增Form -->
     <el-dialog :title="title" :visible.sync="addVisible" @close='closeDialog'>
-      <el-form :model="add" label-width="80px" class="demo-ruleForm" :rules="rules" ref="add">
+      <el-form v-model="add" label-width="80px" class="demo-ruleForm" :rules="rules" ref="add">
         <el-form-item label="全称" prop="fullname">
           <el-input v-model="add.fullname"></el-input>
         </el-form-item>
@@ -61,6 +61,21 @@
         <el-button type="primary" @click="editForm" v-else>修 改</el-button>
       </div>
     </el-dialog>
+     <!-- 账号管理 -->
+    <el-dialog title="设置商家管理员账号" :visible.sync="accountVisible">
+      <el-form v-model="account" label-width="80px" class="demo-ruleForm">
+        <el-form-item label="账号" require>
+          <el-input v-model="account.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" require>
+          <el-input v-model="account.password"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="accountVisible = false">取 消</el-button>
+        <el-button type="primary" @click="accountVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -73,9 +88,14 @@ export default {
       title: '新增商家',
       addButton: true,
       addVisible: false,
+      accountVisible: false,
       pages: {},
       tableData: [],
       id: '',
+      account: {
+        username: '',
+        password: ''
+      },
       add: {
         name: '',
         fullname: '',
@@ -206,6 +226,9 @@ export default {
     // 跳转到模块
     modules (row) {
       this.$router.replace({name: 'Modules'})
+    },
+    accountActive (row) {
+      this.accountVisible = true
     }
   }
 }

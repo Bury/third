@@ -1,15 +1,37 @@
 <!-- 商家模块 -->
 <template>
   <div class="modules">
-    <el-row>
-      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
+    <el-row :gutter="20">
+      <el-col :span="6" v-for="(o, index) in 4" :key="o">
         <el-card  class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
-              <span>卡片名称</span>
-              <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+              <span>ERP</span>
+              <el-switch style="float: right; padding: 3px 0" v-model="value3"></el-switch>
             </div>
-            <div v-for="o in 4" :key="o" class="text item">
-              {{'列表内容 ' + o }}
+            <div class="text item">
+              
+              有效期剩余：<span class="day">365天</span> <i class="el-icon-circle-plus"></i>
+              <el-button style="float: right; padding: 3px 0" type="text">权限设置</el-button>
+              <el-form style="margin-top:20px">
+                <el-form-item label="增加有效期：">
+                  <el-select placeholder="请选择" style="width:125px">
+                    <el-option value="1个月"></el-option>
+                    <el-option value="2个月"></el-option>
+                    <el-option value="3个月"></el-option>
+                    <el-option value="4个月"></el-option>
+                    <el-option value="5个月"></el-option>
+                    <el-option value="6个月"></el-option>
+                    <el-option value="7个月"></el-option>
+                    <el-option value="8个月"></el-option>
+                    <el-option value="9个月"></el-option>
+                    <el-option value="10个月"></el-option>
+                    <el-option value="11个月"></el-option>
+                    <el-option value="1年"></el-option>
+                    <el-option value="2年"></el-option>
+                    <el-option value="3年"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-form>
             </div>
         </el-card>
       </el-col>
@@ -22,6 +44,7 @@ export default {
   name: 'modules',
   data () {
     return {
+      value3: true
     }
   },
   created: function () {
@@ -59,6 +82,11 @@ export default {
   margin-top:30px;
 }
 i{
-  font-size:24px;
+  color: #ccc;
+  font-size:22px;
+  vertical-align: middle;
+}
+.item .day{
+  color:#f00;
 }
 </style>

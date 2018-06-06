@@ -5,12 +5,12 @@
       <el-tab-pane label="按设备" name="first">
         <div class="search">
           <el-select placeholder="状态" style="width:120px">
-            <el-option label="已禁用" value="shanghai"></el-option>
-            <el-option label="已启用" value="beijing"></el-option>
+            <el-option label="已禁用"></el-option>
+            <el-option label="已启用"></el-option>
           </el-select>
           <el-select placeholder="版本" style="width:120px">
-            <el-option label="1.0.0" value="shanghai"></el-option>
-            <el-option label="2.0.0" value="beijing"></el-option>
+            <el-option label="1.0.0"></el-option>
+            <el-option label="2.0.0"></el-option>
           </el-select>
           <el-input placeholder="搜索公司" style="width:120px"></el-input>
           <el-input placeholder="搜索门店" style="width:120px"></el-input>
@@ -18,7 +18,8 @@
           <el-button icon="el-icon-search"></el-button>
           <div class="add">
             <el-button type="primary" @click="addPallet = true">新增</el-button>
-            <el-button type="primary">批量导入</el-button>
+            <el-button type="primary" @click="importOrder">批量导入</el-button>
+            <input type="file" @change="fileUpload" id='uploadFile'>
           </div>
         </div>
         <div class="table">
@@ -41,7 +42,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <div class="pages">
+          <div class="pages" v-if="pages.pageCount > 0">
             <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
             </el-pagination>
           </div>
@@ -50,22 +51,22 @@
       <!--按商家-->
       <el-tab-pane label="按商家" name="second">
         <div class="search">
-          <el-input placeholder="搜索商家" style="width:120px"></el-input>
+          <el-input placeholder="搜索商家" style="width:200px"></el-input>
           <el-button icon="el-icon-search"></el-button>
           未分配：30
         </div>
         <div class="table">
           <el-table :data="businessData" stripe style="width: 100%">
             <el-table-column prop="name" label="所属公司"></el-table-column>
-            <el-table-column prop="number" label="件数"></el-table-column>
+            <el-table-column prop="device_cnt" label="件数"></el-table-column>
             <el-table-column label="操作" width="150">
               <template slot-scope="scope">
-                <el-button type="text" size="small">进入</el-button>
+                <el-button type="text" size="small" @click="goStore(scope.row)">进入</el-button>
               </template>
             </el-table-column>
           </el-table>
-          <div class="pages">
-            <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+          <div class="pages" v-if="businessPages.pageCount > 0">
+            <el-pagination background layout="prev, pager, next" :page-size="businessPages.perPage" :page-count = 'businessPages.pageCount'>
             </el-pagination>
           </div>
         </div>
@@ -79,8 +80,8 @@
         </el-form-item>
         <el-form-item label="版本" required>
           <el-select placeholder="请选择版本" style="width:400px;">
-            <el-option label="1.0" value="shanghai"></el-option>
-            <el-option label="2.0" value="beijing"></el-option>
+            <el-option label="1.0"></el-option>
+            <el-option label="2.0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="商家">
@@ -106,7 +107,9 @@ export default {
     return {
       activeName: 'first',
       tableData: [],
+      businessData: [],
       pages: {},
+      businessPages: {},
       addPallet: false
     }
   },
@@ -117,6 +120,7 @@ export default {
     templates.upperLevelMenu = ''
 
     this.request()
+    this.merchant()
   },
   mounted: function () {
   },
@@ -129,6 +133,48 @@ export default {
           this.pages = returnData.data.pagination
         } else {
           console.log('bbb')
+        }
+      })
+    },
+    merchant () {
+      equipmentApi.merchantList().then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.businessData = returnData.data.list
+          this.businessPages = returnData.data.pagination
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
+    goStore (row) {
+      // 跳转到门店列表
+      this.$router.replace({name: 'Store', params: {'storeId': row.id}, query: {'name': row.name}})
+    },
+    importOrder () {
+       document.querySelector('#uploadFile').click()
+    },
+    fileUpload () {
+      let fileData = new window.FormData()
+      fileData.append('file', document.querySelector('#uploadFile').files[0])
+      let file = {
+        'file': fileData
+      }
+      let qs = require('querystring')
+      equipmentApi.importOrder(qs.stringify(file)).then((response) => {
+        let returnData = response.data
+        if (returnData.success) {
+          this.request()
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
         }
       })
     }
@@ -158,5 +204,13 @@ export default {
 }
 i{
   font-size:24px;
+}
+#uploadFile{
+  position:absolute;
+  top:0;
+  right:0;
+  width:90px;
+  height:40px;
+  display:none;
 }
 </style>

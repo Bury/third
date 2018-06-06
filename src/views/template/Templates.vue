@@ -21,6 +21,12 @@
           <el-breadcrumb-item>看货盘</el-breadcrumb-item>
         </el-breadcrumb>
 
+        <el-breadcrumb v-if="navMenu === 'Store'" separator="/">
+          <el-breadcrumb-item>设备</el-breadcrumb-item>
+          <el-breadcrumb-item><router-link :to="{ name: 'Pallet' }" replace>看货盘</router-link></el-breadcrumb-item>
+          <el-breadcrumb-item>门店&nbsp;&nbsp;{{ storeId }}</el-breadcrumb-item>
+        </el-breadcrumb>
+
         <el-breadcrumb v-if="navMenu === 'Flow'" separator="/">
           <el-breadcrumb-item>设备</el-breadcrumb-item>
           <el-breadcrumb-item>流量监控</el-breadcrumb-item>

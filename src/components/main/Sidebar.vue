@@ -44,9 +44,7 @@
           <!-- menu end -->
         </div><!-- /main-menu -->
         <div class="footer">
-            <div class="logo"><img src="static/images/main/logo_footer.png"></div>
             <div class="info">
-              @2018<br/>
               杭州知己科技有限公司<br/>
               版权所有
             </div>
