@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-      <div class="sub-title">杭州知己</div>
+      <div class="sub-title">杭州知己中央管理系统</div>
       <div class="title">登录</div>
       <div class="form">
         <div class="name">
@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="login-button enabled">
-          <a>登录</a>
+          <a @click="login">登录</a>
         </div>
       </div>
     </div>
@@ -38,11 +38,17 @@ export default {
   mounted: function () {
   },
   methods: {
+    login () {
+      this.$router.replace({name: 'Dashboard'})
+    }
   }
 }
 </script>
 
 <style scoped>
+*{
+  text-align:center;
+}
 .login {
   position: relative;
   height: 350px;

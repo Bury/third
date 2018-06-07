@@ -44,8 +44,4 @@ a {
 a:focus {
   outline :none;
 }
-
-.el-date-picker {
-  width: 255px !important;
-}
 </style>

@@ -13,12 +13,12 @@
       </div>
       <div class="right">
         <div class="user">
-          <el-dropdown trigger="hover">
+          <el-dropdown trigger="hover" @command="handleCommand">
             <span class="el-dropdown-link">
               你好，张三<i class="el-icon-caret-bottom el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item divided command="logout">退出</el-dropdown-item>
+              <el-dropdown-item divided command="logout" >退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -39,6 +39,11 @@ export default {
   mounted: function () {
   },
   methods: {
+     handleCommand(command) {
+      if (command === 'logout') {
+        this.$router.replace({name: 'Login'})
+      }
+    }
   }
 }
 </script>

@@ -2,9 +2,9 @@
     <div class="home">
       <div class="table">
         <div class="container">
-          <div class="logo">
+          <!--<div class="logo">
             杭州知己科技有限公司
-          </div>
+          </div>-->
           <div class="main">
             <login></login>
           </div>

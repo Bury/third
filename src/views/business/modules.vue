@@ -62,6 +62,9 @@ export default {
 </script>
 
 <style scoped>
+.success{
+  background:#67c23a;
+}
 .search{
   position:relative;
 }
