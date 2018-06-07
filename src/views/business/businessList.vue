@@ -39,7 +39,7 @@
     </div>
     <!-- 新增Form -->
     <el-dialog :title="title" :visible.sync="addVisible" @close='closeDialog'>
-      <el-form v-model="add" label-width="80px" class="demo-ruleForm" :rules="rules" ref="add">
+      <el-form :model="add" label-width="80px" class="demo-ruleForm" ref="add" :rules="rules">
         <el-form-item label="全称" prop="fullname">
           <el-input v-model="add.fullname"></el-input>
         </el-form-item>
@@ -57,8 +57,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addForm" v-if="addButton === true">确 定</el-button>
-        <el-button type="primary" @click="editForm" v-else>修 改</el-button>
+        <el-button type="primary" @click="addForm('add')" v-if="addButton === true">确 定</el-button>
+        <el-button type="primary" @click="editForm('add')" v-else>修 改</el-button>
       </div>
     </el-dialog>
      <!-- 账号管理 -->
@@ -128,7 +128,7 @@ export default {
   },
   mounted: function () {
   },
-  methods: {
+  methods: {   
     request () {
       businessApi.businessList().then((response) => {
         let returnData = response.data
@@ -190,36 +190,48 @@ export default {
       this.addButton = false
     },
     // 修改
-    editForm () {
-      let qs = require('querystring')
-      businessApi.editBusiness(qs.stringify(this.add), this.id).then((response) => {
-        let returnData = response.data
-        if (returnData.errno === 0) {
-          this.addVisible = false
-          this.request()
-        } else {
-          this.$alert(returnData.msg, {
-            type: 'error',
-            callback: action => {
+    editForm (formName) {
+       this.$refs[formName].validate((valid) => {
+         if (valid) {
+          let qs = require('querystring')
+          businessApi.editBusiness(qs.stringify(this.add), this.id).then((response) => {
+            let returnData = response.data
+            if (returnData.errno === 0) {
+              this.addVisible = false
+              this.request()
+            } else {
+              this.$alert(returnData.msg, {
+                type: 'error',
+                callback: action => {
+                }
+              })
             }
           })
-        }
-      })
+         } else {
+           return false
+         }
+       })
     },
     // 添加
-    addForm () {
-      let qs = require('querystring')
-      businessApi.addBusiness(qs.stringify(this.add)).then((response) => {
-        let returnData = response.data
-        if (returnData.errno === 0) {
-          this.addVisible = false
-          this.request()
-        } else {
-          this.$alert(returnData.msg, {
-            type: 'error',
-            callback: action => {
+    addForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let qs = require('querystring')
+          businessApi.addBusiness(qs.stringify(this.add)).then((response) => {
+            let returnData = response.data
+            if (returnData.errno === 0) {
+              this.addVisible = false
+              this.request()
+            } else {
+              this.$alert(returnData.msg, {
+                type: 'error',
+                callback: action => {
+                }
+              })
             }
           })
+        } else {
+          return false
         }
       })
     },

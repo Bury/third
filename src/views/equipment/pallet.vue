@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="table">
-          <el-table :data="tableData" stripe style="width: 100%" :default-sort = "{prop: 'created_at', order: 'descending'}">
+          <el-table :data="tableData" stripe style="width: 100%">
             <el-table-column prop="device_id" label="设备编号"></el-table-column>
             <el-table-column prop="merchant_name" label="所属公司"></el-table-column>
             <el-table-column prop="merchant_store_name" label="门店"></el-table-column>
@@ -153,7 +153,7 @@ export default {
     },
     goStore (row) {
       // 跳转到门店列表
-      this.$router.replace({name: 'Store', params: {'storeId': row.id}, query: {'name': row.name}})
+      this.$router.replace({name: 'Store', params: {'storeId': row.id}})
     },
     importOrder () {
        document.querySelector('#uploadFile').click()
