@@ -6,24 +6,24 @@
         <el-form-item label="时间">
           <el-col :span="11">
             <el-form-item>
-              <el-date-picker type="date" placeholder="选择日期" style="width: 120px"></el-date-picker>
+              <el-date-picker type="date" v-model="search.startTime" placeholder="选择日期" style="width: 140px"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col class="line" :span="2">-</el-col>
           <el-col :span="11">
             <el-form-item>
-              <el-date-picker type="date" placeholder="选择日期" style="width: 120px"></el-date-picker>
+              <el-date-picker type="date" v-model="search.endTime" placeholder="选择日期" style="width: 140px"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-form-item>
         <el-form-item label="IP">
-          <el-input style="width: 120px"></el-input>
+          <el-input v-model="search.ip" style="width: 140px"></el-input>
         </el-form-item>
         <el-form-item label="账号">
-          <el-input style="width: 120px"></el-input>
+          <el-input v-model="search.account" style="width: 140px"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button icon="el-icon-search"></el-button>
+          <el-button icon="el-icon-search" @click="searchList"></el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -49,13 +49,20 @@
 
 <script>
 import worklogApi from '../../api/worklog'
+import * as utils from '../../utils/index'
 
 export default {
   name: 'login-list',
   data () {
     return {
       tableData: [],
-      pages: {}
+      pages: {},
+      search: {
+        startTime: '',
+        endTime: '',
+        ip: '',
+        account: ''
+      }
     }
   },
   created: function () {
@@ -71,6 +78,28 @@ export default {
   methods: {
     request () {
       worklogApi.loginList().then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.tableData = returnData.data.list
+          this.pages = returnData.data.pagination
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
+    searchList () {
+      let list = {
+        'filter[and][][created_at][>=]': this.search.startTime ? utils.getDateTime(this.search.startTime) : '',
+        'filter[and][][created_at][<=]': this.search.endTime ? utils.getDateTime(this.search.endTime) : '',
+        'filter[and][][actor_name][like]': this.search.account,
+        'filter[and][][actor_ip][like]': this.search.ip
+      }
+      let qs = require('querystring')
+      worklogApi.loginList(qs.stringify(list)).then((response) => {
         let returnData = response.data
         if (returnData.errno === 0) {
           this.tableData = returnData.data.list

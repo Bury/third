@@ -49,7 +49,7 @@ const router = new Router({
       children: [
           // 商家列表
           { path: '', name: 'BusinessList', component: BusinessList },
-          { path: 'modules', name: 'Modules', component: Modules }
+          { path: 'modules/:id', name: 'Modules', component: Modules }
       ]
     },{
       path: 'equipment',
@@ -75,7 +75,7 @@ const router = new Router({
       path: 'worklog',
       component: Templates,
       children: [
-          // 设置
+          // 日志
           { path: 'loginlist', name: 'LoginList', component: LoginList },
           { path: 'activelist', name: 'ActiveList', component: ActiveList }
       ]

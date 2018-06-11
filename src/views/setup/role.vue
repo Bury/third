@@ -33,10 +33,9 @@
     </div>
     <!-- 新增角色 -->
     <el-dialog :title="title" :visible.sync="addRole">
-      <el-form label-width="80px">
-        <el-form-item label="角色名称" required>
-          <el-input style="width:400px;" v-model="add.name"></el-input><br/>
-          <span v-if="addButton" style="color:#999;font-size:12px">备注：新建账号状态默认为开启</span>
+      <el-form label-width="80px" :model="add" :rules="rules" ref="add">
+        <el-form-item label="角色名称" prop="name">
+          <el-input style="width:400px;" v-model="add.name"></el-input>
         </el-form-item>
 
         <el-form-item label="状态" required v-if="!addButton">
@@ -48,8 +47,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addRole = false">取 消</el-button>
-        <el-button type="primary" @click="addRoleAccount" v-if="addButton === true">确 定</el-button>
-        <el-button type="primary" @click="editRoleAccount" v-else>修 改</el-button>
+        <el-button type="primary" @click="addRoleAccount('add')" v-if="addButton === true">确 定</el-button>
+        <el-button type="primary" @click="editRoleAccount('add')" v-else>修 改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -69,6 +68,11 @@ export default {
       add: {
         name: '',
         status: '1'
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入角色名称', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -103,19 +107,25 @@ export default {
       })
     },
     // 添加
-    addRoleAccount () {
-      let qs = require('querystring')
-      setupApi.addRole(qs.stringify(this.add)).then((response) => {
-        let returnData = response.data
-        if (returnData.errno === 0) {
-          this.addRole = false
-          this.request()
-        } else {
-          this.$alert(returnData.msg, {
-            type: 'error',
-            callback: action => {
+    addRoleAccount (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let qs = require('querystring')
+          setupApi.addRole(qs.stringify(this.add)).then((response) => {
+            let returnData = response.data
+            if (returnData.errno === 0) {
+              this.addRole = false
+              this.request()
+            } else {
+              this.$alert(returnData.msg, {
+                type: 'error',
+                callback: action => {
+                }
+              })
             }
           })
+        } else {
+          return false
         }
       })
     },
@@ -129,19 +139,25 @@ export default {
       this.addRole = true
       this.addButton = false
     },
-    editRoleAccount () {
-      let qs = require('querystring')
-      setupApi.editRole(qs.stringify(this.add), this.id).then((response) => {
-        let returnData = response.data
-        if (returnData.errno === 0) {
-          this.addRole = false
-          this.request()
-        } else {
-          this.$alert(returnData.msg, {
-            type: 'error',
-            callback: action => {
+    editRoleAccount (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let qs = require('querystring')
+          setupApi.editRole(qs.stringify(this.add), this.id).then((response) => {
+            let returnData = response.data
+            if (returnData.errno === 0) {
+              this.addRole = false
+              this.request()
+            } else {
+              this.$alert(returnData.msg, {
+                type: 'error',
+                callback: action => {
+                }
+              })
             }
           })
+        } else {
+          return false
         }
       })
     },

@@ -2,9 +2,9 @@
 <template>
   <div class="account">
     <div class="search">
-      <el-input placeholder="搜索账号" style="width:200px"></el-input>
-      <el-input placeholder="搜索手机" style="width:200px"></el-input>
-      <el-button icon="el-icon-search"></el-button>
+      <el-input placeholder="搜索账号" v-model="search.username" style="width:200px"></el-input>
+      <el-input placeholder="搜索手机" v-model="search.mobie" style="width:200px"></el-input>
+      <el-button icon="el-icon-search" @click="request"></el-button>
       <el-button type="primary" class="add" @click="addAccount = true">新增</el-button>
     </div>
     <div class="table">
@@ -32,28 +32,28 @@
         </el-table-column>
       </el-table>
       <div class="pages" v-if="pages.pageCount > 0">
-        <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+        <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
         </el-pagination>
       </div>
     </div>
     <!-- 新增账号 -->
-    <el-dialog :title="title" :visible.sync="addAccount" @close='closeDialog'>
-      <el-form label-width="80px">
-        <el-form-item label="账号" required>
+    <el-dialog :title="title" :visible.sync="addAccount" @close="closeDialog('ruleForm')">
+      <el-form label-width="80px" class="demo-ruleForm" :model="roleForm" :rules="rules" ref="ruleForm">
+        <el-form-item label="账号" prop="username">
           <el-input style="width:400px;" v-model="roleForm.username"></el-input>
         </el-form-item>
-        <el-form-item label="密码" required v-if="addButton === true">
+        <el-form-item label="密码" prop="password" v-if="addButton === true">
           <el-input style="width:400px;" v-model="roleForm.password"></el-input>
         </el-form-item>
-        <el-form-item label="手机" required>
+        <el-form-item label="手机" prop="mobie">
           <el-input style="width:400px;" v-model="roleForm.mobie"></el-input>
         </el-form-item>
-        <el-form-item label="角色" required>
+        <el-form-item label="角色" prop="role_id">
           <el-select placeholder="请选择商家" v-model="roleForm.role_id" style="width:400px;">
             <el-option v-for="role in roleList" :key="role.id" :label="role.name" :value="role.id" ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态" required>
+        <el-form-item label="状态" prop="status">
           <el-radio-group v-model="roleForm.status">
             <el-radio label="1">启用</el-radio>
             <el-radio label="0">禁用</el-radio>
@@ -62,8 +62,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addAccount = false">取 消</el-button>
-        <el-button type="primary" @click="submitAdd" v-if="addButton === true">确 定</el-button>
-        <el-button type="primary" @click="submitEdit" v-else>修 改</el-button>
+        <el-button type="primary" @click="submitAdd('ruleForm')" v-if="addButton === true">确 定</el-button>
+        <el-button type="primary" @click="submitEdit('ruleForm')" v-else>修 改</el-button>
       </div>
     </el-dialog>
   </div>
@@ -76,19 +76,42 @@ export default {
   name: 'account',
   data () {
     return {
-      titile: '新增账号',
+      title: '新增账号',
       addButton: true,
       addAccount: false,
       tableData: [],
       pages: {},
       roleList: {},
       id: '',
+      currentPage: 1,
+      search: {
+        username: '',
+        mobie: '',
+        page: ''
+      },
       roleForm: {
         username: '',
         password: '',
         mobie: '',
         role_id: '',
         status: '1'
+      },
+      rules: {
+        username: [
+          { required: true, message: '请输入账号', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ],
+        mobie: [
+          { required: true, message: '请输入手机号', trigger: 'blur' }
+        ],
+        role_id: [
+          { required: true, message: '请选择角色', trigger: 'change' }
+        ],
+        status: [
+          { required: true, message: '请选择账号状态', trigger: 'change' }
+        ]
       }
     }
   },
@@ -104,14 +127,21 @@ export default {
   mounted: function () {
   },
   methods: {
-    closeDialog () {
+    closeDialog (formName) {
       this.addAccount = false
       this.title = '新增账号'
       this.addButton = true
+      this.$refs[formName].resetFields()
     },
     // 获取用户列表
     request () {
-      setupApi.userList().then((response) => {
+      let list = {
+        'filter[and][][username][like]': this.search.username,
+        'filter[and][][mobie][like]': this.search.mobie,
+        'page': this.currentPage
+      }
+      let qs = require('querystring')
+      setupApi.userList(qs.stringify(list)).then((response) => {
         let returnData = response.data
         if (returnData.errno === 0) {
           this.tableData = returnData.data.list
@@ -125,8 +155,13 @@ export default {
         }
       })
     },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this.request()
+    },
     // 获取角色
     roleRequest () {
+      let qs = require('querystring')
       setupApi.roleList().then((response) => {
         let returnData = response.data
         if (returnData.errno === 0) {
@@ -141,21 +176,28 @@ export default {
       })
     },
     // 添加
-    submitAdd () {
-      let qs = require('querystring')
-      setupApi.addUser(qs.stringify(this.roleForm)).then((response) => {
-        let returnData = response.data
-        if (returnData.errno === 0) {
-          this.addAccount = false
-          this.request()
-        } else {
-          this.$alert(returnData.msg, {
-            type: 'error',
-            callback: action => {
+    submitAdd (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let qs = require('querystring')
+          setupApi.addUser(qs.stringify(this.roleForm)).then((response) => {
+            let returnData = response.data
+            if (returnData.errno === 0) {
+              this.addAccount = false
+              this.request()
+            } else {
+              this.$alert(returnData.msg, {
+                type: 'error',
+                callback: action => {
+                }
+              })
             }
           })
+        } else {
+          return false
         }
       })
+      
     },
     // 修改
     edit (row) {
@@ -170,18 +212,24 @@ export default {
       this.addButton = false
     },
     submitEdit () {
-      let qs = require('querystring')
-      setupApi.editUser(qs.stringify(this.roleForm), this.id).then((response) => {
-        let returnData = response.data
-        if (returnData.errno === 0) {
-          this.addAccount = false
-          this.request()
-        } else {
-          this.$alert(returnData.msg, {
-            type: 'error',
-            callback: action => {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let qs = require('querystring')
+          setupApi.editUser(qs.stringify(this.roleForm), this.id).then((response) => {
+            let returnData = response.data
+            if (returnData.errno === 0) {
+              this.addAccount = false
+              this.request()
+            } else {
+              this.$alert(returnData.msg, {
+                type: 'error',
+                callback: action => {
+                }
+              })
             }
           })
+        } else {
+          return false
         }
       })
     },

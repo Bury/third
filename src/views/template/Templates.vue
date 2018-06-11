@@ -12,7 +12,7 @@
         <el-breadcrumb v-if="navMenu === 'Modules'" separator="/">
           <el-breadcrumb-item>商家</el-breadcrumb-item>
           <el-breadcrumb-item><router-link :to="{ name: 'BusinessList' }" replace>商家管理</router-link></el-breadcrumb-item>
-          <el-breadcrumb-item>模块</el-breadcrumb-item>
+          <el-breadcrumb-item>模块&nbsp;&nbsp;{{ name }}</el-breadcrumb-item>
         </el-breadcrumb>
 
         <!-- 设备 -->

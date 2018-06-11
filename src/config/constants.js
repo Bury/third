@@ -13,6 +13,14 @@ global.ADD_BUSINESS = `${SERVER_IP}${COMMON}merchant/create`
 global.EDIT_BUSINESS = `${SERVER_IP}${COMMON}merchant/update/`
 // post /v1/merchant/delete/:id 删除商家
 global.DELETE_BUSINESS = `${SERVER_IP}${COMMON}merchant/delete/`
+// post /v1/merchant-account/create 设置账号
+global.SET_BUSINESS_ACCOUNT = `${SERVER_IP}${COMMON}merchant-account/create`
+// post /v1/merchant-subsystem/list 获取商家模块
+global.SET_BUSINESS_SUBSYSTEM = `${SERVER_IP}${COMMON}merchant-subsystem/list`
+// post /v1/merchant-subsystem/update-days 增加天数
+global.ADD_DAYS = `${SERVER_IP}${COMMON}merchant-subsystem/update-days`
+// post /v1/merchant-subsystem/update-status 更改状态 
+global.SET_STATUS = `${SERVER_IP}${COMMON}merchant-subsystem/update-status`
 
 // post /v1/device-pallet/list 货盘列表
 global.GET_PALLET_LIST = `${SERVER_IP}${COMMON}device-pallet/list`
