@@ -22,7 +22,7 @@
         </el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
-            <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`"></el-switch>
+            <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`" @change="statusSET(scope.row)"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="150">
@@ -96,8 +96,8 @@ export default {
       id: '',
       account: {
         mid: '',
-        username: 'admin',
-        password: '123456'
+        username: '',
+        password: ''
       },
       searchKey: '',
       currentPage: '1',
@@ -203,6 +203,25 @@ export default {
         })     
       })
     },
+    // 更改状态
+    statusSET (row) {
+      let list = {
+        'status': row.status === 0 ? 1 : 0
+      }
+      let qs = require('querystring')
+      businessApi.editBusiness(qs.stringify(list), row.id).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.request()
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
     handleEdit (row) {
       this.title = '修改商家'
       this.id = row.id
@@ -268,6 +287,7 @@ export default {
     accountActive (row) {
       this.accountVisible = true
       this.account.mid = row.id
+      this.account.username = row.account_name
     },
     setAcc (formName) {
       this.$refs[formName].validate((valid) => {

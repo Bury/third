@@ -40,7 +40,7 @@
         </el-table-column>
       </el-table>
       <div class="pages" v-if="pages.pageCount > 0">
-        <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+        <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
         </el-pagination>
       </div>
     </div>
@@ -62,7 +62,8 @@ export default {
         endTime: '',
         ip: '',
         account: ''
-      }
+      },
+      currentPage: '1'
     }
   },
   created: function () {
@@ -77,26 +78,12 @@ export default {
   },
   methods: {
     request () {
-      worklogApi.loginList().then((response) => {
-        let returnData = response.data
-        if (returnData.errno === 0) {
-          this.tableData = returnData.data.list
-          this.pages = returnData.data.pagination
-        } else {
-          this.$alert(returnData.msg, {
-            type: 'error',
-            callback: action => {
-            }
-          })
-        }
-      })
-    },
-    searchList () {
       let list = {
         'filter[and][][created_at][>=]': this.search.startTime ? utils.getDateTime(this.search.startTime) : '',
         'filter[and][][created_at][<=]': this.search.endTime ? utils.getDateTime(this.search.endTime) : '',
         'filter[and][][actor_name][like]': this.search.account,
-        'filter[and][][actor_ip][like]': this.search.ip
+        'filter[and][][actor_ip][like]': this.search.ip,
+        'page': this.currentPage
       }
       let qs = require('querystring')
       worklogApi.loginList(qs.stringify(list)).then((response) => {
@@ -112,6 +99,10 @@ export default {
           })
         }
       })
+    },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this.request()
     }
   }
 }

@@ -23,7 +23,7 @@
           <el-input style="width: 140px" v-model="search.account"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button icon="el-icon-search" @click="searchList"></el-button>
+          <el-button icon="el-icon-search" @click="request"></el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -39,7 +39,7 @@
         </el-table-column>
       </el-table>
       <div class="pages" v-if="pages.pageCount > 0">
-        <el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+        <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
         </el-pagination>
       </div>
     </div>
@@ -61,7 +61,8 @@ export default {
          endTime: '',
          text: '',
          account: ''
-       }
+       },
+       currentPage: '1'
     }
   },
   created: function () {
@@ -76,26 +77,12 @@ export default {
   },
   methods: {
     request () {
-      worklogApi.opList().then((response) => {
-        let returnData = response.data
-        if (returnData.errno === 0) {
-          this.tableData = returnData.data.list
-          this.pages = returnData.data.pagination
-        } else {
-          this.$alert(returnData.msg, {
-            type: 'error',
-            callback: action => {
-            }
-          })
-        }
-      })
-    },
-    searchList () {
-       let list = {
+      let list = {
         'filter[and][][created_at][>=]': this.search.startTime ? utils.getDateTime(this.search.startTime) : '',
         'filter[and][][created_at][<=]': this.search.endTime ? utils.getDateTime(this.search.endTime) : '',
         'filter[and][][actor_name][like]': this.search.account,
-        'filter[and][][actor_ip][like]': this.search.text
+        'filter[and][][actor_ip][like]': this.search.text,
+        'page': this.currentPage
       }
       let qs = require('querystring')
       worklogApi.opList(qs.stringify(list)).then((response) => {
@@ -111,6 +98,10 @@ export default {
           })
         }
       })
+    },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this.request()
     }
   }
 }

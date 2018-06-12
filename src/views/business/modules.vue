@@ -30,7 +30,7 @@
                     <el-option label="8个月" value="8m"></el-option>
                     <el-option label="9个月" value="9m"></el-option>
                     <el-option label="10个月" value="10m"></el-option>
-                    <el-option label="11个月" value="111m"></el-option>
+                    <el-option label="11个月" value="11m"></el-option>
                     <el-option label="1年" value="1y"></el-option>
                     <el-option label="2年" value="2y"></el-option>
                     <el-option label="3年" value="3y"></el-option>

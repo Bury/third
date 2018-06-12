@@ -2,13 +2,13 @@
 <template>
   <div class="store">
 		<div class="search">
-			<el-input placeholder="搜索商家" style="width:200px"></el-input>
-			<el-button icon="el-icon-search"></el-button>
-			未分配：30
-			<div class="add">
+			<el-input placeholder="搜索商家" style="width:200px" v-model="search"></el-input>
+			<el-button icon="el-icon-search" @click="request"></el-button>
+			<span class="undinster">未分配：{{undistributed}}</span>
+			<!--<div class="add">
 				<el-button type="primary">新增</el-button>
 				<el-button type="primary">批量导入</el-button>
-			</div>
+			</div>-->
 		</div>
 		<div class="table">
 			<el-table :data="tableData" stripe style="width: 100%">
@@ -21,7 +21,7 @@
 				</el-table-column>
 			</el-table>
 			<div class="pages" v-if="pages.pageCount > 0">
-				<el-pagination background layout="prev, pager, next" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+				<el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
 				</el-pagination>
 			</div>
 		</div>
@@ -30,19 +30,23 @@
 
 <script>
 import equipmentApi from '../../api/equipment'
+import storage from '../../utils/storage'
+
 export default {
   name: 'store',
   data () {
     return {
+      undistributed: '',
       tableData: [],
-      pages: {}
+      pages: {},
+      currentPage: '1'
     }
   },
   created: function () {
     // 刷新时，获取动态数据 设置navmenu
     let templates = this.$parent
     templates.navMenu = this.$route.name
-    templates.storeId = this.$route.query.name
+    templates.storeId = storage.getSessionStorage('stroeName')
     templates.upperLevelMenu = ''
 
 		this.request()
@@ -52,18 +56,29 @@ export default {
   methods: {
     request () {
 			let list = {
-				mid: this.$route.params.storeId
+				'mid': this.$route.params.storeId,
+        'filter[name][like]': this.search,
+        'page': this.currentPage
 			}
 			let qs = require('querystring')
       equipmentApi.storetList(qs.stringify(list)).then((response) => {
         let returnData = response.data
         if (returnData.errno === 0) {
+          this.undistributed = returnData.data.undistributed
           this.tableData = returnData.data.list
           this.pages = returnData.data.pagination
         } else {
-          console.log('bbb')
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
         }
       })
+    },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this.request()
     }
   }
 }
@@ -91,5 +106,12 @@ export default {
 }
 i{
   font-size:24px;
+}
+.undinster {
+  display:inline-block;
+  background-color: #fef0f0;
+  color: #f56c6c;
+  padding: 8px 16px;
+  margin-left:50px;
 }
 </style>
