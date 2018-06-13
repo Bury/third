@@ -14,16 +14,6 @@ export default {
       })
     })
   },
-  // 编辑货盘列表 按设备
-  editList (list, id) {
-    return new Promise((resolve, reject) => {
-      axios.post(`${global.EDIT_DEVICE}${id}`, list).then((response) => {
-        resolve(response)
-      }).catch((error) => {
-        reject(error)
-      })
-    })
-  },
   // 获取货盘列表 按商家
   merchantList (list) {
     return new Promise((resolve, reject) => {
@@ -45,13 +35,9 @@ export default {
     })
   },
   // 导入设备
-  importOrder (formData) {
+  importOrder (file) {
     return new Promise((resolve, reject) => {
-      axios.post(global.IMPORT_ORDER, formData, {
-        headers: {
-          'Content-Type': false
-        }
-      }).then((response) => {
+      axios.post(global.IMPORT_ORDER, file).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -62,6 +48,16 @@ export default {
   addDevice (list) {
     return new Promise((resolve, reject) => {
       axios.post(global.ADD_DEVICE, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  // 编辑货盘列表 按设备
+  editDevice (list, id) {
+    return new Promise((resolve, reject) => {
+      axios.post(`${global.EDIT_DEVICE}${id}`, list).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)

@@ -12,6 +12,9 @@ export default {
     }
   },
   created: function () {
+    let templates = this.$parent
+    templates.navMenu = this.$route.name
+    templates.upperLevelMenu = ''
   },
   mounted: function () {
   },

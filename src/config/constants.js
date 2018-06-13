@@ -32,10 +32,10 @@ global.GET_STORE_LIST = `${SERVER_IP}${COMMON}device-pallet/list-by-merchant-sto
 global.IMPORT_ORDER = `${SERVER_IP}${COMMON}device-pallet/import`
 // post /v1/device-pallet/create 新增设备
 global.ADD_DEVICE = `${SERVER_IP}${COMMON}device-pallet/create`
-// post /v1/device-pallet/version-list 获取版本号列表
-global.GET_DEVICE = `${SERVER_IP}${COMMON}device-pallet/version-list`
 // post /v1/device-pallet/update/:id 编辑设备
 global.EDIT_DEVICE = `${SERVER_IP}${COMMON}device-pallet/update/`
+// post /v1/device-pallet/version-list 获取版本号列表
+global.GET_DEVICE = `${SERVER_IP}${COMMON}device-pallet/version-list`
 // post /v1/device-pallet/version-add 新增版本号
 global.ADD_VERSION = `${SERVER_IP}${COMMON}device-pallet/version-add`
 // post /v1/device-pallet/version-delete 删除版本号

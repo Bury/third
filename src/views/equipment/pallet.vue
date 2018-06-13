@@ -23,17 +23,17 @@
           </div>
         </div>
         <div class="table">
-          <el-table :data="tableData" stripe style="width: 100%">
+          <el-table :data="tableData" stripe style="width: 100%" :default-sort = "{prop: 'created_at', prop: 'start_at', order: 'descending'}">
             <el-table-column prop="device_id" label="设备编号"></el-table-column>
             <el-table-column prop="merchant_name" label="所属公司"></el-table-column>
             <el-table-column prop="merchant_store_name" label="门店"></el-table-column>
             <el-table-column prop="version_val" label="版本"></el-table-column>
-            <el-table-column sortable label="添加时间">
+            <el-table-column prop="created_at" sortable label="添加时间">
               <template slot-scope="scope" v-if="scope.row.created_at">
               {{scope.row.created_at | date(2)}}
               </template>
             </el-table-column>
-            <el-table-column sortable label="启用时间">
+            <el-table-column prop="start_at" sortable label="启用时间">
               <template slot-scope="scope" v-if="scope.row.start_at">
               {{scope.row.start_at | date(2)}}
               </template>
@@ -46,7 +46,7 @@
             </el-table-column>
             <el-table-column label="操作" width="150">
               <template slot-scope="scope">
-                <el-button type="text" size="small">修改</el-button>
+                <el-button type="text" size="small" @click="editShow(scope.row)">修改</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -65,7 +65,7 @@
         </div>
         <div class="table">
           <el-table :data="businessData" stripe style="width: 100%">
-            <el-table-column prop="name" label="所属公司"></el-table-column>
+            <el-table-column prop="name" label="所属品牌"></el-table-column>
             <el-table-column prop="device_cnt" label="件数"></el-table-column>
             <el-table-column label="操作" width="150">
               <template slot-scope="scope">
@@ -81,7 +81,7 @@
       </el-tab-pane>
     </el-tabs>
      <!-- 新增货盘 -->
-    <el-dialog title="新增货盘" :visible.sync="addPallet">
+    <el-dialog :title="title" :visible.sync="addPallet" @close="closeDialog('addDevice')">
       <el-form label-width="80px" :model="addDevice" class="demo-ruleForm" ref="addDevice" :rules="rules">
         <el-form-item label="硬件编号" prop="device_id">
           <el-input style="width:400px;" v-model="addDevice.device_id"></el-input>
@@ -99,7 +99,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addPallet = false">取 消</el-button>
-        <el-button type="primary" @click="add('addDevice')">确 定</el-button>
+        <el-button type="primary" @click="add('addDevice')" v-if="addButton === true">确 定</el-button>
+        <el-button type="primary" @click="edit('addDevice')" v-else>修 改</el-button>
       </div>
     </el-dialog>
     <!-- 设置版本号 -->
@@ -125,6 +126,8 @@ export default {
   name: 'pallet',
   data () {
     return {
+      title: '新增货盘',
+      addButton: true,
       activeName: 'first',
       undistributed: 0,
       searchOne: {
@@ -148,6 +151,7 @@ export default {
         version: '',
         status: 1
       },
+      deviceId: '',
       rules: {
         device_id: [
           { required: true, message: '请输入设备编号', trigger: 'blur' }
@@ -252,20 +256,18 @@ export default {
     },
     goStore (row) {
       // 跳转到门店列表
-      storage.setSessionStorage('stroeName', row.name)
+      storage.setSessionStorage('storeName', row.name)
+      storage.setSessionStorage('storeId', row.id)
       this.$router.replace({name: 'Store', params: {'storeId': row.id}})
     },
     importOrder () {
        document.querySelector('#uploadFile').click()
     },
     fileUpload () {
-      let fileData = new window.FormData()
-      fileData.append('file', document.querySelector('#uploadFile').files[0])
-      let file = {
-        'file': fileData
-      }
-      let qs = require('querystring')
-      equipmentApi.importOrder(qs.stringify(file)).then((response) => {
+      let formData = new FormData()
+      formData.append('file', document.querySelector('#uploadFile').files[0])
+      // let qs = require('querystring')
+      equipmentApi.importOrder(formData).then((response) => {
         let returnData = response.data
         if (returnData.errno === 0) {
           this.addPallet = false
@@ -279,6 +281,7 @@ export default {
         }
       })
     },
+    // 更改状态
     status (row) {
       console.log(row)
       let list = {
@@ -289,7 +292,7 @@ export default {
         'id': row.id
       }
       let qs = require('querystring')
-      equipmentApi.editList(qs.stringify(list), row.id).then((response) => {
+      equipmentApi.editDevice(qs.stringify(list), row.id).then((response) => {
         let returnData = response.data
         if (returnData.errno === 0) {
           this.request()
@@ -308,6 +311,44 @@ export default {
         if (valid) {
           let qs = require('querystring')
           equipmentApi.addDevice(qs.stringify(this.addDevice)).then((response) => {
+            let returnData = response.data
+            if (returnData.errno === 0) {
+              this.addPallet = false
+              this.request()
+            } else {
+              this.$alert(returnData.msg, {
+                type: 'error',
+                callback: action => {
+                }
+              })
+            }
+          })
+        } else {
+          return false
+        }
+      })
+    },
+    // 修改设备
+    editShow (row) {
+      this.title = '修改货盘'
+      this.deviceId = row.id
+      this.addDevice.device_id = row.device_id
+      this.addDevice.belong_mid = row.belong_mid
+      this.addDevice.version = row.version
+      this.addPallet = true
+      this.addButton = false
+    },
+    closeDialog () {
+      this.addPallet = false
+      this.title = '新增货盘'
+      this.addButton = true
+      this.$refs[formName].resetFields()
+    },
+    edit (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let qs = require('querystring')
+          equipmentApi.editDevice(qs.stringify(this.addDevice), this.deviceId).then((response) => {
             let returnData = response.data
             if (returnData.errno === 0) {
               this.addPallet = false

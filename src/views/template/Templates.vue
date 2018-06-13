@@ -24,7 +24,14 @@
         <el-breadcrumb v-if="navMenu === 'Store'" separator="/">
           <el-breadcrumb-item>设备</el-breadcrumb-item>
           <el-breadcrumb-item><router-link :to="{ name: 'Pallet' }" replace>看货盘</router-link></el-breadcrumb-item>
-          <el-breadcrumb-item>门店&nbsp;&nbsp;{{ storeId }}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ storeName }}</el-breadcrumb-item>
+        </el-breadcrumb>
+
+        <el-breadcrumb v-if="navMenu === 'Device'" separator="/">
+          <el-breadcrumb-item>设备</el-breadcrumb-item>
+          <el-breadcrumb-item><router-link :to="{ name: 'Pallet' }" replace>看货盘</router-link></el-breadcrumb-item>
+          <el-breadcrumb-item><router-link :to="{ name: 'Store', params: {'storeId': storeId}}" replace>{{ storeName }}</router-link></el-breadcrumb-item>
+          <el-breadcrumb-item>{{ shopName }}</el-breadcrumb-item>
         </el-breadcrumb>
 
         <el-breadcrumb v-if="navMenu === 'Flow'" separator="/">

@@ -51,6 +51,8 @@ export default {
           break
         // 设备
         case 'Pallet':
+        case 'Store':
+        case 'Device':
           sidebar.defaultActive = '3-1'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break

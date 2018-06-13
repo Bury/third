@@ -1,8 +1,8 @@
-<!-- 货盘 -->
+<!-- 门店列表 -->
 <template>
   <div class="store">
 		<div class="search">
-			<el-input placeholder="搜索商家" style="width:200px" v-model="search"></el-input>
+			<el-input placeholder="搜索门店" style="width:200px" v-model="search"></el-input>
 			<el-button icon="el-icon-search" @click="request"></el-button>
 			<span class="undinster">未分配：{{undistributed}}</span>
 			<!--<div class="add">
@@ -16,7 +16,7 @@
 				<el-table-column prop="device_cnt" label="总件数"></el-table-column>
 				<el-table-column label="操作" width="150">
 					<template slot-scope="scope">
-						<el-button type="text" size="small">进入</el-button>
+						<el-button type="text" size="small" @click="goDevice(scope.row)">进入</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -36,6 +36,7 @@ export default {
   name: 'store',
   data () {
     return {
+      search: '',
       undistributed: '',
       tableData: [],
       pages: {},
@@ -46,7 +47,7 @@ export default {
     // 刷新时，获取动态数据 设置navmenu
     let templates = this.$parent
     templates.navMenu = this.$route.name
-    templates.storeId = storage.getSessionStorage('stroeName')
+    templates.storeName = storage.getSessionStorage('storeName')
     templates.upperLevelMenu = ''
 
 		this.request()
@@ -79,6 +80,12 @@ export default {
     handleCurrentChange (val) {
       this.currentPage = val
       this.request()
+    },
+    goDevice (row) {
+      console.log(row)
+      // 跳转到设备列表
+      storage.setSessionStorage('shopName', row.name)
+      this.$router.replace({name: 'Device', params: {'shopId': row.id}})
     }
   }
 }
