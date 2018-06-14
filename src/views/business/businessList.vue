@@ -139,8 +139,6 @@ export default {
 
     this.request()
   },
-  mounted: function () {
-  },
   methods: {   
     request () {
       let list = {

@@ -70,8 +70,6 @@ export default {
     this.request()
 
   },
-  mounted: function () {
-  },
   methods: {
     request () {
       let qs = require('querystring')

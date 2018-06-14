@@ -124,8 +124,6 @@ export default {
     this.request()
     this.roleRequest()
   },
-  mounted: function () {
-  },
   methods: {
     closeDialog (formName) {
       this.addAccount = false

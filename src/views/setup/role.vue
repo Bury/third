@@ -10,7 +10,7 @@
         <el-table-column prop="name" label="名称"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
-            <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`"></el-switch>
+            <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`" @change="status(scope.row)"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="创建时间">
@@ -82,8 +82,6 @@ export default {
     templates.navMenu = this.$route.name
     templates.upperLevelMenu = ''
     this.request()
-  },
-  mounted: function () {
   },
   methods: {
     closeDialog () {
@@ -162,7 +160,6 @@ export default {
       })
     },
     // 删除
-    // 删除
     dele (row) {
       this.$confirm('此操作将删除该记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -190,6 +187,24 @@ export default {
           type: 'info',
           message: '已取消删除'
         })     
+      })
+    },
+    status (row) {
+      this.id = row.id
+      this.add.name = row.name
+      this.add.status = row.status === 0 ? 1 : 0
+      let qs = require('querystring')
+      setupApi.editRole(qs.stringify(this.add), this.id).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.request()
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
       })
     }
   }

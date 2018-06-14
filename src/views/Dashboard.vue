@@ -13,8 +13,6 @@ export default {
   },
   created: function () {
   },
-  mounted: function () {
-  },
   methods: {
   }
 }

@@ -4,10 +4,10 @@
 		<div class="search">
 			<el-input placeholder="搜索设备" style="width:200px" v-model="search"></el-input>
 			<el-button icon="el-icon-search" @click="request"></el-button>
-			<div class="add">
+			<!---<div class="add">
 				<el-button type="primary">新增</el-button>
 				<el-button type="primary">批量导入</el-button>
-			</div>
+			</div>-->
 		</div>
 		<div class="table">
 			<el-table :data="tableData" stripe style="width: 100%" :default-sort = "{prop: 'created_at', prop: 'start_at'}">

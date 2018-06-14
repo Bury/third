@@ -180,8 +180,6 @@ export default {
     this.getVersion()
     this.business()
   },
-  mounted: function () {
-  },
   methods: {
     request () {
       let list = {

@@ -23,7 +23,7 @@
           <el-input v-model="search.account" style="width: 140px"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button icon="el-icon-search" @click="searchList"></el-button>
+          <el-button icon="el-icon-search" @click="request"></el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -73,8 +73,6 @@ export default {
     templates.upperLevelMenu = ''
 
     this.request()
-  },
-  mounted: function () {
   },
   methods: {
     request () {

@@ -25,9 +25,6 @@ export default {
   },
   created: function () {
   },
-  watch: {
-    '$route': ['fetchData', 'getUserProfile']
-  },
   mounted: function () {
     this.fetchData()
   },
