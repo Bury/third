@@ -1,17 +1,6 @@
 <template>
   <div class="sidebar fixed">
     <div class="sidebar-inner scrollable-sidebar">
-        <!-- size-toggle start <div class="size-toggle">
-            <a class="btn btn-sm" id="sizeToggle">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <a class="btn btn-sm pull-right logoutConfirm_open"  href="index.html#logoutConfirm">
-                <i class="fa fa-power-off"></i>
-            </a>
-        </div> /size-toggle end -->
-        </router-link>
         <div class="main-menu">
           <!-- menu start -->
             <el-menu :default-active="defaultActive" :default-openeds="openeds" class="el-menu-vertical-demo" @select="handleSelect">
@@ -25,8 +14,8 @@
                 <el-submenu index="3">
                     <template slot="title"><img src="static/images/main/icontrol.png">设备</template>
                     <el-menu-item index="3-1"><router-link :to="{name: 'Pallet'}" replace>看货盘</router-link></el-menu-item>
-                    <el-menu-item index="3-2"><router-link :to="{name: 'Flow'}" replace>流量监控</router-link></el-menu-item>
-                    <el-menu-item index="3-3"><router-link :to="{name: 'Face'}" replace>人脸识别</router-link></el-menu-item>
+                    <el-menu-item index="3-2"><router-link :to="{name: 'Flow'}" replace>流量监控设备</router-link></el-menu-item>
+                    <el-menu-item index="3-3"><router-link :to="{name: 'Face'}" replace>人脸识别设备</router-link></el-menu-item>
                     <el-menu-item index="3-4"><router-link :to="{name: 'Counter'}" replace>智能货柜</router-link></el-menu-item>
                 </el-submenu>
                 <el-submenu index="4">

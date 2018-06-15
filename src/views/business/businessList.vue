@@ -285,7 +285,7 @@ export default {
     accountActive (row) {
       this.accountVisible = true
       this.account.mid = row.id
-      this.account.username = row.account_name
+      this.account.username = row.account_name ? row.account_name : 'admin'
     },
     setAcc (formName) {
       this.$refs[formName].validate((valid) => {
