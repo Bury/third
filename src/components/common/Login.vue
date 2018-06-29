@@ -4,14 +4,14 @@
       <div class="title">登录</div>
       <div class="form">
         <div class="name">
-          <el-input placeholder="账号" auto-complete="off" name="account" ></el-input>
+          <el-input placeholder="账号" auto-complete="off" name="username" v-model="user.username"></el-input>
         </div>
         <div class="password">
-          <el-input placeholder="密码" auto-complete="off"></el-input>
+          <el-input placeholder="密码" auto-complete="off" v-model="user.password"></el-input>
         </div>
         <div class="remember-forget">
           <div class="remember-me">
-            <el-checkbox>记住我</el-checkbox>
+            <el-checkbox v-model="user.rememberMe">记住我</el-checkbox>
           </div>
         </div>
         <div class="login-button enabled">
@@ -22,14 +22,17 @@
 </template>
 
 <script>
+import userApi from '../../api/user'
 
 export default {
   name: 'login',
   data () {
     return {
-      iconLookPassword: 'glyphicon glyphicon-eye-close',
-      password: 'password',
-      isEnabled: false
+      user: {
+        username: '',
+        password: '',
+        rememberMe: false
+      }
     }
   },
   created: function () {
@@ -39,6 +42,28 @@ export default {
   },
   methods: {
     login () {
+      // 登录逻辑
+      let qs = require('querystring')
+      userApi.login(qs.stringify(this.user)).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          let userToken = returnData.data
+          console.log(userToken)
+          // 判断是否记住我
+          if (this.user.rememberMe) {
+            storage.setLocalStorage('user-token', userToken)
+          } else {
+            storage.setSessionStorage('user-token', userToken)
+          }
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+      
       this.$router.replace({name: 'Dashboard'})
     }
   }

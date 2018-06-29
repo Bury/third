@@ -5,6 +5,9 @@
 const SERVER_IP = 'http://test.cc_api.ibetwo.com/'
 const COMMON = 'v1/'
 
+// post /v1/user/access-token 登录
+global.GET_LOGIN = `${SERVER_IP}${COMMON}user/access-token`
+
 // post /v1/merchant/list 获取商家列表
 global.GET_BUSINESS_LIST = `${SERVER_IP}${COMMON}merchant/list`
 // post /v1/merchant/create 新增商家
