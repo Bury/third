@@ -13,17 +13,17 @@
                 </el-submenu>
                 <el-submenu index="3">
                     <template slot="title"><img src="static/images/main/icontrol.png">设备</template>
-                    <el-menu-item index="3-1"><router-link :to="{name: 'Pallet'}" replace>看货盘</router-link></el-menu-item>
-                    <el-menu-item index="3-2"><router-link :to="{name: 'Flow'}" replace>流量监控设备</router-link></el-menu-item>
+                    <!--<el-menu-item index="3-1"><router-link :to="{name: 'Pallet'}" replace>看货盘</router-link></el-menu-item>-->
+                    <!--<el-menu-item index="3-2"><router-link :to="{name: 'Flow'}" replace>流量监控设备</router-link></el-menu-item>-->
                     <el-menu-item index="3-3"><router-link :to="{name: 'Face'}" replace>人脸识别设备</router-link></el-menu-item>
-                    <el-menu-item index="3-4"><router-link :to="{name: 'Counter'}" replace>智能货柜</router-link></el-menu-item>
+                    <!--<el-menu-item index="3-4"><router-link :to="{name: 'Counter'}" replace>智能货柜</router-link></el-menu-item>-->
                 </el-submenu>
-                <el-submenu index="4">
-                    <template slot="title"><img src="static/images/main/wesupervise.png">设置</template>
-                    <el-menu-item index="4-1"><router-link :to="{name: 'AccountNumber'}" replace>账号列表</router-link></el-menu-item>
-                    <el-menu-item index="4-2"><router-link :to="{name: 'Role'}" replace>角色列表</router-link></el-menu-item>
-                    <el-menu-item index="4-3"><router-link :to="{name: 'Power'}" replace>权限设置</router-link></el-menu-item>
-                </el-submenu>
+                <!--<el-submenu index="4">-->
+                    <!--<template slot="title"><img src="static/images/main/wesupervise.png">设置</template>-->
+                    <!--<el-menu-item index="4-1"><router-link :to="{name: 'AccountNumber'}" replace>账号列表</router-link></el-menu-item>-->
+                    <!--<el-menu-item index="4-2"><router-link :to="{name: 'Role'}" replace>角色列表</router-link></el-menu-item>-->
+                    <!--<el-menu-item index="4-3"><router-link :to="{name: 'Power'}" replace>权限设置</router-link></el-menu-item>-->
+                <!--</el-submenu>-->
                 <el-submenu index="5">
                     <template slot="title"><img src="static/images/main/video.png">工作日志</template>
                     <el-menu-item index="5-1"><router-link :to="{name: 'LoginList'}" replace>登录日志</router-link></el-menu-item>

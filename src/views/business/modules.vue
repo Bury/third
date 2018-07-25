@@ -14,7 +14,7 @@
               </el-switch>
             </div>
             <div class="text item">
-              
+
               有效期剩余：<span class="day">{{list.days}}天</span> <!--<i class="el-icon-circle-plus"></i>-->
               <el-button style="float: right; padding: 3px 0" type="text">权限设置</el-button>
               <el-form style="margin-top:20px">
@@ -97,7 +97,8 @@ export default {
       businessApi.updateDay(qs.stringify(list)).then((response) => {
         let returnData = response.data
         if (returnData.errno === 0) {
-          this.request()
+          this.request();
+          this.$data.days = '';
         } else {
           this.$alert(returnData.msg, {
             type: 'error',

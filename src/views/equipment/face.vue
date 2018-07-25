@@ -15,6 +15,7 @@
           <el-input placeholder="搜索门店" style="width:120px" v-model="searchOne.store"></el-input>
           <el-input placeholder="搜索编号" style="width:120px" v-model="searchOne.number"></el-input>
           <el-button icon="el-icon-search" @click="request"></el-button>
+          <el-button icon="el-icon-refresh" @click="reset"></el-button>
           <div class="add">
             <el-button type="primary" @click="setVersion = true">设置版本号</el-button>
             <el-button type="primary" @click="addPallet = true">新增</el-button>
@@ -61,6 +62,7 @@
         <div class="search">
           <el-input placeholder="搜索商家" style="width:200px" v-model="searchTwo"></el-input>
           <el-button icon="el-icon-search" @click="merchant"></el-button>
+          <el-button icon="el-icon-refresh" @click="resetMer"></el-button>
           <span class="undinster">未分配：{{undistributed}}</span>
         </div>
         <div class="table">
@@ -205,10 +207,63 @@ export default {
         }
       })
     },
+    //查询重置
+    reset(){
+      this.searchOne.status = '';
+      this.searchOne.version = '';
+      this.searchOne.company = '';
+      this.searchOne.store = '';
+      this.searchOne.number = '';
+      let list = {
+        'filter[and][][status]': '' ,
+        'filter[and][][version]': '',
+        'filter[and][][belong_mid]': '',
+        'filter[and][][belong_sid]': '',
+        'filter[and][][device_id]': '',
+        'page': 1
+      }
+      let qs = require('querystring')
+      equipmentApi.palletList(qs.stringify(list)).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.tableData = returnData.data.list
+          this.pages = returnData.data.pagination
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
     merchant () {
       let list = {
         'filter[name][like]': this.searchTwo,
         'page': this.twoPage
+      }
+      let qs = require('querystring')
+      equipmentApi.merchantList(qs.stringify(list)).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.undistributed = returnData.data.undistributed
+          this.businessData = returnData.data.list
+          this.businessPages = returnData.data.pagination
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
+    //查询重置
+    resetMer(){
+      this.searchTwo = '';
+      let list = {
+        'filter[name][like]': '',
+        'page': 1
       }
       let qs = require('querystring')
       equipmentApi.merchantList(qs.stringify(list)).then((response) => {

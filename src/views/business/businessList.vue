@@ -4,6 +4,7 @@
     <div class="search">
       <el-input placeholder="请输入商家" v-model="searchKey" style="width:200px"></el-input>
       <el-button icon="el-icon-search" @click="request"></el-button>
+      <el-button icon="el-icon-refresh" @click="reset"></el-button>
       <el-button type="primary" class="add" @click="addVisible = true">新增</el-button>
     </div>
     <div class="table">
@@ -139,12 +140,35 @@ export default {
 
     this.request()
   },
-  methods: {   
+  methods: {
     request () {
       let list = {
         'filter[or][][name][like]': this.searchKey,
         'filter[or][][fullname][like]': this.searchKey,
         'page': this.currentPage
+      }
+      let qs = require('querystring')
+      businessApi.businessList(qs.stringify(list)).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.tableData = returnData.data.list
+          this.pages = returnData.data.pagination
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
+    //重置查询
+    reset(){
+      this.$data.searchKey = '';
+      let list = {
+        'filter[or][][name][like]': '',
+        'filter[or][][fullname][like]': '',
+        'page': 1
       }
       let qs = require('querystring')
       businessApi.businessList(qs.stringify(list)).then((response) => {
@@ -198,7 +222,7 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        })     
+        })
       })
     },
     // 更改状态

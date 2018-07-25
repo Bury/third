@@ -24,6 +24,7 @@
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-search" @click="request"></el-button>
+          <el-button icon="el-icon-refresh" @click="reset"></el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -82,6 +83,34 @@ export default {
         'filter[and][][actor_name][like]': this.search.account,
         'filter[and][][actor_ip][like]': this.search.ip,
         'page': this.currentPage
+      }
+      let qs = require('querystring')
+      worklogApi.loginList(qs.stringify(list)).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.tableData = returnData.data.list
+          this.pages = returnData.data.pagination
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
+    //查询重置
+    reset(){
+      this.search.startTime = '';
+      this.search.endTime = '';
+      this.search.account = '';
+      this.search.ip = '';
+      let list = {
+        'filter[and][][created_at][>=]':  '',
+        'filter[and][][created_at][<=]':  '',
+        'filter[and][][actor_name][like]': '',
+        'filter[and][][actor_ip][like]': '',
+        'page': 1
       }
       let qs = require('querystring')
       worklogApi.loginList(qs.stringify(list)).then((response) => {

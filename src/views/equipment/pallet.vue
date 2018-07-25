@@ -15,6 +15,7 @@
           <el-input placeholder="搜索门店" style="width:120px" v-model="searchOne.store"></el-input>
           <el-input placeholder="搜索编号" style="width:120px" v-model="searchOne.number"></el-input>
           <el-button icon="el-icon-search" @click="request"></el-button>
+          <el-button icon="el-icon-refresh" @click="reset"></el-button>
           <div class="add">
             <el-button type="primary" @click="setVersion = true">设置版本号</el-button>
             <el-button type="primary" @click="addPallet = true">新增</el-button>
@@ -188,6 +189,36 @@ export default {
         'filter[and][][belong_mid]': this.searchOne.company,
         'filter[and][][belong_sid]': this.searchOne.store,
         'filter[and][][device_id]': this.searchOne.number,
+        'page': this.onePage
+      }
+      let qs = require('querystring')
+      equipmentApi.palletList(qs.stringify(list)).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.tableData = returnData.data.list
+          this.pages = returnData.data.pagination
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
+    //查询重置
+    reset(){
+      this.searchOne.status = '';
+      this.searchOne.version = '';
+      this.searchOne.company = '';
+      this.searchOne.store = '';
+      this.searchOne.number = '';
+      let list = {
+        'filter[and][][status]': '',
+        'filter[and][][version]': '',
+        'filter[and][][belong_mid]': '',
+        'filter[and][][belong_sid]': '',
+        'filter[and][][device_id]': '',
         'page': this.onePage
       }
       let qs = require('querystring')
