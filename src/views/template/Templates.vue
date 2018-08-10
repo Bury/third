@@ -14,6 +14,39 @@
           <el-breadcrumb-item><router-link :to="{ name: 'BusinessList' }" replace>商家管理</router-link></el-breadcrumb-item>
           <el-breadcrumb-item>模块&nbsp;&nbsp;{{ name }}</el-breadcrumb-item>
         </el-breadcrumb>
+        <!--鹰眼人脸数据测试-->
+        <el-breadcrumb v-if="navMenu === 'FaceSampleGrouping'" separator="/">
+          <el-breadcrumb-item>鹰眼人脸数据测试</el-breadcrumb-item>
+          <el-breadcrumb-item>人脸样本分组管理</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'FaceSampleManage'" separator="/">
+          <el-breadcrumb-item>鹰眼人脸数据测试</el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <router-link :to="{ name: 'FaceSampleGrouping' }" replace>人脸样本分组管理</router-link>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>人脸样本管理</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'RecognitionResult'" separator="/">
+          <el-breadcrumb-item>鹰眼人脸数据测试</el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <router-link :to="{ name: 'FaceSampleGrouping' }" replace>人脸样本分组管理</router-link>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <router-link :to="{ name: 'FaceSampleManage', params: {'id': id}}" replace>人脸样本管理</router-link>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>识别结果查看</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'RecognitionList'" separator="/">
+          <el-breadcrumb-item>鹰眼人脸数据测试</el-breadcrumb-item>
+          <el-breadcrumb-item>识别结果列表</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'RecognitionResultsFound'" separator="/">
+          <el-breadcrumb-item>鹰眼人脸数据测试</el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <router-link :to="{ name: 'RecognitionList' }" replace>识别结果列表</router-link>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>识别结果查看</el-breadcrumb-item>
+        </el-breadcrumb>
 
         <!-- 设备 -->
         <el-breadcrumb v-if="navMenu === 'Pallet'" separator="/">
@@ -30,7 +63,7 @@
         <el-breadcrumb v-if="navMenu === 'Device'" separator="/">
           <el-breadcrumb-item>设备</el-breadcrumb-item>
           <el-breadcrumb-item><router-link :to="{ name: 'Pallet' }" replace>看货盘</router-link></el-breadcrumb-item>
-          <el-breadcrumb-item><router-link :to="{ name: 'Store', params: {'storeId': storeId}}" replace>{{ storeName }}</router-link></el-breadcrumb-item>
+          <el-breadcrumb-item><router-link :to="{ name: 'Store', params: {'id': id}}" replace>{{ storeName }}</router-link></el-breadcrumb-item>
           <el-breadcrumb-item>{{ shopName }}</el-breadcrumb-item>
         </el-breadcrumb>
 

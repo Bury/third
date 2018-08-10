@@ -26,6 +26,12 @@ import Role from '../views/setup/role'
 
 import ActiveList from '../views/worklog/activeList'
 import LoginList from '../views/worklog/loginList'
+//鹰眼人脸数据测试
+import FaceSampleGrouping from '../views/faceDataTest/faceSampleGrouping'
+import FaceSampleManage from '../views/faceDataTest/faceSampleManage'
+import RecognitionList from '../views/faceDataTest/recognitionList'
+import RecognitionResult from '../views/faceDataTest/recognitionResult'
+import RecognitionResultsFound from '../views/faceDataTest/recognitionResultsFound'
 
 Vue.use(Router)
 
@@ -51,6 +57,17 @@ const router = new Router({
           // 商家列表
           { path: '', name: 'BusinessList', component: BusinessList },
           { path: 'modules/:id', name: 'Modules', component: Modules }
+      ]
+    },{
+      path:'faceDataTest',
+      component:Templates,
+      children:[
+        //鹰眼人脸数据测试
+        {path:'FaceSampleGrouping',name:'FaceSampleGrouping',component:FaceSampleGrouping},
+        {path:'FaceSampleManage/:id&&:name',name:'FaceSampleManage',component:FaceSampleManage},
+        {path:'RecognitionList',name:'RecognitionList',component:RecognitionList},
+        {path:'RecognitionResult/:id',name:'RecognitionResult',component:RecognitionResult},
+        {path:'RecognitionResultsFound/:id',name:'RecognitionResultsFound',component:RecognitionResultsFound},
       ]
     },{
       path: 'equipment',

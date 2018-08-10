@@ -2,7 +2,8 @@
  * 定义所有的常量
  */
 // 接口地址
-const SERVER_IP = 'http://test.cc_api.ibetwo.com/'
+// const SERVER_IP = 'http://test.cc_api.ibetwo.com/'
+const SERVER_IP = 'http://dev-api.cc.ibetwo.com/'
 const COMMON = 'v1/'
 
 // post /v1/user/access-token 登录
@@ -22,7 +23,7 @@ global.SET_BUSINESS_ACCOUNT = `${SERVER_IP}${COMMON}merchant-account/create`
 global.SET_BUSINESS_SUBSYSTEM = `${SERVER_IP}${COMMON}merchant-subsystem/list`
 // post /v1/merchant-subsystem/update-days 增加天数
 global.ADD_DAYS = `${SERVER_IP}${COMMON}merchant-subsystem/update-days`
-// post /v1/merchant-subsystem/update-status 更改状态 
+// post /v1/merchant-subsystem/update-status 更改状态
 global.SET_STATUS = `${SERVER_IP}${COMMON}merchant-subsystem/update-status`
 
 // post /v1/device-pallet/list 货盘列表
@@ -67,3 +68,28 @@ global.GET_LOGINLOG_LIST = `${SERVER_IP}${COMMON}loginlog/list`
 
 // post /v1/oplog/list 获取操作日志
 global.GET_OPLOG_LIST = `${SERVER_IP}${COMMON}oplog/list`
+
+//人脸识别分组
+global.FACE_LIST = `${SERVER_IP}${COMMON}test-group/list`
+//新增
+global.CREATE_NEW = `${SERVER_IP}${COMMON}test-group/create`
+//编辑
+global.CREATE_NEW_UPDATE = `${SERVER_IP}${COMMON}test-group/update`
+//删除
+global.DELET_THIS = `${SERVER_IP}${COMMON}test-group/delete`
+//断开连接
+global.DEVICE_LINK = `${SERVER_IP}${COMMON}test-group/device-link`
+
+//人脸样本
+global.FACE_GROUP_LIT = `${SERVER_IP}${COMMON}test-face/list`
+//删除
+global.DELETE_FEACE_LIT = `${SERVER_IP}${COMMON}test-face/delete`
+//查找下拉
+global.FACE_SEARCH = `${SERVER_IP}${COMMON}test-group/select`
+//查询下拉选取确认
+global.FACE_SEARCH_SURE = `${SERVER_IP}${COMMON}test-face/search`
+
+//人脸查找结果
+global.FACE_SRLUT = `${SERVER_IP}${COMMON}test-search/list`
+//详情
+global.FACE_SRLUT_DETAIL = `${SERVER_IP}${COMMON}test-search/detail`

@@ -87,6 +87,18 @@ export default {
           sidebar.defaultActive = '5-2'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
+        //鹰眼人脸数据测试
+        case 'FaceSampleGrouping':
+          sidebar.defaultActive = '6-1'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'FaceSampleManage':
+        case 'RecognitionResult':
+        case 'RecognitionList':
+          sidebar.defaultActive = '6-2'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'RecognitionResultsFound':
         //   usercenter.topMenu = ''
         //   usercenter.left_menu_active = '0'
         //   usercenter.top_menu_active = '0'
