@@ -171,7 +171,7 @@
       methods:{
         List(){
           let list = {
-            'filter[or][][name][like]': this.$data.routerId,
+            'filter[and][][group_id]': this.$data.routerId,
             'filter[and][][device_id][like]':'',
             'disable_pagination': '',
             'page': 1
