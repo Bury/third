@@ -61,7 +61,9 @@
         label="姿态角度"
       >
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.pitch == 90 ? '下':'上' }}</span>
+          <p>上下俯仰角度:{{ scope.row.pitch }}</p>
+          <p>左右旋转角度:{{ scope.row.yaw }}</p>
+          <p>平面旋转角度:{{ scope.row.roll }}</p>
         </template>
       </el-table-column>
       <el-table-column prop="illumination"
