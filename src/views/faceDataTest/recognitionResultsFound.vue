@@ -22,7 +22,7 @@
         <td>
           <p>来客编号/照片</p>
           <img :src="item.s_face_avatar" alt="" class="imgSize">
-          <p>{{item.s_face_id}}</p>
+          <p>{{item.s_face_id == null ? '暂无匹配数据' : item.s_face_id}}</p>
         </td>
       </tr>
       </tbody>
