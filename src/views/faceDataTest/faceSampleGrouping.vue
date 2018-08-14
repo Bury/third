@@ -92,7 +92,7 @@
         <p>接入摄像头后将自动接入上传的图片</p>
         <el-form-item label="请选择人脸采集测试摄像头:" style="margin-top: 2rem">
           <el-select v-model="takesUp.equipment" placeholder="请选择活动区域">
-            <el-option v-for="equipmentsName in equipmentsList" :key="equipmentsName.id" :label="equipmentsName.name"
+            <el-option v-for="equipmentsName in equipmentsList" :key="equipmentsName.id" :label="equipmentsName.cid"
                        :value="equipmentsName.id"></el-option>
           </el-select>
         </el-form-item>
@@ -219,6 +219,7 @@
         isTakeDown(value){
           this.$data.AreIsSureUp = true;
           this.$data.isTakeDownId = value.id;
+          this.$data.takesUp.equipment = '';
           this.equipmentList();
         },
         //连接确认取消
