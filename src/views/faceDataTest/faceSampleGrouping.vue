@@ -36,7 +36,7 @@
         label="摄像头连接操作"
         show-overflow-tooltip>
         <template slot-scope="scope" style="text-align: center">
-          <!--<p>设备编号: 1231321321</p>-->
+          <p v-show="scope.row.is_link == 0">设备编号: {{scope.row.cid}}</p>
           <button class="btn" v-show="scope.row.is_link == 0" @click="isTakeUp(scope.row)">断开链接</button>
           <button class="btns" v-show="scope.row.is_link == 1" @click="isTakeDown(scope.row)">选择接入</button>
         </template>
@@ -59,10 +59,10 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="pages" v-if="pages.pageCount > 0">
-      <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
-      </el-pagination>
-    </div>
+    <!--<div class="pages" v-if="pages.pageCount > 0">-->
+      <!--<el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>-->
+      <!--</el-pagination>-->
+    <!--</div>-->
     <el-dialog :title="dialogTitle" :visible.sync="FormVisible">
       <el-form :model='formName' ref="formName" :rules="rules" label-width="150px" class="demo-ruleForm">
         <el-form-item label="名称" prop="name" >
@@ -87,9 +87,15 @@
     </el-dialog>
     <!--启用提醒-->
     <el-dialog title="提醒" :visible.sync="AreIsSureUp">
-      <el-form label-width="150px" class="demo-ruleForm">
+      <el-form :model='takesUp' ref="takesUp" label-width="190px" class="demo-ruleForm">
         <p>您确认要打开此连接?</p>
         <p>接入摄像头后将自动接入上传的图片</p>
+        <el-form-item label="请选择人脸采集测试摄像头:" style="margin-top: 2rem">
+          <el-select v-model="takesUp.equipment" placeholder="请选择活动区域">
+            <el-option v-for="equipmentsName in equipmentsList" :key="equipmentsName.id" :label="equipmentsName.name"
+                       :value="equipmentsName.id"></el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="noSureUp()">取 消</el-button>
@@ -130,8 +136,13 @@
           AreIsSureUp:false,
           isTakeDownId:'',
           pages:'',
+          equipmentsList:'',
+          equipmentsName:'',
           formName:{
             name:'',
+          },
+          takesUp:{
+            equipment:''
           },
           rules:{
             name:[
@@ -160,7 +171,7 @@
             let qs = require('querystring')
             faceDataApi.faceList(qs.stringify(list)).then((response) => {
               console.log(response.data.data);
-              this.$data.tableData3 = response.data.data.list;
+              this.$data.tableData3 = response.data.data;
               console.log(this.$data.tableData3);
               this.pages = response.data.data.pagination;
             })
@@ -177,10 +188,9 @@
         isSure(){
           let list = {
             'id': this.$data.AreIsSureId,
-            'is_link':1
           };
           let qs = require('querystring')
-          faceDataApi.deviceLink(qs.stringify(list)).then((response) => {
+          faceDataApi.deviceLinkOut(qs.stringify(list)).then((response) => {
             console.log(response.data.errno);
             if(response.data.errno === 0){
               this.$message({
@@ -197,10 +207,19 @@
         noSure(){
           this.$data.AreIsSure = false;
         },
+        //可接入设备列表
+        equipmentList(){
+          let qs = require('querystring')
+          faceDataApi.linkEquipment(qs.stringify()).then((response) => {
+            console.log(response.data.data);
+            this.$data.equipmentsList = response.data.data;
+          })
+        },
         //连接确认
         isTakeDown(value){
           this.$data.AreIsSureUp = true;
           this.$data.isTakeDownId = value.id;
+          this.equipmentList();
         },
         //连接确认取消
         noSureUp(){
@@ -208,24 +227,33 @@
         },
         //连接确认确认
         isSureUP(){
-            console.log(this.$data.isTakeDownId)
-          let list = {
-            'id': this.$data.isTakeDownId,
-            'is_link':0
-          };
-          let qs = require('querystring')
-          faceDataApi.deviceLink(qs.stringify(list)).then((response) => {
-            console.log(response.data.errno);
-            if(response.data.errno === 0){
+            console.log(this.$data.isTakeDownId);
+            console.log(this.$data.takesUp.equipment);
+            if(this.$data.takesUp.equipment == ''){
               this.$message({
-                message: '连接成功',
-                type: 'success',
+                message: '请最少选择一组数据',
+                type: 'error',
                 center: true
               });
-              this.$data.AreIsSureUp = false;
-              this.faceListAll();
+            }else{
+              let list = {
+                'id': this.$data.isTakeDownId,
+                'device_id':this.$data.takesUp.equipment
+              };
+              let qs = require('querystring')
+              faceDataApi.deviceLinkIn(qs.stringify(list)).then((response) => {
+                console.log(response.data.errno);
+                if(response.data.errno === 0){
+                  this.$message({
+                    message: '连接成功',
+                    type: 'success',
+                    center: true
+                  });
+                  this.$data.AreIsSureUp = false;
+                  this.faceListAll();
+                }
+              })
             }
-          })
         },
         //新增
         add(){

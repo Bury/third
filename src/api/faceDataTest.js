@@ -37,9 +37,18 @@ export default {
       })
     })
   },
-  deviceLink(list) {
+  deviceLinkIn(list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.DEVICE_LINK, list).then((response) => {
+      axios.post(global.DEVICE_LINK_IN, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  deviceLinkOut(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.DEVICE_LINK_OUT, list).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)
@@ -94,6 +103,15 @@ export default {
   faceSoultDetail(list) {
     return new Promise((resolve, reject) => {
       axios.post(global.FACE_SRLUT_DETAIL, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  linkEquipment(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.LINK_EQUIPMENT, list).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)

@@ -77,8 +77,12 @@ global.CREATE_NEW = `${SERVER_IP}${COMMON}test-group/create`
 global.CREATE_NEW_UPDATE = `${SERVER_IP}${COMMON}test-group/update`
 //删除
 global.DELET_THIS = `${SERVER_IP}${COMMON}test-group/delete`
-//断开连接
-global.DEVICE_LINK = `${SERVER_IP}${COMMON}test-group/device-link`
+//选取设备下拉
+global.LINK_EQUIPMENT = `${SERVER_IP}${COMMON}test-device/link-list`
+//设备接入
+global.DEVICE_LINK_IN = `${SERVER_IP}${COMMON}test-group/link-in`
+//设备断开
+global.DEVICE_LINK_OUT = `${SERVER_IP}${COMMON}test-group/link-out`
 
 //人脸样本
 global.FACE_GROUP_LIT = `${SERVER_IP}${COMMON}test-face/list`
