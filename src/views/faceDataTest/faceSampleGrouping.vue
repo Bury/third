@@ -146,8 +146,8 @@
           },
           rules:{
             name:[
-              {required: true, message: '分组名称不能重复', trigger: 'blur'},
-              { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'change' }
+              // {required: true, message: '分组名称不能重复', trigger: 'blur'},
+              // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'change' }
             ]
           },
         }
