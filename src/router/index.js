@@ -32,6 +32,13 @@ import FaceSampleManage from '../views/faceDataTest/faceSampleManage'
 import RecognitionList from '../views/faceDataTest/recognitionList'
 import RecognitionResult from '../views/faceDataTest/recognitionResult'
 import RecognitionResultsFound from '../views/faceDataTest/recognitionResultsFound'
+//测试数据
+import DataCollect from '../views/dataCollect/dataList'
+import MergeFace from '../views/dataCollect/mergeFace'
+import DataSetting from '../views/dataCollect/dataSetting'
+import AbnormalDataList from '../views/dataCollect/abnormalDataList'
+import DataStatistics from '../views/dataCollect/dataStatistics'
+import ErrorDataList from '../views/dataCollect/errorDataList'
 
 Vue.use(Router)
 
@@ -70,6 +77,18 @@ const router = new Router({
         {path:'RecognitionResultsFound/:id',name:'RecognitionResultsFound',component:RecognitionResultsFound},
       ]
     },{
+      path:'dataCollect',
+      component:Templates,
+      children:[
+        {path:'DataSetting',name:'DataSetting',component:DataSetting},
+        {path:'DataCollect',name:'DataCollect',component:DataCollect},
+        {path:'MergeFace/:id',name:'MergeFace',component:MergeFace},
+        {path:'AbnormalDataList',name:'AbnormalDataList',component:AbnormalDataList},
+        {path:'DataStatistics',name:'DataStatistics',component:DataStatistics},
+        {path:'ErrorDataList',name:'ErrorDataList',component:ErrorDataList},
+      ]
+    },
+      {
       path: 'equipment',
       component: Templates,
       children: [

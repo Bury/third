@@ -15,7 +15,7 @@
         <div class="user">
           <el-dropdown trigger="hover" @command="handleCommand">
             <span class="el-dropdown-link">
-              你好，张三<i class="el-icon-caret-bottom el-icon--right"></i>
+              你好，{{username}}<i class="el-icon-caret-bottom el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item divided command="logout" >退出</el-dropdown-item>
@@ -28,13 +28,17 @@
 </template>
 
 <script>
+  import storage from '../../utils/storage'
 export default {
   name: 'navbar',
   data () {
     return {
+      username:'',
     }
   },
   created: function () {
+    this.$data.username = storage.getLocalStorage('userName');
+    console.log(this.$data.username)
   },
   mounted: function () {
   },
@@ -65,7 +69,7 @@ export default {
 .navbar .container {
   display: table-cell;
   vertical-align: middle;
-  
+
 }
 
 .navbar .left {
@@ -107,13 +111,13 @@ export default {
 
 .navbar .friendly-tip {
   font-size: 13px;
-  height: 30px; 
+  height: 30px;
   line-height: 30px;
 }
 
 .navbar .telephone {
   font-size: 14px;
-  height: 28px; 
+  height: 28px;
   line-height: 28px;
 }
 
@@ -144,7 +148,7 @@ export default {
 
 .navbar .help-guide {
   font-size: 13px;
-  height: 28px; 
+  height: 28px;
   line-height: 28px;
 }
 
@@ -157,7 +161,7 @@ export default {
 }
 
 .navbar .message {
-  height: 24px; 
+  height: 24px;
   line-height: 24px;
 }
 
@@ -170,7 +174,7 @@ export default {
 }
 
 .navbar .user {
-  height: 26px; 
+  height: 26px;
   line-height: 26px;
 }
 

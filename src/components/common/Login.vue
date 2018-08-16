@@ -23,6 +23,7 @@
 
 <script>
 import userApi from '../../api/user'
+import storage from '../../utils/storage'
 
 export default {
   name: 'login',
@@ -43,9 +44,13 @@ export default {
   methods: {
     login () {
       // 登录逻辑
+      console.log(this.user.username);
+      storage.setLocalStorage('userName',this.user.username);
       let qs = require('querystring')
       userApi.login(qs.stringify(this.user)).then((response) => {
-        let returnData = response.data
+        let returnData = response.data;
+        console.log(returnData.errno);
+
         if (returnData.errno === 0) {
           let userToken = returnData.data
           console.log(userToken)
@@ -63,7 +68,7 @@ export default {
           })
         }
       })
-      
+
       this.$router.replace({name: 'Dashboard'})
     }
   }
@@ -144,7 +149,7 @@ export default {
 }
 
 .login .login-button a {
-  display: table-cell; 
+  display: table-cell;
   vertical-align: middle;
 }
 

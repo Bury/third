@@ -16,6 +16,14 @@
                 <el-menu-item index="6-1"><router-link :to="{name: 'FaceSampleGrouping'}" replace>人脸样本分组管理</router-link></el-menu-item>
                 <el-menu-item index="6-2"><router-link :to="{name: 'RecognitionList'}" replace>识别结果列表</router-link></el-menu-item>
               </el-submenu>
+              <el-submenu index="7">
+                <template slot="title"><img src="static/images/main/wesupervise.png">鹰眼数据</template>
+                <el-menu-item index="7-1"><router-link :to="{name: 'DataSetting'}" replace>基准数据</router-link></el-menu-item>
+                <el-menu-item index="7-2"><router-link :to="{name: 'DataCollect'}" replace>数据列表</router-link></el-menu-item>
+                <el-menu-item index="7-3"><router-link :to="{name: 'AbnormalDataList'}" replace>异常数据列表</router-link></el-menu-item>
+                <el-menu-item index="7-4"><router-link :to="{name: 'DataStatistics'}" replace>统计</router-link></el-menu-item>
+                <el-menu-item index="7-6"><router-link :to="{name: 'ErrorDataList'}" replace>错误数据列表</router-link></el-menu-item>
+              </el-submenu>
                 <el-submenu index="3">
                     <template slot="title"><img src="static/images/main/icontrol.png">设备</template>
                     <!--<el-menu-item index="3-1"><router-link :to="{name: 'Pallet'}" replace>看货盘</router-link></el-menu-item>-->
