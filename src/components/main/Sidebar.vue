@@ -19,7 +19,7 @@
               <el-submenu index="7">
                 <template slot="title"><img src="static/images/main/wesupervise.png">鹰眼数据</template>
                 <el-menu-item index="7-1"><router-link :to="{name: 'DataSetting'}" replace>基准数据</router-link></el-menu-item>
-                <el-menu-item index="7-2"><router-link :to="{name: 'DataCollect'}" replace>数据列表</router-link></el-menu-item>
+                <el-menu-item index="7-2"><router-link :to="{name: 'DataList'}" replace>数据列表</router-link></el-menu-item>
                 <el-menu-item index="7-3"><router-link :to="{name: 'AbnormalDataList'}" replace>异常数据列表</router-link></el-menu-item>
                 <el-menu-item index="7-4"><router-link :to="{name: 'DataStatistics'}" replace>统计</router-link></el-menu-item>
                 <el-menu-item index="7-6"><router-link :to="{name: 'ErrorDataList'}" replace>错误数据列表</router-link></el-menu-item>

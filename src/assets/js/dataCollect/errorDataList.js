@@ -1,5 +1,6 @@
 
 import * as utils from '@/utils/index'
+const cityOptions = ['姿态角度', '光照', '模糊度', '遮挡','脸完整度'];
 export default {
   name: "error-data-list",
   components: {
@@ -24,6 +25,11 @@ export default {
       ageData:[],
       guestGenderData:[],
       guestFromData:[],
+      checkAll: false,
+      checkedCities: [],
+      cities: cityOptions,
+      isIndeterminate: true,
+      isErrorA:1,
       guestParameters:{
         begin_time:'',
         end_time:'',
@@ -47,12 +53,26 @@ export default {
       ],
       checkList:[],
       tableData3: [{
+        id:1,
         date: '2016-05-03',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄',
         sex:'男',
         f:15,
-
+        pitch:1.0,
+        yaw:1.12,
+        roll:3.556,
+        illumination:866,
+        blur:0.1,
+        left_eye:0.1,
+        right_eye:0.2,
+        left_cheek:0.3,
+        right_cheek:0.4,
+        nose:0,
+        mouth:2,
+        chin_contour:3,
+        completeness:1,
+        status:1,
       }],
     }
   },
@@ -246,6 +266,16 @@ export default {
     },
     handleSelectionChange(){
 
+    },
+    //复选框
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? cityOptions : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
     },
 
   }

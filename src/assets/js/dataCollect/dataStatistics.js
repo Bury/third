@@ -1,9 +1,30 @@
 import * as utils from '@/utils/index'
+import VueHighcharts from 'vue2-highcharts'
 
+const asyncData = {
+  name: '分布率',
+  marker: {
+    symbol: 'square'
+  },
+  data: [{
+    name:'a',
+    y:12
+  },{
+    name:'b',
+    y:30
+  },{
+    name:'c',
+    y:28
+  },{
+    name:'d',
+    y:30
+  },
+  ]
+}
 export default {
   name: "data-statistics",
   components: {
-
+    VueHighcharts
   },
 
   data () {
@@ -24,6 +45,7 @@ export default {
       ageData:[],
       guestGenderData:[],
       guestFromData:[],
+      radio3:'',
       guestParameters:{
         begin_time:'',
         end_time:'',
@@ -56,6 +78,38 @@ export default {
         f:15,
 
       }],
+      options: {
+        chart: {
+          type: 'pie'
+        },
+        title: {
+          text: '模糊值 分布图'
+        },
+        subtitle: {
+          text: ''
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        credits: {
+          enabled: false
+        },
+        plotOptions: {
+          pie: {
+            // allowPointSelect: true, //选中某块区域是否允许分离
+            // cursor: 'pointer',
+            dataLabels: {
+                enabled: false //是否直接呈现数据 也就是外围显示数据与否
+            },
+            showInLegend: true,
+
+            // dataLabels: {
+            //   enabled: true
+            // },
+          }
+        },
+        series: []
+      },
     }
   },
 
@@ -260,6 +314,14 @@ export default {
         this.$data.noFilter = true;
       }
 
+    },
+    load(){
+      let lineCharts = this.$refs.lineCharts;
+      lineCharts.delegateMethod('showLoading', 'Loading...');
+      setTimeout(() => {
+        lineCharts.addSeries(asyncData);
+        lineCharts.hideLoading();
+      }, 2000)
     },
   }
 }

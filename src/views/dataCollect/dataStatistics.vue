@@ -65,7 +65,19 @@
         <el-tab-pane label="自定义统计" name="userDefined"></el-tab-pane>
       </el-tabs>
     </div>
-    
+    <div>
+      <el-radio-group v-model="radio3">
+        <el-radio-button label="姿态角度" style="margin-left: 20rem;margin-top: 3rem"></el-radio-button>
+        <el-radio-button label="模糊度" style="margin-left: 2rem;border-left:1px solid #dcdfe6;border-radius: 4px"></el-radio-button>
+        <el-radio-button label="光照值" style="margin-left: 2rem;border-left:1px solid #dcdfe6;"></el-radio-button>
+        <el-radio-button label="脸完整度" style="margin-left: 2rem;border-left:1px solid #dcdfe6;"></el-radio-button>
+        <el-radio-button label="遮挡" style="margin-left: 2rem;border-left:1px solid #dcdfe6;"></el-radio-button>
+      </el-radio-group>
+    </div>
+    <div>
+      <vue-highcharts :options="options" ref="lineCharts"></vue-highcharts>
+      <button @click="load">load</button>
+    </div>
   </div>
 </template>
 

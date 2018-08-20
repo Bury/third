@@ -69,13 +69,10 @@
       <!--否-->
       <el-form>
         <el-form-item label="异常参数:">
-          <el-checkbox-group v-model="checkList">
-            <el-checkbox label="全部"></el-checkbox>
-            <el-checkbox label="姿态角度"></el-checkbox>
-            <el-checkbox label="光照"></el-checkbox>
-            <el-checkbox label="模糊度"></el-checkbox>
-            <el-checkbox label="遮挡"></el-checkbox>
-            <el-checkbox label="脸完整度"></el-checkbox>
+          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+          <div style="margin: 15px 0;"></div>
+          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -139,9 +136,9 @@
         >
         </el-table-column>
         <el-table-column
-          label="序号"
+          label="序号" prop="id"
         >
-          <template slot-scope="scope">{{ scope.row.num }}</template>
+          <!--<template slot-scope="scope">{{ scope.row.num }}</template>-->
         </el-table-column>
         <el-table-column
           label="来客编号"
@@ -151,14 +148,16 @@
         <el-table-column
           label="照片"
         >
-          <template slot-scope="scope">{{ scope.row.num }}</template>
+          <template slot-scope="scope">
+            <img src="http://dev-api.cc.ibetwo.com/upload/2018/08/09/1_1_1.jpg" alt="" style="width: 6rem;height: 6rem">
+          </template>
         </el-table-column>
         <el-table-column
           label="性别"
         >
           <template slot-scope="scope">
-            {{ scope.row.sex }}
-            <i class="el-icon-edit-outline" style="font-size: 1.2rem"></i>
+            <span :class="{getRed:isErrorA === 1}">{{ scope.row.sex }}</span>
+            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError()"></i>
           </template>
 
         </el-table-column>
@@ -171,35 +170,53 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="name"
           label="姿态角度"
         >
+          <template slot-scope="scope">
+            <p>上下俯仰角度:{{ scope.row.pitch }}</p>
+            <p>左右旋转角度:{{ scope.row.yaw }}</p>
+            <p>平面旋转角度:{{ scope.row.roll }}</p>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
           label="光照"
         >
+          <template slot-scope="scope" >
+            <span :class="{getInYellow:scope.row.status === 1}">{{scope.row.illumination}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="blur"
           label="模糊度"
         >
         </el-table-column>
         <el-table-column
-          prop="name"
           label="遮挡"
         >
+          <template slot-scope="scope">
+            <p>左眼遮挡:{{ scope.row.left_eye }}</p>
+            <p>右眼遮挡:{{ scope.row.right_eye }}</p>
+            <p>左脸颊遮挡:{{ scope.row.left_cheek }}</p>
+            <p>右脸颊遮挡:{{ scope.row.right_cheek }}</p>
+            <p>鼻子遮挡:{{ scope.row.nose }}</p>
+            <p>嘴巴遮挡:{{ scope.row.mouth }}</p>
+            <p>下巴遮挡:{{ scope.row.chin_contour }}</p>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
           label="脸完整度"
         >
+          <template slot-scope="scope" style="text-align: center">
+            <span>{{scope.row.completeness == 1 ? '完整' : '溢出'}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="识别结果"
         >
-          <template>
-            <img src="http://dev-api.cc.ibetwo.com/upload/2018/08/15/14_1534334004_3592.jpg" alt="">
+          <template slot-scope="scope">
+            <img src="http://dev-api.cc.ibetwo.com/upload/2018/08/09/1_1_1.jpg" alt="" style="width: 6rem;height: 6rem">
+            <span>60%相似</span>
+            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError()"></i>
           </template>
         </el-table-column>
         <el-table-column
@@ -242,5 +259,8 @@
   }
   .deconds{
     margin-right: 11rem;
+  }
+  .getRed{
+    color: #bd2c00;
   }
 </style>
