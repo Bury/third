@@ -101,6 +101,13 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="时间"
+      >
+        <template slot-scope="scope" style="text-align: center">
+          <span>{{scope.row.created_at | date(4)}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
         prop=""
         label="操作">
         <template slot-scope="scope">
