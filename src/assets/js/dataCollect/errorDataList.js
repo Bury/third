@@ -1,6 +1,13 @@
 
 import * as utils from '@/utils/index'
-const cityOptions = ['姿态角度', '光照', '模糊度', '遮挡','脸完整度'];
+import dataCollectApi from '@/api/dataCollect'
+const cityOptions = [
+  {id:0,'name':'姿态角度'},
+  {id:1,'name':'光照'},
+  {id:2,'name':'模糊度'},
+  {id:3,'name':'遮挡'},
+  {id:4,'name':'脸完整度'},
+];
 export default {
   name: "error-data-list",
   components: {
@@ -25,11 +32,6 @@ export default {
       ageData:[],
       guestGenderData:[],
       guestFromData:[],
-      checkAll: false,
-      checkedCities: [],
-      cities: cityOptions,
-      isIndeterminate: true,
-      isErrorA:1,
       guestParameters:{
         begin_time:'',
         end_time:'',
@@ -42,47 +44,168 @@ export default {
       storeId:'',
       location:'',
       input:'',
+      radio:2,
       radio3:'全部',
-      equipmentsList:[
-        {name:'关凤点',id:1},
-        {name:'关凤点',id:2},
+      noFilter:true,
+      yesFilter:false,
+      FormVisible:false,
+      dialogTitle:'',
+      checkAll: false,
+      checkedCities: [],
+      cities: cityOptions,
+      isIndeterminate: true,
+      faceId:'',
+      errorType:'',
+      ruleForm:{
+        pitchA:'',
+        pitchB:'',
+        rollA:'',
+        rollB:'',
+        yawA:'',
+        yawB:'',
+        dimA:'',
+        dimB:'',
+        faceAll:'',
+        keepOut:'',
+        illA:'',
+        illB:'',
+        faceIsAll:'',
+      },
+      rules:{
+
+      },
+      options:[
+        {value:0.1,name:0.1},
+        {value:0.2,name:0.2},
+        {value:0.3,name:0.3},
+        {value:0.4,name:0.4},
+        {value:0.5,name:0.5},
+        {value:0.6,name:0.6},
+        {value:0.7,name:0.7},
+        {value:0.8,name:0.8},
+        {value:0.9,name:0.9},
+        {value:1,name:1},
       ],
-      locationList:[
-        {name:'上方',id:1},
-        {name:'下方',id:2}
-      ],
+      equipmentsList:[],
+      locationList:[],
       checkList:[],
-      tableData3: [{
-        id:1,
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        sex:'男',
-        f:15,
-        pitch:1.0,
-        yaw:1.12,
-        roll:3.556,
-        illumination:866,
-        blur:0.1,
-        left_eye:0.1,
-        right_eye:0.2,
-        left_cheek:0.3,
-        right_cheek:0.4,
-        nose:0,
-        mouth:2,
-        chin_contour:3,
-        completeness:1,
-        status:1,
-      }],
+      tableData3: [],
+      pages:'',
+      list:{
+        'list_type':2,
+        'merchant_id':'',
+        'store_id':'',
+        'device_id':'',
+        'st_time':'',
+        'ed_time':'',
+        'st_age':'',
+        'ed_age':'',
+        'gender':'',
+        'completeness':'',
+        'occlusion':'',
+        'pitch_st': '',
+        'pitch_ed': '',
+        'yaw_st': '',
+        'yaw_ed': '',
+        'roll_st': '',
+        'roll_ed': '',
+        'illumination_st': '',
+        'illumination_ed': '',
+        'blur_st': '',
+        'blur_ed': '',
+        'occlusion':'',
+        'un_angle':0,
+        'un_illumination':0,
+        'un_blur':0,
+        'un_occlusion':0,
+        'un_completeness':0,
+        'err_gender':'',
+        'err_age':'',
+        'err_match':'',
+        'page':1,
+        'page_size':10,
+      },
+      checkList:[],
+      checkListId:[],
+      // un_angle:0,
+      // un_illumination:0,
+      // un_blur:0,
+      // un_occlusion:0,
+      // un_completeness:0,
     }
   },
 
   created:function(){
-    this.setData();
+    // this.setData();
+    // 刷新时，获取动态数据 设置navmenu
+    let templates = this.$parent
+    templates.navMenu = this.$route.name
+    templates.upperLevelMenu = ''
+    this.dataList();
   },
 
   methods: {
+//门店下拉
+    getPartList(){
+      let list = {
+        'type': 1,
+        'parent_id': 1,
+      }
+      let qs = require('querystring')
+      dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
+        console.log(response.data.data);
+        this.$data.equipmentsList = response.data.data;
+      })
+    },
+    //联动获取位置
+    GETstoreId(val){
+      let list = {
+        'type': 2,
+        'parent_id': val,
+      }
+      let qs = require('querystring')
+      dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
+        console.log(response.data.data);
+        this.$data.locationList = response.data.data;
+      })
+    },
+    //数据列表
+    dataList(){
+      // let list = {
+      //   'merchant_id':'',
+      //   'store_id':'',
+      //   'device_id':'',
+      //   'st_time':'',
+      //   'ed_time':'',
+      //   'st_age':'',
+      //   'ed_age':'',
+      //   'gender':'',
+      //   'completeness':'',
+      //   'occlusion':'',
+      //   'pitch_st': '',
+      //   'pitch_ed': '',
+      //   'yaw_st': '',
+      //   'yaw_ed': '',
+      //   'roll_st': '',
+      //   'roll_ed': '',
+      //   'illumination_st': '',
+      //   'illumination_ed': '',
+      //   'blur_st': '',
+      //   'blur_ed': '',
+      //   'page':1,
+      //   'page_size':10,
+      // }
+      let qs = require('querystring')
+      dataCollectApi.dataListFace(qs.stringify(this.$data.list)).then((response) => {
+        console.log(response.data.data.list);
+        this.$data.tableData3 = response.data.data.list;
+        this.pages = response.data.data.pagination;
+      })
+    },
+    //切换分页
+    handleCurrentChange(){
 
+    },
     //时间转为秒
     getS(value){
       var formatTimeS = new Date(value).getTime()/1000;
@@ -154,7 +277,60 @@ export default {
         this.$data.guestParameters.end_time =  utils.getDateTime(this.userDefined[1]);
 
       }
-      this.requestData();
+      // this.requestData();
+      console.log(this.$data.list);
+      this.$data.list.merchant_id = '';
+      this.$data.list.store_id = '';
+      this.$data.list.device_id = '';
+
+      //筛选信息
+      this.$data.list.pitch_st= this.$data.ruleForm.pitchA,
+        this.$data.list.pitch_ed=this.$data.ruleForm.pitchB,
+        this.$data.list.yaw_st= this.$data.ruleForm.yawA,
+        this.$data.list.yaw_ed= this.$data.ruleForm.yawB,
+        this.$data.list.roll_st= this.$data.ruleForm.rollA,
+        this.$data.list.roll_ed=this.$data.ruleForm.rollB,
+        this.$data.list.illumination_st= this.$data.ruleForm.illA,
+        this.$data.list.illumination_ed=this.$data.ruleForm.illB,
+        this.$data.list.blur_st= this.$data.ruleForm.dimA,
+        this.$data.list.blur_ed= this.$data.ruleForm.dimB,
+        this.$data.list.occlusion= this.$data.ruleForm.keepOut,
+        this.$data.list.completeness= this.$data.ruleForm.faceAll,
+        //过滤异常的
+        console.log(this.$data.checkAll);
+      console.log(this.$data.checkedCities);
+      // {id:0,'name':'姿态角度'},
+      // {id:1,'name':'光照'},
+      // {id:2,'name':'模糊度'},
+      // {id:3,'name':'遮挡'},
+      // {id:4,'name':'脸完整度'},
+      if(this.$data.checkedCities.indexOf(0)){
+        this.$data.list.un_angle = 0;
+      }else{
+        this.$data.list.un_angle = 1;
+      }
+      if(this.$data.checkedCities.indexOf(1)){
+        console.log('存在')
+        this.$data.list.un_illumination = 1;
+      }else{
+        this.$data.list.un_illumination = 0;
+      }
+      if(this.$data.checkedCities.indexOf(2)){
+        this.$data.list.un_blur = 1;
+      }else{
+        this.$data.list.un_blur = 0;
+      }
+      if(this.$data.checkedCities.indexOf(3)){
+        this.$data.list.un_occlusion = 1;
+      }else{
+        this.$data.list.un_occlusion = 0;
+      }
+      if(this.$data.checkedCities.indexOf(4)){
+        this.$data.list.un_completeness = 1;
+      }else{
+        this.$data.list.un_completeness = 0;
+      }
+      this.dataList();
     },
 
     /*
@@ -269,13 +445,66 @@ export default {
     },
     //复选框
     handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
+      console.log(val);
+      console.log(this.checkedCities)
+      this.checkedCities = val ? cityOptions.name : [];
       this.isIndeterminate = false;
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
       this.checkAll = checkedCount === this.cities.length;
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+    },
+
+    //  列表标记错误
+    takeError(val,type){
+      this.$data.FormVisible = true;
+      this.$data.dialogTitle = '标记';
+      console.log(val.id);
+      this.$data.faceId = val.id;
+      this.$data.errorType = type;
+    },
+    //  标记错误确认
+    submitForm(){
+      let list = {
+        'id': this.$data.faceId,
+        'type': this.$data.errorType,
+      }
+      let qs = require('querystring')
+      dataCollectApi.takeErrorMark(qs.stringify(list)).then((response) => {
+        console.log(response.data.errno);
+        if(response.data.errno === 0){
+          this.$message({
+            message: '标记成功',
+            type: 'success',
+            center: true
+          });
+        };
+        this.$data.FormVisible = false;
+      })
+    },
+    //  取消操作
+    cancel(){
+      this.$data.FormVisible = false;
+    },
+    //  删除记录
+    handleDeleteThis(val){
+      let list = {
+        'id': val.id,
+      }
+      let qs = require('querystring')
+      dataCollectApi.deletFasce(qs.stringify(list)).then((response) => {
+        console.log(response.data.errno);
+        if(response.data.errno === 0){
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+            center: true
+          });
+          this.dataList();
+        };
+
+      })
     },
 
   }

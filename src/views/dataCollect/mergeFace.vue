@@ -12,102 +12,153 @@
         >
         </el-table-column>
         <el-table-column
-          label="序号"
+          label="序号" prop="id"
         >
-          <template slot-scope="scope">{{ scope.row.num }}</template>
+          <!--<template slot-scope="scope">{{ scope.row.num }}</template>-->
         </el-table-column>
         <el-table-column
           label="来客编号"
         >
-          <template slot-scope="scope">{{ scope.row.num }}</template>
+          <template slot-scope="scope">{{ scope.row.customer_id }}</template>
         </el-table-column>
         <el-table-column
           label="照片"
         >
-          <template slot-scope="scope">{{ scope.row.num }}</template>
+          <template slot-scope="scope">
+            <img :src="scope.row.avatar" alt="" style="width: 6rem;height: 6rem">
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
-          label="名别"
+          label="性别"
         >
+          <template slot-scope="scope">
+            <span :class="{getRed:scope.row.gender_mark === 1}">{{ scope.row.gender == 1 ? '男' : '女' }}</span>
+            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,0)"></i>
+          </template>
+
         </el-table-column>
         <el-table-column
-          prop="name"
           label="年龄"
         >
+          <template slot-scope="scope">
+            <span :class="{getRed:scope.row.age_mark === 1}">{{ scope.row.age }}</span>
+            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,1)"></i>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
           label="姿态角度"
         >
+          <template slot-scope="scope">
+            <p :class="{getInYellow:scope.row.pitch_d === 1}">上下俯仰角度:{{ scope.row.pitch }}</p>
+            <p :class="{getInYellow:scope.row.pitch_d === 1}">左右旋转角度:{{ scope.row.yaw }}</p>
+            <p :class="{getInYellow:scope.row.pitch_d === 1}">平面旋转角度:{{ scope.row.roll }}</p>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
           label="光照"
         >
+          <template slot-scope="scope" >
+            <span :class="{getInYellow:scope.row.illumination_d === 1}">{{scope.row.illumination}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
           label="模糊度"
         >
+          <template slot-scope="scope">
+            <span :class="{getInYellow:scope.row.blur_d === 1}">{{scope.row.blur}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
           label="遮挡"
         >
+          <template slot-scope="scope">
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">左眼遮挡:{{ scope.row.left_eye }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">右眼遮挡:{{ scope.row.right_eye }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">左脸颊遮挡:{{ scope.row.left_cheek }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">右脸颊遮挡:{{ scope.row.right_cheek }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">鼻子遮挡:{{ scope.row.nose }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">嘴巴遮挡:{{ scope.row.mouth }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">下巴遮挡:{{ scope.row.chin_contour }}</p>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
           label="脸完整度"
         >
+          <template slot-scope="scope" style="text-align: center">
+            <span :class="{getInYellow:scope.row.completeness_d === 1}">{{scope.row.completeness == 1 ? '完整' : '溢出'}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="name"
           label="识别结果"
         >
+          <template slot-scope="scope">
+            <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
+            <span :class="{getRed:scope.row.merge_id === 1}">{{scope.row.score}}%相似</span>
+            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,2)"></i>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="date"
           label="创建时间"
         >
+          <template slot-scope="scope">
+            <span>{{scope.row.created_at | date(4)}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"
-          width="220"
+          width="100"
         >
-          <template slot-scope="scope" style="display: flex">
-            <el-button
-              size="mini"
-              type="success"
-              @click="manage(scope.row)">管理</el-button>
-            <el-button
-              size="mini"
-              @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.row)">删除</el-button>
+          <template slot-scope="scope" >
+            <div style="display: flex;flex-direction: column">
+              <el-button
+                size="mini"
+                type="text"
+                @click="handleDelete(scope.row)">移除合并项</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
+      <el-row>
+        <el-col style="text-align: center">
+          <button class="btn" @click="add()">保存</button>
+        </el-col>
+      </el-row>
     </div>
 </template>
 
-<script>
-    export default {
-        name: "merge-face",
-      data(){
-          return{
-            tableData3: [{
-              date: '2016-05-03',
-              name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
-            }],
-          }
-      },
-    }
-</script>
+<script src="@/assets/js/dataCollect/mergeFace.js"></script>
 
 <style scoped>
-
+  .btn{
+    width: 5rem;
+    height: 2.5rem;
+    /*float: right;*/
+    /*margin-right: 5rem;*/
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #4BC076;
+    color: white;
+  }
+  .btn:hover{
+    background: #4DB076;
+    color: #fff!important;
+  }
 </style>

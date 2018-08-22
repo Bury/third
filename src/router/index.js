@@ -39,6 +39,8 @@ import DataSetting from '../views/dataCollect/dataSetting'
 import AbnormalDataList from '../views/dataCollect/abnormalDataList'
 import DataStatistics from '../views/dataCollect/dataStatistics'
 import ErrorDataList from '../views/dataCollect/errorDataList'
+import MegerRecord from '../views/dataCollect/megerRecord'
+import ArriveRecord from '../views/dataCollect/arriveRecord'
 
 Vue.use(Router)
 
@@ -86,6 +88,8 @@ const router = new Router({
         {path:'AbnormalDataList',name:'AbnormalDataList',component:AbnormalDataList},
         {path:'DataStatistics',name:'DataStatistics',component:DataStatistics},
         {path:'ErrorDataList',name:'ErrorDataList',component:ErrorDataList},
+        {path:'MegerRecord/:id',name:'MegerRecord',component:MegerRecord},
+        {path:'ArriveRecord/:id',name:'ArriveRecord',component:ArriveRecord},
       ]
     },
       {

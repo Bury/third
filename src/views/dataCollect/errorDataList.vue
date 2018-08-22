@@ -67,12 +67,12 @@
     </div>
     <div class="content-box">
       <!--否-->
-      <el-form>
+      <el-form v-show="noFilter">
         <el-form-item label="异常参数:">
           <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           <div style="margin: 15px 0;"></div>
           <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+            <el-checkbox v-for="city in cities" :label="city.id" :key="city.id" :value="city.id">{{city.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -124,6 +124,11 @@
           </div>
         </div>
       </div>
+      <el-row>
+        <el-col>
+          <el-button type="primary" @click="onSubmit" style="float: right;margin-right: 2rem;margin-bottom: 2rem">查询</el-button>
+        </el-col>
+      </el-row>
       <el-table
         ref="multipleTable"
         :data="tableData3"
@@ -143,21 +148,21 @@
         <el-table-column
           label="来客编号"
         >
-          <template slot-scope="scope">{{ scope.row.num }}</template>
+          <template slot-scope="scope">{{ scope.row.customer_id }}</template>
         </el-table-column>
         <el-table-column
           label="照片"
         >
           <template slot-scope="scope">
-            <img src="http://dev-api.cc.ibetwo.com/upload/2018/08/09/1_1_1.jpg" alt="" style="width: 6rem;height: 6rem">
+            <img :src="scope.row.avatar" alt="" style="width: 6rem;height: 6rem">
           </template>
         </el-table-column>
         <el-table-column
           label="性别"
         >
           <template slot-scope="scope">
-            <span :class="{getRed:isErrorA === 1}">{{ scope.row.sex }}</span>
-            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError()"></i>
+            <span :class="{getRed:scope.row.gender_mark === 1}">{{ scope.row.gender == 1 ? '男' : '女' }}</span>
+            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,0)"></i>
           </template>
 
         </el-table-column>
@@ -165,64 +170,68 @@
           label="年龄"
         >
           <template slot-scope="scope">
-            {{ scope.row.f }}
-            <i class="el-icon-edit-outline" style="font-size: 1.2rem"></i>
+            <span :class="{getRed:scope.row.age_mark === 1}">{{ scope.row.age }}</span>
+            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,1)"></i>
           </template>
         </el-table-column>
         <el-table-column
           label="姿态角度"
         >
           <template slot-scope="scope">
-            <p>上下俯仰角度:{{ scope.row.pitch }}</p>
-            <p>左右旋转角度:{{ scope.row.yaw }}</p>
-            <p>平面旋转角度:{{ scope.row.roll }}</p>
+            <p :class="{getInYellow:scope.row.pitch_d === 1}">上下俯仰角度:{{ scope.row.pitch }}</p>
+            <p :class="{getInYellow:scope.row.pitch_d === 1}">左右旋转角度:{{ scope.row.yaw }}</p>
+            <p :class="{getInYellow:scope.row.pitch_d === 1}">平面旋转角度:{{ scope.row.roll }}</p>
           </template>
         </el-table-column>
         <el-table-column
           label="光照"
         >
           <template slot-scope="scope" >
-            <span :class="{getInYellow:scope.row.status === 1}">{{scope.row.illumination}}</span>
+            <span :class="{getInYellow:scope.row.illumination_d === 1}">{{scope.row.illumination}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          prop="blur"
           label="模糊度"
         >
+          <template slot-scope="scope">
+            <span :class="{getInYellow:scope.row.blur_d === 1}">{{scope.row.blur}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="遮挡"
         >
           <template slot-scope="scope">
-            <p>左眼遮挡:{{ scope.row.left_eye }}</p>
-            <p>右眼遮挡:{{ scope.row.right_eye }}</p>
-            <p>左脸颊遮挡:{{ scope.row.left_cheek }}</p>
-            <p>右脸颊遮挡:{{ scope.row.right_cheek }}</p>
-            <p>鼻子遮挡:{{ scope.row.nose }}</p>
-            <p>嘴巴遮挡:{{ scope.row.mouth }}</p>
-            <p>下巴遮挡:{{ scope.row.chin_contour }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">左眼遮挡:{{ scope.row.left_eye }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">右眼遮挡:{{ scope.row.right_eye }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">左脸颊遮挡:{{ scope.row.left_cheek }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">右脸颊遮挡:{{ scope.row.right_cheek }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">鼻子遮挡:{{ scope.row.nose }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">嘴巴遮挡:{{ scope.row.mouth }}</p>
+            <p :class="{getInYellow:scope.row.occlusion_d === 1}">下巴遮挡:{{ scope.row.chin_contour }}</p>
           </template>
         </el-table-column>
         <el-table-column
           label="脸完整度"
         >
           <template slot-scope="scope" style="text-align: center">
-            <span>{{scope.row.completeness == 1 ? '完整' : '溢出'}}</span>
+            <span :class="{getInYellow:scope.row.completeness_d === 1}">{{scope.row.completeness == 1 ? '完整' : '溢出'}}</span>
           </template>
         </el-table-column>
         <el-table-column
           label="识别结果"
         >
           <template slot-scope="scope">
-            <img src="http://dev-api.cc.ibetwo.com/upload/2018/08/09/1_1_1.jpg" alt="" style="width: 6rem;height: 6rem">
-            <span>60%相似</span>
-            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError()"></i>
+            <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
+            <span :class="{getRed:scope.row.merge_id === 1}">{{scope.row.score}}%相似</span>
+            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,2)"></i>
           </template>
         </el-table-column>
         <el-table-column
-          prop="date"
           label="创建时间"
         >
+          <template slot-scope="scope">
+            <span>{{scope.row.created_at | date(4)}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -231,7 +240,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.row)">删除</el-button>
+              @click="handleDeleteThis(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

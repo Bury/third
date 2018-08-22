@@ -47,7 +47,48 @@
           </el-breadcrumb-item>
           <el-breadcrumb-item>识别结果查看</el-breadcrumb-item>
         </el-breadcrumb>
-
+        <!--鹰眼数据-->
+        <el-breadcrumb v-if="navMenu === 'DataSetting'" separator="/">
+          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>基准数据</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'DataList'" separator="/">
+          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>数据列表</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'MergeFace'" separator="/">
+          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <router-link :to="{ name: 'DataList' }" replace>数据列表</router-link>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>合并数据</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'MegerRecord'" separator="/">
+          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <router-link :to="{ name: 'DataList' }" replace>数据列表</router-link>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>合并记录</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'ArriveRecord'" separator="/">
+          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <router-link :to="{ name: 'DataList' }" replace>数据列表</router-link>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>到店记录</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'AbnormalDataList'" separator="/">
+          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>异常数据列表</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'DataStatistics'" separator="/">
+          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>统计</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'ErrorDataList'" separator="/">
+          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>错误数据列表</el-breadcrumb-item>
+        </el-breadcrumb>
         <!-- 设备 -->
         <el-breadcrumb v-if="navMenu === 'Pallet'" separator="/">
           <el-breadcrumb-item>设备</el-breadcrumb-item>

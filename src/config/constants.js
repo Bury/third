@@ -97,3 +97,30 @@ global.FACE_SEARCH_SURE = `${SERVER_IP}${COMMON}test-face/search`
 global.FACE_SRLUT = `${SERVER_IP}${COMMON}test-search/list`
 //详情
 global.FACE_SRLUT_DETAIL = `${SERVER_IP}${COMMON}test-search/detail`
+
+//鹰眼数据/基准设置
+global.SETTING_SAVE = `${SERVER_IP}hawkeye/datum/save`
+//基准数据返回
+global.SETTING_SAVE_BACK = `${SERVER_IP}hawkeye/datum/detail`
+//数据列表
+global.DATA_LIST_B = `${SERVER_IP}hawkeye/face/list`
+//门店，位置下拉
+global.MSD_LINKAGE = `${SERVER_IP}hawkeye/face/msd-linkage`
+//标记错误
+global.TAKE_MARK = `${SERVER_IP}hawkeye/face/error-mark`
+//查看合并记录
+global.MERGE_DETAIL = `${SERVER_IP}hawkeye/face/merge-detail`
+//移出合并
+global.OUT_MERGE = `${SERVER_IP}hawkeye/face/out-merge`
+//删除人脸图
+global.DELET_FSCE = `${SERVER_IP}hawkeye/face/delete`
+//查看到店记录
+global.CUSTOMER_RECORE = `${SERVER_IP}hawkeye/face/customer-recore`
+//查看百度人脸图
+global.BAIDU_FACE = `${SERVER_IP}hawkeye/face/baidu-recore`
+
+//要合并的数据列表
+global.NEED_MERGE = `${SERVER_IP}hawkeye/face/show-faces`
+//确认合并
+global.SURE_MERGE_F = `${SERVER_IP}hawkeye/face/pic-merge`
+

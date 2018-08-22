@@ -36,7 +36,7 @@
       <el-form-item label="脸完整度:">
         <el-select v-model="ruleForm.faceAll" placeholder="请选择" style="width: 7rem">
           <el-option
-            v-for="item in options"
+            v-for="item in optionsFace"
             :key="item.value"
             :label="item.name"
             :value="item.value">
@@ -49,12 +49,16 @@
       </el-form-item>
       <el-form-item label="遮挡:">
         <el-select v-model="ruleForm.keepOut" placeholder="请选择" style="width: 7rem">
-          <el-option value="1" label="是">是</el-option>
-          <el-option value="2" label="否">否</el-option>
+          <el-option
+            v-for="item in optionsKeep"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value">
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')" style="margin-left: 10rem">保存</el-button>
+        <el-button type="primary" @click="submitForm(ruleForm)" style="margin-left: 10rem">保存</el-button>
       </el-form-item>
     </el-form>
   </div>

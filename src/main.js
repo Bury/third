@@ -13,11 +13,12 @@ import router from './router'
 import axios from 'axios'
 import * as filters from './filters'
 import './config/constants'
+import globalFunction from '@/assets/js/globalFunction'
 
 Vue.use(ElementUI)
 
 Vue.filter('date', filters.dateFilter)
-
+Vue.use(globalFunction);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

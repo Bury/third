@@ -114,6 +114,10 @@ export default {
   },
 
   created:function(){
+    // 刷新时，获取动态数据 设置navmenu
+    let templates = this.$parent
+    templates.navMenu = this.$route.name
+    templates.upperLevelMenu = ''
     this.setData();
   },
 

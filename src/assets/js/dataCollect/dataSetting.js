@@ -1,4 +1,5 @@
 import globalRules from '@/config/globalRules'
+import dataCollectApi from '@/api/dataCollect'
 export default {
   name: "data-setting",
   data(){
@@ -32,7 +33,22 @@ export default {
         {value:0.9,name:0.9},
         {value:1,name:1},
       ],
+      optionsFace:[
+        {value:0,name:'溢出'},
+        {value:1,name:'完整'},
+      ],
+      optionsKeep:[
+        {value:0,name:'无遮挡'},
+        {value:1,name:'有遮挡'},
+      ],
     }
+  },
+  created:function () {
+    // 刷新时，获取动态数据 设置navmenu
+    let templates = this.$parent
+    templates.navMenu = this.$route.name
+    templates.upperLevelMenu = ''
+    this.dataBack();
   },
   methods:{
     dimBtnB(){
@@ -90,8 +106,8 @@ export default {
       }
     },
     test(a,b,num,type){
-      // console.log(a);
-      // console.log(b);
+      console.log(a);
+      console.log(b);
       if(a == ''){
         this.$message({
           message: '请先填写开始范围',
@@ -156,15 +172,119 @@ export default {
     },
     //姿态角度pitch判断
     pitchBBtn(){
-      this.test(this.$data.ruleForm.pitchA,this.$data.ruleForm.pitchB,90,1);
+      this.test(parseFloat(this.$data.ruleForm.pitchA),parseFloat(this.$data.ruleForm.pitchB),90,1);
     },
     //姿态角度roll判断
     rollBBtn(){
-      this.test(this.$data.ruleForm.rollA,this.$data.ruleForm.rollB,180,2);
+      this.test(parseFloat(this.$data.ruleForm.rollA),parseFloat(this.$data.ruleForm.rollB),180,2);
     },
     //姿态角度yaw判断
     yawBBtn(){
-      this.test(this.$data.ruleForm.yawA,this.$data.ruleForm.yawB,90,3);
+      this.test(parseFloat(this.$data.ruleForm.yawA),parseFloat(this.$data.ruleForm.yawB),90,3);
+    },
+  //  保存
+    submitForm(val){
+      console.log(val);
+      if(this.$data.ruleForm.pitchA == '' || this.$data.ruleForm.pitchB == ''){
+        this.$message({
+          message: '填写Pitch范围',
+          type: 'error',
+          center: true
+        });
+      }else{
+        if(this.$data.ruleForm.rollA == '' || this.$data.ruleForm.rollB == ''){
+          this.$message({
+            message: '填写Roll范围',
+            type: 'error',
+            center: true
+          });
+        }else{
+          if(this.$data.ruleForm.yawA == '' || this.$data.ruleForm.yawB == ''){
+            this.$message({
+              message: '填写Yaw范围',
+              type: 'error',
+              center: true
+            });
+          }else{
+            if(this.$data.ruleForm.dimA == '' || this.$data.ruleForm.dimB == ''){
+              this.$message({
+                message: '请选择模糊度范围',
+                type: 'error',
+                center: true
+              });
+            }else{
+              if(this.$data.ruleForm.faceAll == '' ){
+                this.$message({
+                  message: '请选择脸完整度',
+                  type: 'error',
+                  center: true
+                });
+              }else{
+                if(this.$data.ruleForm.illA == '' || this.$data.ruleForm.illB == ''){
+                  this.$message({
+                    message: '请填写光照范围范围',
+                    type: 'error',
+                    center: true
+                  });
+                }else{
+                  if(this.$data.ruleForm.keepOut == ''){
+                    this.$message({
+                      message: '请选择遮挡范围',
+                      type: 'error',
+                      center: true
+                    });
+                  }else{
+                    let list = {
+                      'pitch_st': this.$data.ruleForm.pitchA,
+                      'pitch_ed': this.$data.ruleForm.pitchB,
+                      'yaw_st': this.$data.ruleForm.yawA,
+                      'yaw_ed': this.$data.ruleForm.yawB,
+                      'roll_st': this.$data.ruleForm.rollA,
+                      'roll_ed': this.$data.ruleForm.rollB,
+                      'illumination_st': this.$data.ruleForm.illA,
+                      'illumination_ed': this.$data.ruleForm.illB,
+                      'blur_st': this.$data.ruleForm.dimA,
+                      'blur_ed': this.$data.ruleForm.dimB,
+                      'occlusion': this.$data.ruleForm.keepOut,
+                      'completeness': this.$data.ruleForm.faceAll,
+                    }
+                    let qs = require('querystring')
+                    dataCollectApi.dataSettingSave(qs.stringify(list)).then((response) => {
+                      if(response.data.errno == 0){
+                        this.$message({
+                          message: '设置成功',
+                          type: 'success',
+                          center: true
+                        });
+                        this.dataBack();
+                      }
+                    })
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    dataBack(){
+      let list = {}
+      let qs = require('querystring')
+      dataCollectApi.dataSettingSaveBack(qs.stringify(list)).then((response) => {
+        console.log(response.data.data);
+        this.$data.ruleForm.pitchA = response.data.data.pitch_st;
+        this.$data.ruleForm.pitchB = response.data.data.pitch_ed;
+        this.$data.ruleForm.yawA = response.data.data.yaw_st;
+        this.$data.ruleForm.yawB = response.data.data.yaw_ed;
+        this.$data.ruleForm.rollA = response.data.data.roll_st;
+        this.$data.ruleForm.rollB = response.data.data.roll_ed;
+        this.$data.ruleForm.illA = response.data.data.illumination_st;
+        this.$data.ruleForm.illB = response.data.data.illumination_ed;
+        this.$data.ruleForm.dimA = response.data.data.blur_st;
+        this.$data.ruleForm.dimB = response.data.data.blur_ed;
+        this.$data.ruleForm.keepOut = response.data.data.occlusion;
+        this.$data.ruleForm.faceAll = response.data.data.completeness;
+      })
     },
   }
 }

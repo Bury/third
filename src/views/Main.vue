@@ -99,6 +99,30 @@ export default {
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
         case 'RecognitionResultsFound':
+        //  鹰眼数据
+        case 'DataSetting':
+          sidebar.defaultActive = '7-1'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'DataList':
+          sidebar.defaultActive = '7-2'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'MergeFace':
+        case 'MegerRecord':
+        case 'ArriveRecord':
+        case 'AbnormalDataList':
+          sidebar.defaultActive = '7-3'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'DataStatistics':
+          sidebar.defaultActive = '7-4'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'ErrorDataList':
+          sidebar.defaultActive = '7-6'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
         //   usercenter.topMenu = ''
         //   usercenter.left_menu_active = '0'
         //   usercenter.top_menu_active = '0'
