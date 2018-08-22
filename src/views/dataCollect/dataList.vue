@@ -367,7 +367,7 @@
     color: #bd2c00;
   }
   .getInYellow{
-    color: yellow;
+    color: #CDEB8B;
   }
   .iamgStyle{
     display: flex;
