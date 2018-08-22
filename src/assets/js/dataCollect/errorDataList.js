@@ -119,9 +119,9 @@ export default {
         'un_blur':0,
         'un_occlusion':0,
         'un_completeness':0,
-        'err_gender':'',
-        'err_age':'',
-        'err_match':'',
+        'err_gender':1,
+        'err_age':1,
+        'err_match':1,
         'page':1,
         'page_size':10,
       },
@@ -142,6 +142,7 @@ export default {
     templates.navMenu = this.$route.name
     templates.upperLevelMenu = ''
     this.dataList();
+    this.dataBack();
   },
 
   methods: {
@@ -206,6 +207,51 @@ export default {
     handleCurrentChange(){
 
     },
+    //选择全部，性别等
+    clickAll(){
+
+      if(this.$data.radio3 === '全部'){
+        this.$data.list.err_gender = 1;
+        this.$data.list.err_age = 1;
+        this.$data.list.err_match = 1;
+        this.dataList();
+      }else if(this.$data.radio3 === '性别'){
+        this.$data.list.err_gender = 1;
+        this.$data.list.err_age = 0;
+        this.$data.list.err_match = 0;
+        this.dataList();
+      }else if(this.$data.radio3 === '年龄'){
+        this.$data.list.err_gender = 0;
+        this.$data.list.err_age = 1;
+        this.$data.list.err_match = 0;
+        this.dataList();
+      }else if(this.$data.radio3 === '身份'){
+        this.$data.list.err_gender = 0;
+        this.$data.list.err_age = 0;
+        this.$data.list.err_match = 1;
+        this.dataList();
+      }
+    },
+    //基准信息返回
+    dataBack(){
+      let list = {}
+      let qs = require('querystring')
+      dataCollectApi.dataSettingSaveBack(qs.stringify(list)).then((response) => {
+        console.log(response.data.data);
+        this.$data.ruleForm.pitchA = response.data.data.pitch_st;
+        this.$data.ruleForm.pitchB = response.data.data.pitch_ed;
+        this.$data.ruleForm.yawA = response.data.data.yaw_st;
+        this.$data.ruleForm.yawB = response.data.data.yaw_ed;
+        this.$data.ruleForm.rollA = response.data.data.roll_st;
+        this.$data.ruleForm.rollB = response.data.data.roll_ed;
+        this.$data.ruleForm.illA = response.data.data.illumination_st;
+        this.$data.ruleForm.illB = response.data.data.illumination_ed;
+        this.$data.ruleForm.dimA = response.data.data.blur_st;
+        this.$data.ruleForm.dimB = response.data.data.blur_ed;
+        this.$data.ruleForm.keepOut = response.data.data.occlusion;
+        this.$data.ruleForm.faceAll = response.data.data.completeness;
+      })
+    },
     //时间转为秒
     getS(value){
       var formatTimeS = new Date(value).getTime()/1000;
@@ -239,44 +285,7 @@ export default {
 
     //搜索
     onSubmit(){
-      if(this.$data.ctrlTimeType[0]){
-        if(this.$data.day == null) { return false}
-        this.$data.guestParameters.begin_time = this.getS(this.$data.day);
-        this.$data.guestParameters.end_time =   this.getS(this.$data.day) + 86399;
 
-      }else if(this.$data.ctrlTimeType[1]){
-        if(this.$data.week == null) { return false}
-        this.$data.guestParameters.begin_time = this.getS(this.$data.week);
-        this.$data.guestParameters.end_time =   this.getS(this.$data.week) + 604799;
-
-      }else if(this.$data.ctrlTimeType[2]){
-        if(this.$data.month== null) { return false}
-        let nexty,nextm;
-        let t = new Date(this.$data.month);
-        let m = t.getMonth() + 1;
-        let y = t.getFullYear();
-        m === 12 ? (nexty = y + 1,nextm = 1):(nexty = y,nextm = m + 1)
-        this.$data.guestParameters.begin_time = t.getTime() / 1000;
-        this.$data.guestParameters.end_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
-
-      }else if(this.$data.ctrlTimeType[3]){
-        if(this.$data.year == null) {return false;}
-        let yearDate = new Date(this.$data.year);
-        let y = yearDate.getFullYear();
-        this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
-        this.$data.guestParameters.end_time =  this.getS(`${y}/12/31 23:59:59`);
-
-      }else if(this.$data.ctrlTimeType[4]){
-        if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
-          this.$data.noTimeHide = true;
-          return false;
-        }else{
-          this.$data.noTimeHide = false;
-        }
-        this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
-        this.$data.guestParameters.end_time =  utils.getDateTime(this.userDefined[1]);
-
-      }
       // this.requestData();
       console.log(this.$data.list);
       this.$data.list.merchant_id = '';
@@ -299,36 +308,39 @@ export default {
         //过滤异常的
         console.log(this.$data.checkAll);
       console.log(this.$data.checkedCities);
-      // {id:0,'name':'姿态角度'},
-      // {id:1,'name':'光照'},
-      // {id:2,'name':'模糊度'},
-      // {id:3,'name':'遮挡'},
-      // {id:4,'name':'脸完整度'},
-      if(this.$data.checkedCities.indexOf(0)){
-        this.$data.list.un_angle = 0;
-      }else{
+      if(this.$data.checkAll == false){
+        if(this.$data.checkedCities.indexOf(0)){
+          this.$data.list.un_angle = 0;
+        }else{
+          this.$data.list.un_angle = 1;
+        }
+        if(this.$data.checkedCities.indexOf(1)){
+          console.log('存在')
+          this.$data.list.un_illumination = 0;
+        }else{
+          this.$data.list.un_illumination = 1;
+        }
+        if(this.$data.checkedCities.indexOf(2)){
+          this.$data.list.un_blur = 0;
+        }else{
+          this.$data.list.un_blur = 1;
+        }
+        if(this.$data.checkedCities.indexOf(3)){
+          this.$data.list.un_occlusion = 0;
+        }else{
+          this.$data.list.un_occlusion = 1;
+        }
+        if(this.$data.checkedCities.indexOf(4)){
+          this.$data.list.un_completeness = 0;
+        }else{
+          this.$data.list.un_completeness = 1;
+        }
+      }else if(this.$data.checkAll == true){
         this.$data.list.un_angle = 1;
-      }
-      if(this.$data.checkedCities.indexOf(1)){
-        console.log('存在')
         this.$data.list.un_illumination = 1;
-      }else{
-        this.$data.list.un_illumination = 0;
-      }
-      if(this.$data.checkedCities.indexOf(2)){
         this.$data.list.un_blur = 1;
-      }else{
-        this.$data.list.un_blur = 0;
-      }
-      if(this.$data.checkedCities.indexOf(3)){
         this.$data.list.un_occlusion = 1;
-      }else{
-        this.$data.list.un_occlusion = 0;
-      }
-      if(this.$data.checkedCities.indexOf(4)){
         this.$data.list.un_completeness = 1;
-      }else{
-        this.$data.list.un_completeness = 0;
       }
       this.dataList();
     },
@@ -449,6 +461,11 @@ export default {
       console.log(this.checkedCities)
       this.checkedCities = val ? cityOptions.name : [];
       this.isIndeterminate = false;
+      if(this.$data.checkAll == false){
+        this.$data.checkedCities = []
+      }else if(this.$data.checkAll == true){
+        this.$data.checkedCities = [0,1,2,3,4]
+      }
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
@@ -463,12 +480,20 @@ export default {
       console.log(val.id);
       this.$data.faceId = val.id;
       this.$data.errorType = type;
+      if(val.gender_mark == 0 || val.age_mark == 0 ||val.merge_id ==0){
+        this.$data.idOrChangeMark = 1;
+        this.$data.errText = '错误';
+      }else if(val.gender_mark == 1|| val.age_mark == 1 ||val.merge_id ==1){
+        this.$data.idOrChangeMark = 0;
+        this.$data.errText = '正确';
+      }
     },
     //  标记错误确认
     submitForm(){
       let list = {
         'id': this.$data.faceId,
         'type': this.$data.errorType,
+        'mark_val':this.$data.idOrChangeMark
       }
       let qs = require('querystring')
       dataCollectApi.takeErrorMark(qs.stringify(list)).then((response) => {

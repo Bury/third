@@ -3,12 +3,13 @@
 import * as utils from '@/utils/index'
 import dataCollectApi from '@/api/dataCollect'
 const cityOptions = [
-  {id:0,'name':'姿态角度'},
-  {id:1,'name':'光照'},
-  {id:2,'name':'模糊度'},
-  {id:3,'name':'遮挡'},
-  {id:4,'name':'脸完整度'},
+  {'name':'姿态角度','id':0},
+  {'name':'光照','id':1},
+  {'name':'模糊度','id':2},
+  {'name':'遮挡','id':3},
+  {'name':'脸完整度','id':4},
 ];
+// const cityOptions = ['姿态角度','光照','模糊度','遮挡','脸完整度'];
 export default {
 
   name: 'dashboard',
@@ -131,6 +132,8 @@ export default {
       },
       checkList:[],
       checkListId:[],
+      idOrChangeMark:'',
+      errText:'',
       // un_angle:0,
       // un_illumination:0,
       // un_blur:0,
@@ -251,44 +254,44 @@ export default {
 
     //查询
     onSubmit(){
-      if(this.$data.ctrlTimeType[0]){
-        if(this.$data.day == null) { return false}
-        this.$data.guestParameters.begin_time = this.getS(this.$data.day);
-        this.$data.guestParameters.end_time =   this.getS(this.$data.day) + 86399;
-
-      }else if(this.$data.ctrlTimeType[1]){
-        if(this.$data.week == null) { return false}
-        this.$data.guestParameters.begin_time = this.getS(this.$data.week);
-        this.$data.guestParameters.end_time =   this.getS(this.$data.week) + 604799;
-
-      }else if(this.$data.ctrlTimeType[2]){
-        if(this.$data.month== null) { return false}
-        let nexty,nextm;
-        let t = new Date(this.$data.month);
-        let m = t.getMonth() + 1;
-        let y = t.getFullYear();
-        m === 12 ? (nexty = y + 1,nextm = 1):(nexty = y,nextm = m + 1)
-        this.$data.guestParameters.begin_time = t.getTime() / 1000;
-        this.$data.guestParameters.end_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
-
-      }else if(this.$data.ctrlTimeType[3]){
-        if(this.$data.year == null) {return false;}
-        let yearDate = new Date(this.$data.year);
-        let y = yearDate.getFullYear();
-        this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
-        this.$data.guestParameters.end_time =  this.getS(`${y}/12/31 23:59:59`);
-
-      }else if(this.$data.ctrlTimeType[4]){
-        if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
-          this.$data.noTimeHide = true;
-          return false;
-        }else{
-          this.$data.noTimeHide = false;
-        }
-        this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
-        this.$data.guestParameters.end_time =  utils.getDateTime(this.userDefined[1]);
-
-      }
+      // if(this.$data.ctrlTimeType[0]){
+      //   if(this.$data.day == null) { return false}
+      //   this.$data.guestParameters.begin_time = this.getS(this.$data.day);
+      //   this.$data.guestParameters.end_time =   this.getS(this.$data.day) + 86399;
+      //
+      // }else if(this.$data.ctrlTimeType[1]){
+      //   if(this.$data.week == null) { return false}
+      //   this.$data.guestParameters.begin_time = this.getS(this.$data.week);
+      //   this.$data.guestParameters.end_time =   this.getS(this.$data.week) + 604799;
+      //
+      // }else if(this.$data.ctrlTimeType[2]){
+      //   if(this.$data.month== null) { return false}
+      //   let nexty,nextm;
+      //   let t = new Date(this.$data.month);
+      //   let m = t.getMonth() + 1;
+      //   let y = t.getFullYear();
+      //   m === 12 ? (nexty = y + 1,nextm = 1):(nexty = y,nextm = m + 1)
+      //   this.$data.guestParameters.begin_time = t.getTime() / 1000;
+      //   this.$data.guestParameters.end_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
+      //
+      // }else if(this.$data.ctrlTimeType[3]){
+      //   if(this.$data.year == null) {return false;}
+      //   let yearDate = new Date(this.$data.year);
+      //   let y = yearDate.getFullYear();
+      //   this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
+      //   this.$data.guestParameters.end_time =  this.getS(`${y}/12/31 23:59:59`);
+      //
+      // }else if(this.$data.ctrlTimeType[4]){
+      //   if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
+      //     this.$data.noTimeHide = true;
+      //     return false;
+      //   }else{
+      //     this.$data.noTimeHide = false;
+      //   }
+      //   this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
+      //   this.$data.guestParameters.end_time =  utils.getDateTime(this.userDefined[1]);
+      //
+      // }
       // this.requestData();
       console.log(this.$data.list);
       this.$data.list.merchant_id = '';
@@ -316,32 +319,41 @@ export default {
       // {id:2,'name':'模糊度'},
       // {id:3,'name':'遮挡'},
       // {id:4,'name':'脸完整度'},
-      if(this.$data.checkedCities.indexOf(0)){
-        this.$data.list.un_angle = 0;
-      }else{
+      if(this.$data.checkAll == false){
+        if(this.$data.checkedCities.indexOf(0)){
+          this.$data.list.un_angle = 0;
+        }else{
+          this.$data.list.un_angle = 1;
+        }
+        if(this.$data.checkedCities.indexOf(1)){
+          console.log('存在')
+          this.$data.list.un_illumination = 0;
+        }else{
+          this.$data.list.un_illumination = 1;
+        }
+        if(this.$data.checkedCities.indexOf(2)){
+          this.$data.list.un_blur = 0;
+        }else{
+          this.$data.list.un_blur = 1;
+        }
+        if(this.$data.checkedCities.indexOf(3)){
+          this.$data.list.un_occlusion = 0;
+        }else{
+          this.$data.list.un_occlusion = 1;
+        }
+        if(this.$data.checkedCities.indexOf(4)){
+          this.$data.list.un_completeness = 0;
+        }else{
+          this.$data.list.un_completeness = 1;
+        }
+      }else if(this.$data.checkAll == true){
         this.$data.list.un_angle = 1;
-      }
-      if(this.$data.checkedCities.indexOf(1)){
-        console.log('存在')
         this.$data.list.un_illumination = 1;
-      }else{
-        this.$data.list.un_illumination = 0;
-      }
-      if(this.$data.checkedCities.indexOf(2)){
         this.$data.list.un_blur = 1;
-      }else{
-        this.$data.list.un_blur = 0;
-      }
-      if(this.$data.checkedCities.indexOf(3)){
         this.$data.list.un_occlusion = 1;
-      }else{
-        this.$data.list.un_occlusion = 0;
-      }
-      if(this.$data.checkedCities.indexOf(4)){
         this.$data.list.un_completeness = 1;
-      }else{
-        this.$data.list.un_completeness = 0;
       }
+
       this.dataList();
     },
 
@@ -497,6 +509,11 @@ export default {
       console.log(this.checkedCities)
       this.checkedCities = val ? cityOptions : [];
       this.isIndeterminate = false;
+      if(this.$data.checkAll == false){
+        this.$data.checkedCities = [];
+      }else if(this.$data.checkAll == true){
+        this.$data.checkedCities = [0,1,2,3,4]
+      }
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
@@ -644,12 +661,21 @@ export default {
       console.log(val.id);
       this.$data.faceId = val.id;
       this.$data.errorType = type;
+      console.log(val.gender_mark);
+      if(val.gender_mark == 0 || val.age_mark == 0 ||val.merge_id ==0){
+        this.$data.idOrChangeMark = 1;
+        this.$data.errText = '错误';
+      }else if(val.gender_mark == 1|| val.age_mark == 1 ||val.merge_id ==1){
+        this.$data.idOrChangeMark = 0;
+        this.$data.errText = '正确';
+      }
     },
   //  标记错误确认
     submitForm(){
       let list = {
         'id': this.$data.faceId,
         'type': this.$data.errorType,
+        'mark_val':this.$data.idOrChangeMark
       }
       let qs = require('querystring')
       dataCollectApi.takeErrorMark(qs.stringify(list)).then((response) => {
@@ -662,6 +688,7 @@ export default {
           });
         };
         this.$data.FormVisible = false;
+        this.dataList();
       })
     },
   //  取消操作

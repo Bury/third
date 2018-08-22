@@ -71,54 +71,54 @@
         <el-form-item label="异常参数:">
           <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           <div style="margin: 15px 0;"></div>
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange" label="isCheck">
             <el-checkbox v-for="city in cities" :label="city.id" :key="city.id" :value="city.id">{{city.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
       <el-row style="margin-bottom: 1rem;">
-        <el-radio-group v-model="radio3">
+        <el-radio-group v-model="radio3" @change="clickAll">
           <el-radio-button label="全部"></el-radio-button>
           <el-radio-button label="性别"></el-radio-button>
           <el-radio-button label="年龄"></el-radio-button>
           <el-radio-button label="身份"></el-radio-button>
         </el-radio-group>
       </el-row>
-      <div class="allTop">
+      <div class="allTop" :model="ruleForm" ref="ruleForm">
         <h3>参数超标范围:</h3>
         <div  style="margin-top: 1rem">
           <div class="firstTop">
             <h4 style="margin-top: 3rem">姿态角度:</h4>
             <div style="margin-left: 2rem">
               <div class="firstTop">
-                <p>Pitch上限范围:XX-XX</p>
-                <p style="margin-left: 2rem">Pitch下限范围:XX-XX</p>
+                <p>Pitch上限范围:{{ruleForm.pitchA}}</p>
+                <p style="margin-left: 2rem">Pitch下限范围:{{ruleForm.pitchB}}</p>
               </div>
               <div class="firstTop">
-                <p>roll上限范围:XX-XX</p>
-                <p style="margin-left: 2rem">roll下限范围:XX-XX</p>
+                <p>roll上限范围:{{ruleForm.rollA}}</p>
+                <p style="margin-left: 2rem">roll下限范围:{{ruleForm.rollB}}</p>
               </div>
               <div class="firstTop">
-                <p>yaw上限范围:XX-XX</p>
-                <p style="margin-left: 2rem">yaw下限范围:XX-XX</p>
+                <p>yaw上限范围:{{ruleForm.yawA}}</p>
+                <p style="margin-left: 2rem">yaw下限范围:{{ruleForm.yawB}}</p>
               </div>
             </div>
           </div>
           <div class="firstTop decond">
             <h4>光照:</h4>
-            <div style="margin-right: 3rem">
-              <div>
-                <p>上限范围:XX-XX</p>
-                <p>下限范围:XX-XX</p>
+            <div style="margin-right: 2rem">
+              <div style="margin-left: 1rem">
+                <p>上限范围:{{ruleForm.illA}}</p>
+                <p>下限范围:{{ruleForm.illB}}</p>
               </div>
             </div>
           </div>
           <div class="firstTop deconds">
             <h4>模糊度:</h4>
             <div>
-              <div>
-                <p>上限范围:XX-XX</p>
-                <p>下限范围:XX-XX</p>
+              <div style="margin-left: 2rem">
+                <p>上限范围:{{ruleForm.dimA}}</p>
+                <p>下限范围:{{ruleForm.dimB}}</p>
               </div>
             </div>
           </div>
@@ -141,24 +141,24 @@
         >
         </el-table-column>
         <el-table-column
-          label="序号" prop="id"
+          label="序号" prop="id" width="50"
         >
           <!--<template slot-scope="scope">{{ scope.row.num }}</template>-->
         </el-table-column>
         <el-table-column
-          label="来客编号"
+          label="来客编号" width="50"
         >
           <template slot-scope="scope">{{ scope.row.customer_id }}</template>
         </el-table-column>
         <el-table-column
-          label="照片"
+          label="照片" width="120"
         >
           <template slot-scope="scope">
             <img :src="scope.row.avatar" alt="" style="width: 6rem;height: 6rem">
           </template>
         </el-table-column>
         <el-table-column
-          label="性别"
+          label="性别" width="60"
         >
           <template slot-scope="scope">
             <span :class="{getRed:scope.row.gender_mark === 1}">{{ scope.row.gender == 1 ? '男' : '女' }}</span>
@@ -167,7 +167,7 @@
 
         </el-table-column>
         <el-table-column
-          label="年龄"
+          label="年龄" width="60"
         >
           <template slot-scope="scope">
             <span :class="{getRed:scope.row.age_mark === 1}">{{ scope.row.age }}</span>
@@ -184,7 +184,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="光照"
+          label="光照" width="60"
         >
           <template slot-scope="scope" >
             <span :class="{getInYellow:scope.row.illumination_d === 1}">{{scope.row.illumination}}</span>
@@ -198,7 +198,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="遮挡"
+          label="遮挡" width="200"
         >
           <template slot-scope="scope">
             <p :class="{getInYellow:scope.row.occlusion_d === 1}">左眼遮挡:{{ scope.row.left_eye }}</p>
@@ -211,19 +211,21 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="脸完整度"
+          label="脸完整度" width="90"
         >
           <template slot-scope="scope" style="text-align: center">
             <span :class="{getInYellow:scope.row.completeness_d === 1}">{{scope.row.completeness == 1 ? '完整' : '溢出'}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="识别结果"
+          label="识别结果" width="280"
         >
           <template slot-scope="scope">
-            <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
-            <span :class="{getRed:scope.row.merge_id === 1}">{{scope.row.score}}%相似</span>
-            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,2)"></i>
+            <div style="display: flex;align-items: center">
+              <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
+              <span :class="{getRed:scope.row.match_mark === 1}">{{scope.row.score}}%相似</span>
+              <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,2)"></i>
+            </div>
           </template>
         </el-table-column>
         <el-table-column
@@ -271,5 +273,8 @@
   }
   .getRed{
     color: #bd2c00;
+  }
+  .getInYellow{
+    color: #CDEB8B;
   }
 </style>

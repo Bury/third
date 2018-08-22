@@ -72,7 +72,7 @@
         <el-form-item label="异常参数:">
           <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           <div style="margin: 15px 0;"></div>
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange" label="isCheck">
             <el-checkbox v-for="city in cities" :label="city.id" :key="city.id" :value="city.id">{{city.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
@@ -146,24 +146,24 @@
       >
       </el-table-column>
       <el-table-column
-        label="序号" prop="id"
+        label="序号" prop="id" width="50"
       >
         <!--<template slot-scope="scope">{{ scope.row.num }}</template>-->
       </el-table-column>
       <el-table-column
-        label="来客编号"
+        label="来客编号" width="50"
       >
         <template slot-scope="scope">{{ scope.row.customer_id }}</template>
       </el-table-column>
       <el-table-column
-        label="照片"
+        label="照片" width="120"
       >
         <template slot-scope="scope">
           <img :src="scope.row.avatar" alt="" style="width: 6rem;height: 6rem">
         </template>
       </el-table-column>
       <el-table-column
-        label="性别"
+        label="性别" width="60"
       >
         <template slot-scope="scope">
           <span :class="{getRed:scope.row.gender_mark === 1}">{{ scope.row.gender == 1 ? '男' : '女' }}</span>
@@ -172,7 +172,7 @@
 
       </el-table-column>
       <el-table-column
-        label="年龄"
+        label="年龄" width="60"
       >
         <template slot-scope="scope">
           <span :class="{getRed:scope.row.age_mark === 1}">{{ scope.row.age }}</span>
@@ -189,7 +189,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="光照"
+        label="光照" width="60"
       >
         <template slot-scope="scope" >
           <span :class="{getInYellow:scope.row.illumination_d === 1}">{{scope.row.illumination}}</span>
@@ -203,7 +203,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="遮挡"
+        label="遮挡" width="200"
       >
         <template slot-scope="scope">
           <p :class="{getInYellow:scope.row.occlusion_d === 1}">左眼遮挡:{{ scope.row.left_eye }}</p>
@@ -216,19 +216,21 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="脸完整度"
+        label="脸完整度" width="90"
       >
         <template slot-scope="scope" style="text-align: center">
           <span :class="{getInYellow:scope.row.completeness_d === 1}">{{scope.row.completeness == 1 ? '完整' : '溢出'}}</span>
         </template>
       </el-table-column>
       <el-table-column
-        label="识别结果"
+        label="识别结果" width="280"
       >
         <template slot-scope="scope">
-          <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
-          <span :class="{getRed:scope.row.merge_id === 1}">{{scope.row.score}}%相似</span>
-          <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,2)"></i>
+          <div style="display: flex;align-items: center">
+            <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
+            <span :class="{getRed:scope.row.match_mark === 1}">{{scope.row.score}}%相似</span>
+            <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,2)"></i>
+          </div>
         </template>
       </el-table-column>
       <el-table-column
@@ -292,6 +294,6 @@
     color: #bd2c00;
   }
   .getInYellow{
-    color: yellow;
+    color: #CDEB8B;
   }
 </style>
