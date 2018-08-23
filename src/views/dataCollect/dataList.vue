@@ -185,7 +185,7 @@
     >
       <template slot-scope="scope">
         <span :class="{getRed:scope.row.age_mark === 1}">{{ scope.row.age }}</span>
-        <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,1)"></i>
+        <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeErrorA(scope.row,1)"></i>
       </template>
     </el-table-column>
     <el-table-column
@@ -238,7 +238,7 @@
         <div style="display: flex;align-items: center">
           <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
           <span :class="{getRed:scope.row.match_mark === 1}">{{scope.row.score}}%相似</span>
-          <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeError(scope.row,2)"></i>
+          <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeErrorB(scope.row,2)"></i>
         </div>
       </template>
     </el-table-column>

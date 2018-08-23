@@ -127,6 +127,7 @@ export default {
       },
       checkList:[],
       checkListId:[],
+      errText:'',
       // un_angle:0,
       // un_illumination:0,
       // un_blur:0,
@@ -473,17 +474,51 @@ export default {
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
     },
 
-    //  列表标记错误
+    //  列表标记错误-性别
     takeError(val,type){
       this.$data.FormVisible = true;
       this.$data.dialogTitle = '标记';
-      console.log(val.id);
+      // console.log(val.id);
       this.$data.faceId = val.id;
       this.$data.errorType = type;
-      if(val.gender_mark == 0 || val.age_mark == 0 ||val.merge_id ==0){
+      // console.log(val.gender_mark);
+      if(val.gender_mark == 0 || val.age_mark === 0 ){
         this.$data.idOrChangeMark = 1;
         this.$data.errText = '错误';
-      }else if(val.gender_mark == 1|| val.age_mark == 1 ||val.merge_id ==1){
+      }else if(val.gender_mark == 1 || val.age_mark === 1){
+        this.$data.idOrChangeMark = 0;
+        this.$data.errText = '正确';
+      }
+      //|| val.age_mark === 0 ||val.match_mark === 0   || val.age_mark === 1 ||val.match_mark === 1
+    },
+    //  列表标记错误-年龄
+    takeErrorA(val,type){
+      this.$data.FormVisible = true;
+      this.$data.dialogTitle = '标记';
+      // console.log(val.id);
+      this.$data.faceId = val.id;
+      this.$data.errorType = type;
+      // console.log(val.age_mark);
+      if(val.age_mark === 0 ){
+        this.$data.idOrChangeMark = 1;
+        this.$data.errText = '错误';
+      }else if(val.age_mark === 1){
+        this.$data.idOrChangeMark = 0;
+        this.$data.errText = '正确';
+      }
+    },
+    //  列表标记错误-身份
+    takeErrorB(val,type){
+      this.$data.FormVisible = true;
+      this.$data.dialogTitle = '标记';
+      // console.log(val.id);
+      this.$data.faceId = val.id;
+      this.$data.errorType = type;
+      // console.log(val.match_mark);
+      if(val.match_mark === 0 ){
+        this.$data.idOrChangeMark = 1;
+        this.$data.errText = '错误';
+      }else if(val.match_mark === 1){
         this.$data.idOrChangeMark = 0;
         this.$data.errText = '正确';
       }
@@ -504,6 +539,7 @@ export default {
             type: 'success',
             center: true
           });
+          this.dataList();
         };
         this.$data.FormVisible = false;
       })
