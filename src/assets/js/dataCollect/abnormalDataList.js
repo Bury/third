@@ -17,7 +17,7 @@ const cityOptions = [
     return {
       noTimeHide:false,
       goStoreNum:'',
-      timeType: 'day',
+      timeType: 'all',
       day:'',
       week:'',
       month:'',
@@ -306,7 +306,7 @@ const cityOptions = [
     */
     cateChanged(tab, event){
       var nowIdx = tab.index;
-      this.$data.ctrlTimeType = [false,false,false,false,false];
+      this.$data.ctrlTimeType = [false,false,false,false,false,false];
       this.$data.ctrlTimeType[nowIdx] = true;
       (nowIdx !== 4) && (this.$data.noTimeHide = false);
       this.setData();
@@ -324,6 +324,11 @@ const cityOptions = [
       let d = t.getDate();
       let weekd  = t.getDay();
       switch (val){
+        case "all":
+          // this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`);
+          // this.$data.guestParameters.end_time =  this.getS(`${y}/${m}/${d} 23:59:59`);
+          // this.$data.day = this.modelDate(this.$data.guestParameters.begin_time)
+          break;
         case "day":
           this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`);
           this.$data.guestParameters.end_time =  this.getS(`${y}/${m}/${d} 23:59:59`);
@@ -360,33 +365,42 @@ const cityOptions = [
     },
 
     setData(){
-      if(this.$data.ctrlTimeType[0]){
+      if(this.$data.ctrlTimeType[0] === true){
+        //all
+        this.$data.list.st_time = '';
+        this.$data.list.ed_time = '';
+        this.dataList();
+        // this.getBeginEnd("day")
+        // this.requestData();
+        // return false;
+      }
+      if(this.$data.ctrlTimeType[1]){
         //日
 
         this.getBeginEnd("day")
         this.requestData();
         return false;
       }
-      if(this.$data.ctrlTimeType[1]){
+      if(this.$data.ctrlTimeType[2]){
         //周
         this.getBeginEnd("week")
         this.requestData();
         return false;
 
       }
-      if(this.$data.ctrlTimeType[2]){
+      if(this.$data.ctrlTimeType[3]){
         //月
         this.getBeginEnd("month")
         this.requestData();
         return false;
       }
-      if(this.$data.ctrlTimeType[3]){
+      if(this.$data.ctrlTimeType[4]){
         //年
         this.getBeginEnd("year")
         this.requestData();
         return false;
       }
-      if(this.$data.ctrlTimeType[4]){
+      if(this.$data.ctrlTimeType[5]){
         //自定义
         this.getBeginEnd("select")
         this.requestData();

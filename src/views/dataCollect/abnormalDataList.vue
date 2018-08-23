@@ -16,7 +16,16 @@
         </el-form-item>
         <el-form-item label="时间选择：">
           <el-date-picker
+            v-model="userDefined"
             v-show="ctrlTimeType[0]"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptionsSet">
+          </el-date-picker>
+          <el-date-picker
+            v-show="ctrlTimeType[1]"
             v-model="day"
             type="date"
             format="yyyy 年 MM 月 dd 日"
@@ -24,7 +33,7 @@
             :picker-options="pickerOptionsSet">
           </el-date-picker>
           <el-date-picker
-            v-show="ctrlTimeType[1]"
+            v-show="ctrlTimeType[2]"
             v-model="week"
             type="week"
             format="yyyy 第 WW 周"
@@ -32,14 +41,14 @@
             :picker-options="pickerOptionsSet">
           </el-date-picker>
           <el-date-picker
-            v-show="ctrlTimeType[2]"
+            v-show="ctrlTimeType[3]"
             v-model="month"
             type="month"
             placeholder="选择月"
             :picker-options="pickerOptionsSet">
           </el-date-picker>
           <el-date-picker
-            v-show="ctrlTimeType[3]"
+            v-show="ctrlTimeType[4]"
             v-model="year"
             type="year"
             placeholder="选择年"
@@ -47,7 +56,7 @@
           </el-date-picker>
           <el-date-picker
             v-model="userDefined"
-            v-show="ctrlTimeType[4]"
+            v-show="ctrlTimeType[5]"
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
@@ -58,6 +67,7 @@
 
       </el-form>
       <el-tabs v-model="timeType" type="card" @tab-click="cateChanged">
+        <el-tab-pane label="全部" name="all"></el-tab-pane>
         <el-tab-pane label="日统计" name="day"></el-tab-pane>
         <el-tab-pane label="周统计" name="week"></el-tab-pane>
         <el-tab-pane label="月统计" name="month"></el-tab-pane>
