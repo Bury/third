@@ -1,88 +1,91 @@
 /**
- * 所有关于设备的接口
+ * 所有关于人脸识别设备的接口
  */
 import axios from 'axios'
 
 export default {
-  //人脸识别设备列表
-  faceDeviceList (id) {
+  // 获取货盘列表 按设备
+  palletList (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.DEVICE_FACE_LIST, id).then((response) => {
+      axios.post(global.DEVICE_FACE_LIST, list).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)
       })
     })
   },
-  //人脸识别设备列表按商家查看
-  faceDeviceMerchant (id) {
+  // 获取货盘列表 按商家
+  merchantList (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.FACE_LIST_MERCHANT, id).then((response) => {
+      axios.post(global.DEVICE_FACE_LIST_MERCHANT, list).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)
       })
     })
   },
-  
-   //按商家门店查看
-  faceMerchantStore (id) {
+  //获取门店列表
+  storetList (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.FACE_LIST_MERCHANT_STORE, id).then((response) => {
+      axios.post(global.FACE_LIST_MERCHANT_STORE, list).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)
       })
     })
   },
-  
-  //新增
-  faceDeviceCreate (id) {
+  // 导入设备
+  importOrder (file) {
     return new Promise((resolve, reject) => {
-      axios.post(global.DEVICE_FACE_CREATE, id).then((response) => {
+      axios.post(global.DEVICE_FACE_IMPORT, file).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)
       })
     })
   },
-  
-  //更新
-  faceDeviceUpdate (id) {
+  // 新增设备
+  addDevice (list) {
     return new Promise((resolve, reject) => {
-      axios.post(global.DEVICE_FACE_UPDATE, id).then((response) => {
+      axios.post(global.DEVICE_FACE_CREATE, list).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)
       })
     })
   },
-  
-  //版本号列表
-  faceDeviceVersion (id) {
+  // 编辑货盘列表 按设备
+  editDevice (list, id) {
     return new Promise((resolve, reject) => {
-      axios.post(global.DEVICE_FACE_VERSION_LIST, id).then((response) => {
+      axios.post(`${DEVICE_FACE_UPDATE}${id}`, list).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)
       })
     })
   },
-  
-  
-  //新增版本号
-  faceDeviceVersionAdd (id) {
+  // 获取版本号
+  getVersion () {
     return new Promise((resolve, reject) => {
-      axios.post(global.DEVICE_FACE_VERSION_ADD, id).then((response) => {
+      axios.post(global.DEVICE_FACE_VERSION_LIST).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)
       })
     })
   },
-  
-  //删除版本号
-  faceVersionDele (id) {
+  // 新增版本号
+  addVersion (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.DEVICE_FACE_VERSION_ADD, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  // 删除版本号
+  deleVersion (id) {
     return new Promise((resolve, reject) => {
       axios.post(global.DEVICE_FACE_DELTE, id).then((response) => {
         resolve(response)
@@ -90,17 +93,5 @@ export default {
         reject(error)
       })
     })
-  },
-  
-  //导入设备
-  faceDeviceImport (id) {
-    return new Promise((resolve, reject) => {
-      axios.post(global.DEVICE_FACE_IMPORT, id).then((response) => {
-        resolve(response)
-      }).catch((error) => {
-        reject(error)
-      })
-    })
   }
-  
 }

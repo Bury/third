@@ -11,8 +11,8 @@
           <el-select placeholder="版本" style="width:120px" v-model="searchOne.version">
             <el-option v-for="list in versionList" :key="list.id" :label="list.val" :value="list.id"></el-option>
           </el-select>
-          <el-input placeholder="搜索公司" style="width:120px" v-model="searchOne.company"></el-input>
-          <el-input placeholder="搜索门店" style="width:120px" v-model="searchOne.store"></el-input>
+          <!--<el-input placeholder="搜索公司" style="width:120px" v-model="searchOne.company"></el-input>
+          <el-input placeholder="搜索门店" style="width:120px" v-model="searchOne.store"></el-input>-->
           <el-input placeholder="搜索编号" style="width:120px" v-model="searchOne.number"></el-input>
           <el-button icon="el-icon-search" @click="request"></el-button>
           <el-button icon="el-icon-refresh" @click="reset"></el-button>
@@ -26,7 +26,7 @@
         <div class="table">
           <el-table :data="tableData" stripe style="width: 100%" :default-sort = "{prop: 'created_at', prop: 'start_at', order: 'descending'}">
             <el-table-column prop="device_id" label="设备编号"></el-table-column>
-            <el-table-column prop="merchant_name" label="所属公司"></el-table-column>
+            <el-table-column prop="merchant_name" label="商家"></el-table-column>
             <el-table-column prop="merchant_store_name" label="门店"></el-table-column>
             <el-table-column prop="version_val" label="版本"></el-table-column>
             <el-table-column prop="created_at" sortable label="添加时间">
@@ -34,17 +34,16 @@
               {{scope.row.created_at | date(2)}}
               </template>
             </el-table-column>
-            <el-table-column prop="start_at" sortable label="启用时间">
+            <!--<el-table-column prop="start_at" sortable label="启用时间">
               <template slot-scope="scope" v-if="scope.row.start_at">
               {{scope.row.start_at | date(2)}}
               </template>
-            </el-table-column>
             </el-table-column>
             <el-table-column label="状态">
               <template slot-scope="scope">
                 <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`" @change="status(scope.row)"></el-switch>
               </template>
-            </el-table-column>
+            </el-table-column>-->
             <el-table-column label="操作" width="150">
               <template slot-scope="scope">
                 <el-button type="text" size="small" @click="editShow(scope.row)">修改</el-button>
@@ -67,7 +66,7 @@
         </div>
         <div class="table">
           <el-table :data="businessData" stripe style="width: 100%">
-            <el-table-column prop="name" label="所属品牌"></el-table-column>
+            <el-table-column prop="name" label="商家"></el-table-column>
             <el-table-column prop="device_cnt" label="件数"></el-table-column>
             <el-table-column label="操作" width="150">
               <template slot-scope="scope">
@@ -85,7 +84,7 @@
      <!-- 新增货盘 -->
     <el-dialog :title="title" :visible.sync="addPallet" @close="closeDialog('addDevice')">
       <el-form label-width="80px" :model="addDevice" class="demo-ruleForm" ref="addDevice" :rules="rules">
-        <el-form-item label="硬件编号" prop="device_id">
+        <el-form-item label="设备编号" prop="device_id">
           <el-input style="width:400px;" v-model="addDevice.device_id"></el-input>
         </el-form-item>
         <el-form-item label="版本" prop="version">
@@ -120,12 +119,12 @@
 </template>
 
 <script>
-import equipmentApi from '../../api/equipment'
+import equipmentApi from '../../api/faceDevice'
 import businessApi from '../../api/business'
 import storage from '../../utils/storage'
 
 export default {
-  name: 'pallet',
+  name: 'face',
   data () {
     return {
       title: '新增人脸识别设备',
@@ -395,7 +394,7 @@ export default {
       this.addPallet = false
       this.title = '新增人脸识别设备'
       this.addButton = true
-      this.$refs[formName].resetFields()
+      this.$refs.addDevice.clearValidate();
     },
     edit (formName) {
       this.$refs[formName].validate((valid) => {
