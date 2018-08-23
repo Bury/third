@@ -202,8 +202,9 @@ const cityOptions = [
       })
     },
     //切换分页
-    handleCurrentChange(){
-
+    handleCurrentChange(val){
+      this.$data.list.page = val;
+      this.dataList();
     },
     //时间转为秒
     getS(value){

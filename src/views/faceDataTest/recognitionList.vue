@@ -48,6 +48,10 @@
         <el-button
           size="mini"
           @click="checkOut(scope.row)">查看</el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -87,6 +91,10 @@
         },
         checkOut(value){
           this.$router.replace({name: 'RecognitionResultsFound', params: {id: value.id}})
+        },
+      //  删除
+        handleDelete(){
+            
         },
 
       }

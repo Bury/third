@@ -246,6 +246,10 @@
           </template>
         </el-table-column>
       </el-table>
+      <div class="pages" v-if="pages.pageCount > 0">
+        <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+        </el-pagination>
+      </div>
       <el-dialog :title="dialogTitle" :visible.sync="FormVisible">
         <el-form  label-width="180px" class="demo-ruleForm">
           <p>是否取消此项为{{errText}}?</p>

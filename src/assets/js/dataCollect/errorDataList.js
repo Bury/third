@@ -173,30 +173,6 @@ export default {
     },
     //数据列表
     dataList(){
-      // let list = {
-      //   'merchant_id':'',
-      //   'store_id':'',
-      //   'device_id':'',
-      //   'st_time':'',
-      //   'ed_time':'',
-      //   'st_age':'',
-      //   'ed_age':'',
-      //   'gender':'',
-      //   'completeness':'',
-      //   'occlusion':'',
-      //   'pitch_st': '',
-      //   'pitch_ed': '',
-      //   'yaw_st': '',
-      //   'yaw_ed': '',
-      //   'roll_st': '',
-      //   'roll_ed': '',
-      //   'illumination_st': '',
-      //   'illumination_ed': '',
-      //   'blur_st': '',
-      //   'blur_ed': '',
-      //   'page':1,
-      //   'page_size':10,
-      // }
       let qs = require('querystring')
       dataCollectApi.dataListFace(qs.stringify(this.$data.list)).then((response) => {
         console.log(response.data.data.list);
@@ -205,8 +181,9 @@ export default {
       })
     },
     //切换分页
-    handleCurrentChange(){
-
+    handleCurrentChange(val){
+      this.$data.list.page = val;
+      this.dataList();
     },
     //选择全部，性别等
     clickAll(){
