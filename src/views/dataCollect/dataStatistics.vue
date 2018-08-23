@@ -3,13 +3,13 @@
     <div class="top-box">
       <el-form :inline="true" class="demo-form-inline" size="mini">
         <el-form-item label="门店">
-          <el-select v-model="storeId" placeholder="请选门店">
+          <el-select v-model="guestParameters.store_id" placeholder="请选门店">
             <el-option v-for="equipmentsName in equipmentsList" :key="equipmentsName.id" :label="equipmentsName.name"
                        :value="equipmentsName.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="安装位置">
-          <el-select v-model="location" placeholder="请选择安装位置">
+          <el-select v-model="guestParameters.device_id" placeholder="请选择安装位置">
             <el-option v-for="locationName in locationList" :key="locationName.id" :label="locationName.name"
                        :value="locationName.id"></el-option>
           </el-select>
@@ -55,7 +55,9 @@
             :picker-options="pickerOptionsSet">
           </el-date-picker>
         </el-form-item>
-
+        </el-form-item>
+         <el-button type="primary" size="mini" @click="onSubmit">查询</el-button>
+        </el-form-item>
       </el-form>
       <el-tabs v-model="timeType" type="card" @tab-click="cateChanged">
         <el-tab-pane label="日统计" name="day"></el-tab-pane>
@@ -65,9 +67,9 @@
         <el-tab-pane label="自定义统计" name="userDefined"></el-tab-pane>
       </el-tabs>
     </div>
-    <div>
-      <el-radio-group v-model="radio3">
-        <el-radio-button label="姿态角度" style="margin-left: 20rem;margin-top: 3rem"></el-radio-button>
+    <div class="radioGroup">			
+      <el-radio-group v-model="radioType" @change="selectType">
+        <el-radio-button label="姿态角度" style="margin-left: 2rem;margin-top: 3rem"></el-radio-button>
         <el-radio-button label="模糊度" style="margin-left: 2rem;border-left:1px solid #dcdfe6;border-radius: 4px"></el-radio-button>
         <el-radio-button label="光照值" style="margin-left: 2rem;border-left:1px solid #dcdfe6;"></el-radio-button>
         <el-radio-button label="脸完整度" style="margin-left: 2rem;border-left:1px solid #dcdfe6;"></el-radio-button>
@@ -75,7 +77,7 @@
       </el-radio-group>
     </div>
     <div>
-      <vue-highcharts :options="options" ref="lineCharts"></vue-highcharts>
+      <vue-highcharts :options="options" ref="pieCharts"></vue-highcharts>
       <button @click="load">load</button>
     </div>
   </div>
@@ -84,5 +86,10 @@
 <script src="@/assets/js/dataCollect/dataStatistics.js"></script>
 
 <style scoped>
-
+  .radioGroup{
+		text-align: center;
+		padding-bottom: 20px;
+		background-color: #fff;
+	}
+ 
 </style>

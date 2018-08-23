@@ -1,6 +1,6 @@
 import * as utils from '@/utils/index'
 import VueHighcharts from 'vue2-highcharts'
-
+import dataCollectApi from '@/api/dataCollect'
 const asyncData = {
   name: '分布率',
   marker: {
@@ -45,19 +45,20 @@ export default {
       ageData:[],
       guestGenderData:[],
       guestFromData:[],
-      radio3:'',
+      radioType:'姿态角度',
       guestParameters:{
-        begin_time:'',
-        end_time:'',
+				merchant_id:1,
+				store_id:'',
+				device_id:'',				
+        st_time:'',
+        ed_time:'',
+				tj_type:'blur'
       },
       pickerOptionsSet:{
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6
         }
       },
-      storeId:'',
-      location:'',
-      input:'',
       radio:2,
       noFilter:true,
       yesFilter:false,
@@ -70,14 +71,6 @@ export default {
         {name:'下方',id:2}
       ],
       checkList:[],
-      tableData3: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄',
-        sex:'男',
-        f:15,
-
-      }],
       options: {
         chart: {
           type: 'pie'
@@ -115,9 +108,9 @@ export default {
 
   created:function(){
     // 刷新时，获取动态数据 设置navmenu
-    let templates = this.$parent
-    templates.navMenu = this.$route.name
-    templates.upperLevelMenu = ''
+    let templates = this.$parent;
+    templates.navMenu = this.$route.name;
+    templates.upperLevelMenu = '';
     this.setData();
   },
 
@@ -129,42 +122,65 @@ export default {
       return  formatTimeS
     },
 
-    //客流量
-    getCustomer(parameters){
-
-    },
-
     //到店人数
     storeStatistics(d){
       let timeData = {
-        time_start:d.begin_time,
-        time_end:d.end_time,
+        time_start:d.st_time,
+        time_end:d.ed_time,
       };
 
     },
+    
+    //加载饼状图
+    pieLoading(value){
+      let pieCharts = this.$refs.pieCharts;
+      pieCharts.delegateMethod('showLoading', 'Loading...');
+      pieCharts.removeSeries();        
+      setTimeout(() => {        
+        pieCharts.hideLoading();
+        pieCharts.addSeries({
+        	name:"模糊度",
+        	data: value
+        });
+      }, 2000)
+    },
 
     //特征
-    statisticsFeature(parameters, types){
-      let list = {
-        begin_time: parameters.begin_time,
-        end_time: parameters.end_time,
-        feature: types
-      }
-      console.log(list)
+    statisticsFeature(){
+		  let qs = require('querystring');
+			dataCollectApi.getDataTj(qs.stringify(this.$data. guestParameters)).then((res) => {
+				 if(res.data.errno === 0){
+				 	 if(res.data.data.length > 0){
+				 	 	 let pieData = [];
+				 	 	 let resData = res.data.data;
+				 	 	 for(let i=0;i<resData.length;i++){
+				 	 	 	 pieData.push({name:resData[i].label,y:resData[i].ratio})
+				 	 	 }
+				 	 	 this.pieLoading(pieData);
+				 	 }
+				 }else{
+				 	 this.$message(res.data.msg)
+				 }
+			})    
 
+    },
+    
+    //类型切换
+    selectType(val){
+    	console.log(val)
     },
 
     //搜索
     onSubmit(){
       if(this.$data.ctrlTimeType[0]){
         if(this.$data.day == null) { return false}
-        this.$data.guestParameters.begin_time = this.getS(this.$data.day);
-        this.$data.guestParameters.end_time =   this.getS(this.$data.day) + 86399;
+        this.$data.guestParameters.st_time = this.getS(this.$data.day);
+        this.$data.guestParameters.ed_time =   this.getS(this.$data.day) + 86399;
 
       }else if(this.$data.ctrlTimeType[1]){
         if(this.$data.week == null) { return false}
-        this.$data.guestParameters.begin_time = this.getS(this.$data.week);
-        this.$data.guestParameters.end_time =   this.getS(this.$data.week) + 604799;
+        this.$data.guestParameters.st_time = this.getS(this.$data.week);
+        this.$data.guestParameters.ed_time =   this.getS(this.$data.week) + 604799;
 
       }else if(this.$data.ctrlTimeType[2]){
         if(this.$data.month== null) { return false}
@@ -173,15 +189,15 @@ export default {
         let m = t.getMonth() + 1;
         let y = t.getFullYear();
         m === 12 ? (nexty = y + 1,nextm = 1):(nexty = y,nextm = m + 1)
-        this.$data.guestParameters.begin_time = t.getTime() / 1000;
-        this.$data.guestParameters.end_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
+        this.$data.guestParameters.st_time = t.getTime() / 1000;
+        this.$data.guestParameters.ed_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
 
       }else if(this.$data.ctrlTimeType[3]){
         if(this.$data.year == null) {return false;}
         let yearDate = new Date(this.$data.year);
         let y = yearDate.getFullYear();
-        this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
-        this.$data.guestParameters.end_time =  this.getS(`${y}/12/31 23:59:59`);
+        this.$data.guestParameters.st_time = this.getS(`${y}/01/01 00:00:00`);
+        this.$data.guestParameters.ed_time =  this.getS(`${y}/12/31 23:59:59`);
 
       }else if(this.$data.ctrlTimeType[4]){
         if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
@@ -190,8 +206,8 @@ export default {
         }else{
           this.$data.noTimeHide = false;
         }
-        this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
-        this.$data.guestParameters.end_time =  utils.getDateTime(this.userDefined[1]);
+        this.$data.guestParameters.st_time = utils.getDateTime(this.userDefined[0]);
+        this.$data.guestParameters.ed_time =  utils.getDateTime(this.userDefined[1]);
 
       }
       this.requestData();
@@ -221,33 +237,33 @@ export default {
       let weekd  = t.getDay();
       switch (val){
         case "day":
-          this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`);
-          this.$data.guestParameters.end_time =  this.getS(`${y}/${m}/${d} 23:59:59`);
-          this.$data.day = this.modelDate(this.$data.guestParameters.begin_time)
+          this.$data.guestParameters.st_time = this.getS(`${y}/${m}/${d} 00:00:00`);
+          this.$data.guestParameters.ed_time =  this.getS(`${y}/${m}/${d} 23:59:59`);
+          this.$data.day = this.modelDate(this.$data.guestParameters.st_time)
           break;
         case "week":
           if(weekd === 0){ weekd = 7 }
-          this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`) - 86400*(weekd-1);
-          this.$data.guestParameters.end_time =  this.getS(`${y}/${m}/${d} 23:59:59`) + 86400*(7 - weekd);
-          this.$data.week =  this.modelDate(this.$data.guestParameters.begin_time)
+          this.$data.guestParameters.st_time = this.getS(`${y}/${m}/${d} 00:00:00`) - 86400*(weekd-1);
+          this.$data.guestParameters.ed_time =  this.getS(`${y}/${m}/${d} 23:59:59`) + 86400*(7 - weekd);
+          this.$data.week =  this.modelDate(this.$data.guestParameters.st_time)
           break;
         case "month":
           let nexty,nextm;
           m === 12 ? (nexty = y + 1,nextm = 1):(nexty = y,nextm = m + 1)
-          this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/01 00:00:00`);
-          this.$data.guestParameters.end_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
-          this.$data.month =  this.modelDate(this.$data.guestParameters.begin_time)
+          this.$data.guestParameters.st_time = this.getS(`${y}/${m}/01 00:00:00`);
+          this.$data.guestParameters.ed_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
+          this.$data.month =  this.modelDate(this.$data.guestParameters.st_time)
           break;
         case "year":
-          this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
-          this.$data.guestParameters.end_time =  this.getS(`${y}/12/31 23:59:59`);
-          this.$data.year =  this.modelDate(this.$data.guestParameters.begin_time)
+          this.$data.guestParameters.st_time = this.getS(`${y}/01/01 00:00:00`);
+          this.$data.guestParameters.ed_time =  this.getS(`${y}/12/31 23:59:59`);
+          this.$data.year =  this.modelDate(this.$data.guestParameters.st_time)
           break;
         case "select":
           if(this.$data.userDefined !== null && this.$data.userDefined.length !== 0){
             this.$data.noTimeHide = false;
-            this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
-            this.$data.guestParameters.end_time =  utils.getDateTime(this.userDefined[1]);
+            this.$data.guestParameters.st_time = utils.getDateTime(this.userDefined[0]);
+            this.$data.guestParameters.ed_time =  utils.getDateTime(this.userDefined[1]);
           }else{
             this.$data.noTimeHide = true;
           }
@@ -258,47 +274,45 @@ export default {
     setData(){
       if(this.$data.ctrlTimeType[0]){
         //日
-
-        this.getBeginEnd("day")
-        this.requestData();
+        this.getBeginEnd("day");
+        this.statisticsFeature();
         return false;
       }
       if(this.$data.ctrlTimeType[1]){
         //周
         this.getBeginEnd("week")
-        this.requestData();
+        this.statisticsFeature();
         return false;
 
       }
       if(this.$data.ctrlTimeType[2]){
         //月
         this.getBeginEnd("month")
-        this.requestData();
+        this.statisticsFeature();
         return false;
       }
       if(this.$data.ctrlTimeType[3]){
         //年
         this.getBeginEnd("year")
-        this.requestData();
+        this.statisticsFeature();
         return false;
       }
       if(this.$data.ctrlTimeType[4]){
         //自定义
         this.getBeginEnd("select")
-        this.requestData();
+        this.statisticsFeature();
         return false;
       }
-
+     
     },
 
     requestData(){
-      this.getCustomer(this.$data.guestParameters);
-      this.statisticsFeature(this.$data.guestParameters, 'face');
-      this.statisticsFeature(this.$data.guestParameters, 'buy');
-      this.statisticsFeature(this.$data.guestParameters, 'age');
-      this.statisticsFeature(this.$data.guestParameters, 'gender');
-      this.statisticsFeature(this.$data.guestParameters, 'camera');
-      this.storeStatistics(this.$data.guestParameters)
+//       this.statisticsFeature(this.$data.guestParameters, 'face');
+//       this.statisticsFeature(this.$data.guestParameters, 'buy');
+//       this.statisticsFeature(this.$data.guestParameters, 'age');
+//       this.statisticsFeature(this.$data.guestParameters, 'gender');
+//       this.statisticsFeature(this.$data.guestParameters, 'camera');
+//       this.storeStatistics(this.$data.guestParameters)
     },
 //操作
     add(){

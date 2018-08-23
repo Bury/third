@@ -108,4 +108,13 @@ export default {
       })
     })
   },
+	getDataTj(list) {
+		return new Promise((resolve, reject) => {
+			axios.post(global.DATA_TJ, list).then((response) => {
+				resolve(response)
+			}).catch((error) => {
+				reject(error)
+			})
+		})
+	},	
 }

@@ -47,6 +47,17 @@
           </el-breadcrumb-item>
           <el-breadcrumb-item>识别结果查看</el-breadcrumb-item>
         </el-breadcrumb>
+				
+				 <!--监控数据 -->
+				 <el-breadcrumb v-if="navMenu === 'EyeDataList'" separator="/">
+				 	<el-breadcrumb-item>监控数据</el-breadcrumb-item>
+				 	<el-breadcrumb-item>数据列表</el-breadcrumb-item>
+				 </el-breadcrumb>
+				 <el-breadcrumb v-if="navMenu === 'TimeFrameList'" separator="/">
+				 <el-breadcrumb-item>监控数据</el-breadcrumb-item>
+				 <el-breadcrumb-item>时段列表</el-breadcrumb-item>
+				 </el-breadcrumb>
+				 
         <!--鹰眼数据-->
         <el-breadcrumb v-if="navMenu === 'DataSetting'" separator="/">
           <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
