@@ -18,7 +18,7 @@
           <el-button icon="el-icon-refresh" @click="reset"></el-button>
           <div class="add">
             <el-button type="primary" @click="setVersion = true">设置版本号</el-button>
-            <el-button type="primary" @click="addPallet = true">新增</el-button>
+            <el-button type="primary" @click="newAddDevice">新增</el-button>
             <el-button type="primary" @click="importOrder">批量导入</el-button>
             <input type="file" @change="fileUpload" id='uploadFile'>
           </div>
@@ -357,6 +357,15 @@ export default {
         }
       })
     },
+    newAddDevice(){
+        this.$data.addDevice = {
+          device_id: '',
+          belong_mid: '',
+          version: '',
+          status: 1
+        }
+        this.addPallet = true;
+    },
     // 新增设备
     add (formName) {
       this.$refs[formName].validate((valid) => {
@@ -365,7 +374,7 @@ export default {
           equipmentApi.addDevice(qs.stringify(this.addDevice)).then((response) => {
             let returnData = response.data
             if (returnData.errno === 0) {
-              this.addPallet = false
+              this.addPallet = false;
               this.request()
             } else {
               this.$alert(returnData.msg, {
