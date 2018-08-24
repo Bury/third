@@ -214,14 +214,17 @@
               center: true
             });
           }else{
-            console.log(this.$data.idKeyList);
             let deleArry = this.$data.idKeyList.join(',');
-            console.log(deleArry);
             let list = {
               'ids':deleArry,
-            }
-            let qs = require('querystring')
-            faceDataApi.delteeFaceLit(qs.stringify(list)).then((response) => {
+            };
+            let qs = require('querystring');
+            this.$confirm("确认删除？","提示",{
+              confirmButtonText:'确定',
+              cancelButtonText:'取消',
+              type:'wraning'
+            }).then(() => {
+              faceDataApi.delteeFaceLit(qs.stringify(list)).then((response) => {
               console.log(response.data);
               if(response.data.errno === 0){
                 this.$message({
@@ -232,7 +235,12 @@
 
                 this.List();
               }
+              })
+            }).catch(() =>{
+                
             })
+            
+            
           }
         },
         //识别查找
@@ -263,23 +271,31 @@
           this.$data.groupList = [];
         },
         //删除
-        handleDelete(value){
-          let list = {
-            'ids':value.id ,
-          }
-          let qs = require('querystring')
-          faceDataApi.delteeFaceLit(qs.stringify(list)).then((response) => {
-            console.log(response.data);
+        handleDelete(value){           
+          this.$confirm("确认删除？","提示",{
+            confirmButtonText:'确定',
+            cancelButtonText:'取消',
+            type:'wraning'
+          }).then(() => {
+            let list = {
+             'ids':value.id 
+            };
+            let qs = require('querystring');
+            faceDataApi.delteeFaceLit(qs.stringify(list)).then((response) => {
             if(response.data.errno === 0){
               this.$message({
                 message: '删除成功',
                 type: 'success',
                 center: true
               });
-
               this.List();
-            }
+            };
+            })
+          }).catch(() => {
+            
           })
+
+          
         },
         //选取识别，确认查看
         submitForm(){

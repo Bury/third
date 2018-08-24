@@ -44,4 +44,7 @@ a {
 a:focus {
   outline :none;
 }
+ul,li{
+	list-style: none;
+}
 </style>

@@ -190,10 +190,16 @@ export default {
       this.request()
     },
     closeDialog () {
-      this.addVisible = false
-      this.title = '新增商家'
-      this.addButton = true
-      this.$refs[formName].resetFields()
+      this.addVisible = false;
+      this.title = '新增商家';
+      this.addButton = true;
+      this.$data.add = {
+        name: '',
+        fullname: '',
+        domain: '',
+        remark: ''
+      };
+      this.$refs.add.clearValidate();
     },
     // 删除
     handleDele (row) {
@@ -281,8 +287,9 @@ export default {
     addForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let qs = require('querystring')
-          businessApi.addBusiness(qs.stringify(this.add)).then((response) => {
+          let qs = require('querystring');
+          console.log(this.$data.add)
+          businessApi.addBusiness(qs.stringify(this.$data.add)).then((response) => {
             let returnData = response.data
             if (returnData.errno === 0) {
               this.addVisible = false

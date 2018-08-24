@@ -1,30 +1,10 @@
-import * as utils from '@/utils/index'
-import VueHighcharts from 'vue2-highcharts'
-import dataCollectApi from '@/api/dataCollect'
-const asyncData = {
-  name: '分布率',
-  marker: {
-    symbol: 'square'
-  },
-  data: [{
-    name:'a',
-    y:12
-  },{
-    name:'b',
-    y:30
-  },{
-    name:'c',
-    y:28
-  },{
-    name:'d',
-    y:30
-  },
-  ]
-}
+import * as utils from '@/utils/index';
+import dataCollectApi from '@/api/dataCollect';
+import dataCharts from '@/views/dataCollect/dataCharts';
 export default {
   name: "data-statistics",
   components: {
-    VueHighcharts
+    dataCharts
   },
 
   data () {
@@ -52,8 +32,9 @@ export default {
 				device_id:'',				
         st_time:'',
         ed_time:'',
-				tj_type:'blur'
+				tj_type:''
       },
+      changeFlag:false,
       pickerOptionsSet:{
         disabledDate(time) {
           return time.getTime() > Date.now() - 8.64e6
@@ -71,38 +52,6 @@ export default {
         {name:'下方',id:2}
       ],
       checkList:[],
-      options: {
-        chart: {
-          type: 'pie'
-        },
-        title: {
-          text: '模糊值 分布图'
-        },
-        subtitle: {
-          text: ''
-        },
-        tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        credits: {
-          enabled: false
-        },
-        plotOptions: {
-          pie: {
-            // allowPointSelect: true, //选中某块区域是否允许分离
-            // cursor: 'pointer',
-            dataLabels: {
-                enabled: false //是否直接呈现数据 也就是外围显示数据与否
-            },
-            showInLegend: true,
-
-            // dataLabels: {
-            //   enabled: true
-            // },
-          }
-        },
-        series: []
-      },
     }
   },
 
@@ -129,45 +78,22 @@ export default {
         time_end:d.ed_time,
       };
 
-    },
-    
-    //加载饼状图
-    pieLoading(value){
-      let pieCharts = this.$refs.pieCharts;
-      pieCharts.delegateMethod('showLoading', 'Loading...');
-      pieCharts.removeSeries();        
-      setTimeout(() => {        
-        pieCharts.hideLoading();
-        pieCharts.addSeries({
-        	name:"模糊度",
-        	data: value
-        });
-      }, 2000)
-    },
-
-    //特征
-    statisticsFeature(){
-		  let qs = require('querystring');
-			dataCollectApi.getDataTj(qs.stringify(this.$data. guestParameters)).then((res) => {
-				 if(res.data.errno === 0){
-				 	 if(res.data.data.length > 0){
-				 	 	 let pieData = [];
-				 	 	 let resData = res.data.data;
-				 	 	 for(let i=0;i<resData.length;i++){
-				 	 	 	 pieData.push({name:resData[i].label,y:resData[i].ratio})
-				 	 	 }
-				 	 	 this.pieLoading(pieData);
-				 	 }
-				 }else{
-				 	 this.$message(res.data.msg)
-				 }
-			})    
-
-    },
+    },       
     
     //类型切换
     selectType(val){
-    	console.log(val)
+    	if(val == "姿态角度"){
+    		this.$data.guestParameters.tj_type = "";
+    	}else if(val == "模糊度"){
+    		this.$data.guestParameters.tj_type = "blur";
+    	}else if(val == "光照值"){
+    		this.$data.guestParameters.tj_type = "illumination";
+    	}else if(val == "脸完整度"){
+    		this.$data.guestParameters.tj_type = "completeness";
+    	}else if(val == "遮挡"){
+    		this.$data.guestParameters.tj_type = "occlusion";
+    	}
+    	this.$data.changeFlag = !this.$data.changeFlag;
     },
 
     //搜索
@@ -210,7 +136,7 @@ export default {
         this.$data.guestParameters.ed_time =  utils.getDateTime(this.userDefined[1]);
 
       }
-      this.requestData();
+      this.$data.changeFlag = !this.$data.changeFlag;
     },
 
     /*
@@ -222,6 +148,7 @@ export default {
       this.$data.ctrlTimeType[nowIdx] = true;
       (nowIdx !== 4) && (this.$data.noTimeHide = false);
       this.setData();
+      this.$data.changeFlag = !this.$data.changeFlag;
     },
 
     //绑定默认时间
@@ -275,32 +202,27 @@ export default {
       if(this.$data.ctrlTimeType[0]){
         //日
         this.getBeginEnd("day");
-        this.statisticsFeature();
         return false;
       }
       if(this.$data.ctrlTimeType[1]){
         //周
         this.getBeginEnd("week")
-        this.statisticsFeature();
         return false;
 
       }
       if(this.$data.ctrlTimeType[2]){
         //月
         this.getBeginEnd("month")
-        this.statisticsFeature();
         return false;
       }
       if(this.$data.ctrlTimeType[3]){
         //年
         this.getBeginEnd("year")
-        this.statisticsFeature();
         return false;
       }
       if(this.$data.ctrlTimeType[4]){
         //自定义
         this.getBeginEnd("select")
-        this.statisticsFeature();
         return false;
       }
      
@@ -332,14 +254,6 @@ export default {
         this.$data.noFilter = true;
       }
 
-    },
-    load(){
-      let lineCharts = this.$refs.lineCharts;
-      lineCharts.delegateMethod('showLoading', 'Loading...');
-      setTimeout(() => {
-        lineCharts.addSeries(asyncData);
-        lineCharts.hideLoading();
-      }, 2000)
     },
   }
 }
