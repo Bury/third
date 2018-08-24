@@ -118,4 +118,13 @@ export default {
       })
     })
   },
+  faceGroupDelete(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.FACE_SRLUT_DELETE, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
 }

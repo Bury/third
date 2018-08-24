@@ -97,6 +97,8 @@ global.FACE_SEARCH_SURE = `${SERVER_IP}${COMMON}test-face/search`
 global.FACE_SRLUT = `${SERVER_IP}${COMMON}test-search/list`
 //详情
 global.FACE_SRLUT_DETAIL = `${SERVER_IP}${COMMON}test-search/detail`
+//删除
+global.FACE_SRLUT_DELETE= `${SERVER_IP}${COMMON}test-search/delete`
 
 //鹰眼数据/基准设置
 global.SETTING_SAVE = `${SERVER_IP}hawkeye/datum/save`

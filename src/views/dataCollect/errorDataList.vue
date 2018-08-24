@@ -101,16 +101,16 @@
             <h4 style="margin-top: 3rem">姿态角度:</h4>
             <div style="margin-left: 2rem">
               <div class="firstTop">
-                <p>Pitch上限范围:{{ruleForm.pitchA}}</p>
-                <p style="margin-left: 2rem">Pitch下限范围:{{ruleForm.pitchB}}</p>
+                <p>上下俯仰上限范围:{{ruleForm.pitchA}}</p>
+                <p style="margin-left: 2rem">上下俯仰下限范围:{{ruleForm.pitchB}}</p>
               </div>
               <div class="firstTop">
-                <p>roll上限范围:{{ruleForm.rollA}}</p>
-                <p style="margin-left: 2rem">roll下限范围:{{ruleForm.rollB}}</p>
+                <p>左右旋转上限范围:{{ruleForm.rollA}}</p>
+                <p style="margin-left: 2rem">左右旋转下限范围:{{ruleForm.rollB}}</p>
               </div>
               <div class="firstTop">
-                <p>yaw上限范围:{{ruleForm.yawA}}</p>
-                <p style="margin-left: 2rem">yaw下限范围:{{ruleForm.yawB}}</p>
+                <p>平面旋转上限范围:{{ruleForm.yawA}}</p>
+                <p style="margin-left: 2rem">平面旋转下限范围:{{ruleForm.yawB}}</p>
               </div>
             </div>
           </div>
@@ -144,31 +144,31 @@
         :data="tableData3"
         border
         tooltip-effect="dark"
-        style="width: 100%"
+        style="width: 100%;text-align: center"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
         >
         </el-table-column>
         <el-table-column
-          label="序号" prop="id" width="50"
+          label="序号" prop="id" width="70" align="center"
         >
           <!--<template slot-scope="scope">{{ scope.row.num }}</template>-->
         </el-table-column>
         <el-table-column
-          label="来客编号" width="50"
+          label="来客编号" width="50" align="center"
         >
           <template slot-scope="scope">{{ scope.row.customer_id }}</template>
         </el-table-column>
         <el-table-column
-          label="照片" width="120"
+          label="照片" width="120" align="center"
         >
           <template slot-scope="scope">
             <img :src="scope.row.avatar" alt="" style="width: 6rem;height: 6rem">
           </template>
         </el-table-column>
         <el-table-column
-          label="性别" width="60"
+          label="性别" width="60" align="center"
         >
           <template slot-scope="scope">
             <span :class="{getRed:scope.row.gender_mark === 1}">{{ scope.row.gender == 1 ? '男' : '女' }}</span>
@@ -177,7 +177,7 @@
 
         </el-table-column>
         <el-table-column
-          label="年龄" width="60"
+          label="年龄" width="60" align="center"
         >
           <template slot-scope="scope">
             <span :class="{getRed:scope.row.age_mark === 1}">{{ scope.row.age }}</span>
@@ -185,7 +185,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="姿态角度"
+          label="姿态角度" align="center"
         >
           <template slot-scope="scope">
             <p :class="{getInYellow:scope.row.pitch_d === 1}">上下俯仰角度:{{ scope.row.pitch }}</p>
@@ -194,21 +194,21 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="光照" width="60"
+          label="光照" width="60" align="center"
         >
           <template slot-scope="scope" >
             <span :class="{getInYellow:scope.row.illumination_d === 1}">{{scope.row.illumination}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="模糊度"
+          label="模糊度" align="center"
         >
           <template slot-scope="scope">
             <span :class="{getInYellow:scope.row.blur_d === 1}">{{scope.row.blur}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="遮挡" width="200"
+          label="遮挡" width="200" align="center"
         >
           <template slot-scope="scope">
             <p :class="{getInYellow:scope.row.occlusion_d === 1}">左眼遮挡:{{ scope.row.left_eye }}</p>
@@ -221,14 +221,14 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="脸完整度" width="90"
+          label="脸完整度" width="90" align="center"
         >
           <template slot-scope="scope" style="text-align: center">
             <span :class="{getInYellow:scope.row.completeness_d === 1}">{{scope.row.completeness == 1 ? '完整' : '溢出'}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="识别结果" width="280"
+          label="识别结果" width="280" align="center"
         >
           <template slot-scope="scope">
             <div style="display: flex;align-items: center">
@@ -239,14 +239,14 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="创建时间"
+          label="创建时间" align="center"
         >
           <template slot-scope="scope">
             <span>{{scope.row.created_at | date(4)}}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="操作"
+          label="操作" align="center"
         >
           <template slot-scope="scope" style="display: flex">
             <el-button
@@ -299,6 +299,6 @@
     color: #bd2c00;
   }
   .getInYellow{
-    color: #CDEB8B;
+    color: #800080;
   }
 </style>

@@ -93,8 +93,15 @@
           this.$router.replace({name: 'RecognitionResultsFound', params: {id: value.id}})
         },
       //  删除
-        handleDelete(){
+        handleDelete(val){
+          let list = {
+            'id	':val.id,
+          }
+          let qs = require('querystring')
+          faceDataApi.faceGroupDelete(qs.stringify(list)).then((response) => {
+            console.log(response.data.data);
 
+          })
         },
 
       }
