@@ -11,8 +11,8 @@
           <el-select placeholder="版本" style="width:120px" v-model="searchOne.version">
             <el-option v-for="list in versionList" :key="list.id" :label="list.val" :value="list.id"></el-option>
           </el-select>
-          <el-input placeholder="搜索公司" style="width:120px" v-model="searchOne.company"></el-input>
-          <el-input placeholder="搜索门店" style="width:120px" v-model="searchOne.store"></el-input>
+          <!--<el-input placeholder="搜索公司" style="width:120px" v-model="searchOne.company"></el-input>
+          <el-input placeholder="搜索门店" style="width:120px" v-model="searchOne.store"></el-input>-->
           <el-input placeholder="搜索编号" style="width:120px" v-model="searchOne.number"></el-input>
           <el-button icon="el-icon-search" @click="request"></el-button>
           <el-button icon="el-icon-refresh" @click="reset"></el-button>
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import equipmentApi from '../../api/equipment'
+import equipmentApi from '../../api/faceDevice'
 import businessApi from '../../api/business'
 import storage from '../../utils/storage'
 

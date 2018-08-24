@@ -47,6 +47,17 @@
           </el-breadcrumb-item>
           <el-breadcrumb-item>识别结果查看</el-breadcrumb-item>
         </el-breadcrumb>
+				
+				 <!--监控数据 -->
+				 <el-breadcrumb v-if="navMenu === 'EyeDataList'" separator="/">
+				 	<el-breadcrumb-item>监控数据</el-breadcrumb-item>
+				 	<el-breadcrumb-item>数据列表</el-breadcrumb-item>
+				 </el-breadcrumb>
+				 <el-breadcrumb v-if="navMenu === 'TimeFrameList'" separator="/">
+				 <el-breadcrumb-item>监控数据</el-breadcrumb-item>
+				 <el-breadcrumb-item>时段列表</el-breadcrumb-item>
+				 </el-breadcrumb>
+				 
         <!--鹰眼数据-->
         <el-breadcrumb v-if="navMenu === 'DataSetting'" separator="/">
           <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
@@ -104,7 +115,7 @@
         <el-breadcrumb v-if="navMenu === 'Device'" separator="/">
           <el-breadcrumb-item>设备</el-breadcrumb-item>
           <el-breadcrumb-item><router-link :to="{ name: 'Pallet' }" replace>看货盘</router-link></el-breadcrumb-item>
-          <el-breadcrumb-item><router-link :to="{ name: 'Store', params: {'id': id}}" replace>{{ storeName }}</router-link></el-breadcrumb-item>
+          <el-breadcrumb-item><router-link :to="{ name: 'Store', params: {storeId: storeId}}" replace>{{ storeName }}</router-link></el-breadcrumb-item>
           <el-breadcrumb-item>{{ shopName }}</el-breadcrumb-item>
         </el-breadcrumb>
 
@@ -169,7 +180,8 @@ export default {
       orderSn: '',
       orderId: '',
       projectId: '',
-      splice: ''
+      splice: '',
+      storeId:''
     }
   },
   created: function () {

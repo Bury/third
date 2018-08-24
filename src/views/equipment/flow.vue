@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import equipmentApi from '../../api/equipment'
+import equipmentApi from '../../api/faceDevice'
 import businessApi from '../../api/business'
 import storage from '../../utils/storage'
 

@@ -45,6 +45,22 @@ global.ADD_VERSION = `${SERVER_IP}${COMMON}device-pallet/version-add`
 // post /v1/device-pallet/version-delete 删除版本号
 global.DELETE_VERSION = `${SERVER_IP}${COMMON}device-pallet/version-delete`
 
+
+//人脸识别设备
+//按门店列表
+global.DEVICE_FACE_LIST = `${SERVER_IP}${COMMON}device-face/list`
+//按商家查看
+global.DEVICE_FACE_LIST_MERCHANT = `${SERVER_IP}${COMMON}device-face/list-by-merchant`
+//新增
+global.DEVICE_FACE_CREATE = `${SERVER_IP}${COMMON}device-face/create`
+global.DEVICE_FACE_UPDATE = `${SERVER_IP}${COMMON}device-face/update/`
+global.DEVICE_FACE_VERSION_LIST = `${SERVER_IP}${COMMON}device-face/version-list`
+global.DEVICE_FACE_VERSION_ADD = `${SERVER_IP}${COMMON}device-face/version-add`
+global.DEVICE_FACE_DELTE = `${SERVER_IP}${COMMON}device-face/version-delte`
+global.DEVICE_FACE_IMPORT = `${SERVER_IP}${COMMON}device-face/import`
+global.FACE_LIST_MERCHANT_STORE = `${SERVER_IP}${COMMON}device-face/list-by-merchant-store`
+
+
 // post /v1/user/list 获取账号列表
 global.GET_USER_LIST = `${SERVER_IP}${COMMON}user/list`
 // post /v1/user/create 添加账号
@@ -120,6 +136,8 @@ global.DELET_FSCE = `${SERVER_IP}hawkeye/face/delete`
 global.CUSTOMER_RECORE = `${SERVER_IP}hawkeye/face/customer-recore`
 //查看百度人脸图
 global.BAIDU_FACE = `${SERVER_IP}hawkeye/face/baidu-recore`
+//统计
+global.DATA_TJ = `${SERVER_IP}hawkeye/face/data-tj`
 
 //要合并的数据列表
 global.NEED_MERGE = `${SERVER_IP}hawkeye/face/show-faces`

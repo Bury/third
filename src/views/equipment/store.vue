@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import equipmentApi from '../../api/equipment'
+import equipmentApi from '../../api/faceDevice'
 import storage from '../../utils/storage'
 
 export default {
@@ -46,6 +46,7 @@ export default {
   created: function () {
     // 刷新时，获取动态数据 设置navmenu
     let templates = this.$parent
+    console.log(this.$route.name)
     templates.navMenu = this.$route.name
     templates.storeName = storage.getSessionStorage('storeName')
     templates.upperLevelMenu = ''

@@ -12,7 +12,7 @@
 		<div class="table">
 			<el-table :data="tableData" stripe style="width: 100%" :default-sort = "{prop: 'created_at', prop: 'start_at'}">
 				<el-table-column prop="device_id" label="设备编号"></el-table-column>
-				<el-table-column prop='start_at' sortable label="启用时间">
+				<!--<el-table-column prop='start_at' sortable label="启用时间">
 					<template slot-scope="scope" v-if="scope.row.start_at">
 					{{scope.row.start_at | date(2)}}
 					</template>
@@ -21,7 +21,7 @@
 					<template slot-scope="scope">
 						<el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`" @change="status(scope.row)"></el-switch>
 					</template>
-				</el-table-column>
+				</el-table-column>-->
 				<el-table-column prop="created_at" sortable label="添加时间">
 					<template slot-scope="scope" v-if="scope.row.created_at">
 					{{scope.row.created_at | date(2)}}
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import equipmentApi from '../../api/equipment'
+import equipmentApi from '../../api/faceDevice'
 import storage from '../../utils/storage'
 
 export default {
@@ -59,6 +59,7 @@ export default {
   created: function () {
     // 刷新时，获取动态数据 设置navmenu
     let templates = this.$parent
+    console.log(this.$route.name)
     templates.navMenu = this.$route.name
 		templates.storeId =  storage.getSessionStorage('storeId')
 		templates.storeName = storage.getSessionStorage('storeName')

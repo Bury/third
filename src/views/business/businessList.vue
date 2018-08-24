@@ -11,21 +11,21 @@
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column prop="id" label="ID"></el-table-column>
         <el-table-column prop="name" label="商家名称"></el-table-column>
-        <el-table-column label="模块">
+        <!--<el-table-column label="模块">
           <template slot-scope="scope">
             <i class="el-icon-menu" @click="modules(scope.row)"></i>
           </template>
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column label="账号管理">
           <template slot-scope="scope">
             <i class="el-icon-edit-outline" @click="accountActive(scope.row)"></i>
           </template>
         </el-table-column>
-        <el-table-column label="状态">
+        <!--<el-table-column label="状态">
           <template slot-scope="scope">
             <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`" @change="statusSET(scope.row)"></el-switch>
           </template>
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="handleEdit(scope.row)">修改</el-button>

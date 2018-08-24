@@ -32,6 +32,11 @@ import FaceSampleManage from '../views/faceDataTest/faceSampleManage'
 import RecognitionList from '../views/faceDataTest/recognitionList'
 import RecognitionResult from '../views/faceDataTest/recognitionResult'
 import RecognitionResultsFound from '../views/faceDataTest/recognitionResultsFound'
+
+//监控数据
+import EyeDataList from '../views/eyeData/eyeDataList'
+import TimeFrameList from '../views/eyeData/timeFrameList'
+
 //测试数据
 import DataList from '../views/dataCollect/dataList'
 import MergeFace from '../views/dataCollect/mergeFace'
@@ -91,8 +96,14 @@ const router = new Router({
         {path:'MegerRecord/:id',name:'MegerRecord',component:MegerRecord},
         {path:'ArriveRecord/:id',name:'ArriveRecord',component:ArriveRecord},
       ]
-    },
-      {
+    },{
+			path:'eyeData',
+			component:Templates,
+			children:[
+				{path:'EyeDataList',name:'EyeDataList',component:EyeDataList},
+				{path:'TimeFrameList',name:'TimeFrameList',component:TimeFrameList}
+			]
+		},{
       path: 'equipment',
       component: Templates,
       children: [
