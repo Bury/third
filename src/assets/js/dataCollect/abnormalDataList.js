@@ -141,6 +141,7 @@ const cityOptions = [
     templates.navMenu = this.$route.name
     templates.upperLevelMenu = ''
     this.dataList();
+    this.getPartList();
   },
 
   methods: {
@@ -249,7 +250,9 @@ const cityOptions = [
       this.$data.list.device_id = '';
 
       //筛选信息
-      this.$data.list.pitch_st= this.$data.ruleForm.pitchA,
+        this.$data.list.store_id = this.$data.storeId ;
+        this.$data.list.device_id = this.$data.location;
+        this.$data.list.pitch_st= this.$data.ruleForm.pitchA,
         this.$data.list.pitch_ed=this.$data.ruleForm.pitchB,
         this.$data.list.yaw_st= this.$data.ruleForm.yawA,
         this.$data.list.yaw_ed= this.$data.ruleForm.yawB,
