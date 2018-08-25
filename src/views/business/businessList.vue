@@ -63,13 +63,16 @@
       </div>
     </el-dialog>
      <!-- 账号管理 -->
-    <el-dialog title="设置商家管理员账号" :visible.sync="accountVisible">
+    <el-dialog title="设置商家管理员账号" :visible.sync="accountVisible" @close="clearAccount">
       <el-form :model="account" label-width="80px" class="demo-ruleForm" ref="account" :rules="rulesAcc">
         <el-form-item label="账号" prop="username">
-          <el-input v-model="account.username"></el-input>
+          <el-input v-model.trim="account.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="account.password"></el-input>
+          <el-input v-model.trim="account.password"></el-input>
+        </el-form-item>
+        <el-form-item label="手机" prop="phone">
+          <el-input v-model.trim="account.phone"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -98,7 +101,8 @@ export default {
       account: {
         mid: '',
         username: '',
-        password: ''
+        password: '',
+        phone:''
       },
       searchKey: '',
       currentPage: '1',
@@ -128,6 +132,19 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' }
+        ],
+        phone: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          {
+	                	validator: (rule, value, callback) => {
+		                    if (value.match(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/)){
+		                        callback();
+		                    } else {
+		                        callback("请输入正确的手机号");
+		                    }
+	                	},
+	                	trigger: 'blur'
+	        }
         ]
       }
     }
@@ -200,6 +217,15 @@ export default {
         remark: ''
       };
       this.$refs.add.clearValidate();
+    },
+    clearAccount(){    	
+      this.$data.account = {
+      	mid: '',
+        username: '',
+        password: '',
+        phone:''
+      }
+    	this.$refs.account.clearValidate();
     },
     // 删除
     handleDele (row) {
