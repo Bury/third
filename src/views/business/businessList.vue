@@ -168,6 +168,7 @@ export default {
       businessApi.businessList(qs.stringify(list)).then((response) => {
         let returnData = response.data
         if (returnData.errno === 0) {
+        	console.log(response)
           this.tableData = returnData.data.list
           this.pages = returnData.data.pagination
         } else {
@@ -340,8 +341,10 @@ export default {
     },
     // 设置账号
     accountActive (row) {
+    	console.log(row)
       this.accountVisible = true
-      this.account.mid = row.id
+      this.account.mid = row.id;
+      this.account.phone = row.account_phone ? row.account_phone : '';
       this.account.username = row.account_name ? row.account_name : 'admin'
     },
     setAcc (formName) {
