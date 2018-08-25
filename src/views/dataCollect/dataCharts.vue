@@ -2,13 +2,13 @@
 	<div>
 		<ul class="chartUl">
 			<li>
-				<vue-highcharts :options="options" ref="firstChart"></vue-highcharts>
+				<vue-highcharts :highcharts="Highcharts" :options="options" ref="firstChart"></vue-highcharts>
 			</li>
 			<li v-show="isShowThree">
-				<vue-highcharts :options="secondOptions" ref="secondChart"></vue-highcharts>
+				<vue-highcharts :highcharts="Highcharts" :options="secondOptions" ref="secondChart"></vue-highcharts>
 			</li>
 			<li v-show="isShowThree">
-				<vue-highcharts :options="thirdOptions" ref="thirdChart"></vue-highcharts>
+				<vue-highcharts :highcharts="Highcharts" :options="thirdOptions" ref="thirdChart"></vue-highcharts>
 			</li>
 		</ul>
 
@@ -17,7 +17,10 @@
 
 <script>
 	import dataCollectApi from '@/api/dataCollect';
+	import Highcharts from 'highcharts';
+	import HighchartsNoData from 'highcharts-no-data-to-display';
 	import VueHighcharts from 'vue2-highcharts';
+	HighchartsNoData(Highcharts)
 	export default {
 		name: 'data-charts',
 		components: {
@@ -36,6 +39,7 @@
 		},
 		data() {
 			return {
+				Highcharts:Highcharts,
 				isShowThree: true,
 				options: {
 					chart: {
@@ -158,7 +162,12 @@
 			} else {
 				this.statisticsFeature();
 				this.$data.isShowThree = false;
-			}
+			};
+			Highcharts.setOptions({
+				lang:{
+					noData:"暂无数据"
+				}
+			});
 		},
 		methods: {
 			//姿态角度的请求

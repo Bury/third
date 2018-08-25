@@ -8,16 +8,16 @@
             <el-option label="已禁用" value="0"></el-option>
             <el-option label="已启用" value="1"></el-option>
           </el-select>
-          <el-select placeholder="版本" style="width:120px" v-model="searchOne.version">
+          <!-- <el-select placeholder="版本" style="width:120px" v-model="searchOne.version">
             <el-option v-for="list in versionList" :key="list.id" :label="list.val" :value="list.id"></el-option>
-          </el-select>
+          </el-select> -->
           <!--<el-input placeholder="搜索公司" style="width:120px" v-model="searchOne.company"></el-input>
           <el-input placeholder="搜索门店" style="width:120px" v-model="searchOne.store"></el-input>-->
           <el-input placeholder="搜索编号" style="width:120px" v-model="searchOne.number"></el-input>
           <el-button icon="el-icon-search" @click="request"></el-button>
           <el-button icon="el-icon-refresh" @click="reset"></el-button>
           <div class="add">
-            <el-button type="primary" @click="setVersion = true">设置版本号</el-button>
+            <!-- <el-button type="primary" @click="setVersion = true">设置版本号</el-button> -->
             <el-button type="primary" @click="newAddDevice">新增</el-button>
             <el-button type="primary" @click="importOrder">批量导入</el-button>
             <input type="file" @change="fileUpload" id='uploadFile'>
@@ -28,7 +28,7 @@
             <el-table-column prop="device_id" label="设备编号"></el-table-column>
             <el-table-column prop="merchant_name" label="商家"></el-table-column>
             <el-table-column prop="merchant_store_name" label="门店"></el-table-column>
-            <el-table-column prop="version_val" label="版本"></el-table-column>
+            <!-- <el-table-column prop="version_val" label="版本"></el-table-column> -->
             <el-table-column prop="created_at" sortable label="添加时间">
               <template slot-scope="scope" v-if="scope.row.created_at">
               {{scope.row.created_at | date(2)}}
@@ -87,11 +87,11 @@
         <el-form-item label="设备编号" prop="device_id">
           <el-input style="width:400px;" v-model="addDevice.device_id"></el-input>
         </el-form-item>
-        <el-form-item label="版本" prop="version">
+        <!-- <el-form-item label="版本" prop="version">
           <el-select placeholder="请选择版本" style="width:400px;" v-model="addDevice.version">
             <el-option v-for="list in versionList"  :key="list.id" :label="list.val" :value="list.id"></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="商家" prop="belong_mid">
           <el-select placeholder="请选择商家" style="width:400px;" v-model="addDevice.belong_mid">
             <el-option v-for="list in businessList" :key="list.id" :label="list.name" :value="list.id"></el-option>
