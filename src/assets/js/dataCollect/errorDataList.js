@@ -103,16 +103,16 @@ export default {
         'gender':'',
         'completeness':'',
         'occlusion':'',
-        'pitch_st': '',
-        'pitch_ed': '',
-        'yaw_st': '',
-        'yaw_ed': '',
-        'roll_st': '',
-        'roll_ed': '',
-        'illumination_st': '',
-        'illumination_ed': '',
-        'blur_st': '',
-        'blur_ed': '',
+        'st_pitch': '',
+        'ed_pitch': '',
+        'st_yaw': '',
+        'ed_yaw': '',
+        'st_roll': '',
+        'ed_roll': '',
+        'st_illumination': '',
+        'ed_illumination': '',
+        'st_blur': '',
+        'ed_blur': '',
         'occlusion':'',
         'un_angle':0,
         'un_illumination':0,
@@ -253,18 +253,49 @@ export default {
 
     //特征
     statisticsFeature(parameters, types){
-      let list = {
-        begin_time: parameters.begin_time,
-        end_time: parameters.end_time,
-        feature: types
+      // let list = {
+      //   begin_time: parameters.begin_time,
+      //   end_time: parameters.end_time,
+      //   feature: types
+      // }
+      // console.log(list)
+      if(types == 'face'){
+        this.$data.list.st_time = parameters.begin_time;
+        this.$data.list.ed_time = parameters.end_time;
+        this.dataList();
       }
-      console.log(list)
-
     },
 
     //搜索
     onSubmit(){
-
+      if(this.$data.timeType == 'all'){
+        this.$data.list.st_time = this.$data.userDefined[0] /1000;
+        this.$data.list.ed_time = this.$data.userDefined[1]/1000;
+        // console.log(this.$data.list.st_time);
+        // console.log(this.$data.list.ed_time);
+      }else if(this.$data.timeType == 'day'){
+        this.$data.list.st_time = this.getS(this.$data.day);
+        this.$data.list.ed_time = this.getS(this.$data.day) + 86399;
+      }else if(this.$data.timeType == 'week'){
+        this.$data.list.st_time = this.getS(this.$data.week);
+        this.$data.list.ed_time = this.getS(this.$data.week) + 604799;
+      }else if(this.$data.timeType == 'month'){
+        let nexty,nextm;
+        let t = new Date(this.$data.month);
+        let m = t.getMonth() + 1;
+        let y = t.getFullYear();
+        m === 12 ? (nexty = y + 1,nextm = 1):(nexty = y,nextm = m + 1)
+        this.$data.list.st_time = t.getTime() / 1000;
+        this.$data.list.ed_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
+      }else if(this.$data.timeType == 'year'){
+        let yearDate = new Date(this.$data.year);
+        let y = yearDate.getFullYear();
+        this.$data.list.st_time = this.getS(`${y}/01/01 00:00:00`);
+        this.$data.list.ed_time =  this.getS(`${y}/12/31 23:59:59`);
+      }else if(this.$data.timeType == 'userDefined'){
+        this.$data.list.st_time = this.$data.userDefined[0] /1000;
+        this.$data.list.ed_time = this.$data.userDefined[1]/1000;
+      }
       // this.requestData();
       console.log(this.$data.list);
       this.$data.list.merchant_id = '';
@@ -274,16 +305,16 @@ export default {
       //筛选信息
         this.$data.list.store_id = this.$data.storeId ;
         this.$data.list.device_id = this.$data.location;
-        this.$data.list.pitch_st= this.$data.ruleForm.pitchA,
-        this.$data.list.pitch_ed=this.$data.ruleForm.pitchB,
-        this.$data.list.yaw_st= this.$data.ruleForm.yawA,
-        this.$data.list.yaw_ed= this.$data.ruleForm.yawB,
-        this.$data.list.roll_st= this.$data.ruleForm.rollA,
-        this.$data.list.roll_ed=this.$data.ruleForm.rollB,
-        this.$data.list.illumination_st= this.$data.ruleForm.illA,
-        this.$data.list.illumination_ed=this.$data.ruleForm.illB,
-        this.$data.list.blur_st= this.$data.ruleForm.dimA,
-        this.$data.list.blur_ed= this.$data.ruleForm.dimB,
+        this.$data.list.st_pitch= this.$data.ruleForm.pitchA,
+        this.$data.list.ed_pitch=this.$data.ruleForm.pitchB,
+        this.$data.list.st_yaw= this.$data.ruleForm.yawA,
+        this.$data.list.ed_yaw= this.$data.ruleForm.yawB,
+        this.$data.list.st_roll= this.$data.ruleForm.rollA,
+        this.$data.list.ed_roll=this.$data.ruleForm.rollB,
+        this.$data.list.st_illumination= this.$data.ruleForm.illA,
+        this.$data.list.ed_illumination=this.$data.ruleForm.illB,
+        this.$data.list.st_blur= this.$data.ruleForm.dimA,
+        this.$data.list.ed_blur= this.$data.ruleForm.dimB,
         this.$data.list.occlusion= this.$data.ruleForm.keepOut,
         this.$data.list.completeness= this.$data.ruleForm.faceAll,
         //过滤异常的
@@ -333,7 +364,7 @@ export default {
       var nowIdx = tab.index;
       this.$data.ctrlTimeType = [false,false,false,false,false,false];
       this.$data.ctrlTimeType[nowIdx] = true;
-      (nowIdx !== 4) && (this.$data.noTimeHide = false);
+      (nowIdx !== 5) && (this.$data.noTimeHide = false);
       this.setData();
     },
 
@@ -436,6 +467,7 @@ export default {
 
     requestData(){
       this.getCustomer(this.$data.guestParameters);
+      this.statisticsFeature(this.$data.guestParameters, 'all');
       this.statisticsFeature(this.$data.guestParameters, 'face');
       this.statisticsFeature(this.$data.guestParameters, 'buy');
       this.statisticsFeature(this.$data.guestParameters, 'age');

@@ -144,3 +144,21 @@ global.NEED_MERGE = `${SERVER_IP}hawkeye/face/show-faces`
 //确认合并
 global.SURE_MERGE_F = `${SERVER_IP}hawkeye/face/pic-merge`
 
+//监控数据
+global.MONITORING_LIST = `${SERVER_IP}hawkeye/monitor/list`
+//创建
+global.MONITORING_CREAT = `${SERVER_IP}hawkeye/monitor/create`
+//删除
+global.MONITORING_DELET = `${SERVER_IP}hawkeye/monitor/delete`
+//编辑
+global.MONITORING_UPDATE = `${SERVER_IP}hawkeye/monitor/update`
+
+//时段数据
+global.MONITORING_TIME_LIST = `${SERVER_IP}hawkeye/monitor-time/list`
+//新建
+global.MONITORING_TIME_CREATE = `${SERVER_IP}hawkeye/monitor-time/create`
+//删除
+global.MONITORING_TIME_DELETE = `${SERVER_IP}hawkeye/monitor-time/delete`
+//编辑
+global.MONITORING_TIME_UPDATE = `${SERVER_IP}hawkeye/monitor-time/update`
+

@@ -120,6 +120,7 @@
       </el-table>
       <el-row>
         <el-col style="text-align: center">
+          <el-button type="primary" @click="backFirst()" style="margin-top: 3rem">返回</el-button>
           <button class="btn" @click="add()">保存</button>
         </el-col>
       </el-row>
@@ -133,9 +134,9 @@
     width: 5rem;
     height: 2.5rem;
     /*float: right;*/
-    /*margin-right: 5rem;*/
-    margin-top: 3rem;
-    margin-bottom: 1rem;
+    margin-left: 5rem;
+    /*margin-top: 3rem;*/
+    /*margin-bottom: 1rem;*/
     display: inline-block;
     padding: 6px 12px;
     font-size: 14px;

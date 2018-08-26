@@ -101,7 +101,7 @@ const router = new Router({
 			component:Templates,
 			children:[
 				{path:'EyeDataList',name:'EyeDataList',component:EyeDataList},
-				{path:'TimeFrameList',name:'TimeFrameList',component:TimeFrameList}
+				{path:'TimeFrameList/:id&&:partId',name:'TimeFrameList',component:TimeFrameList}
 			]
 		},{
       path: 'equipment',

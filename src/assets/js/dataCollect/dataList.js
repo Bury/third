@@ -28,7 +28,7 @@ export default {
       month:'',
       year:'',
       userDefined:[],
-      ctrlTimeType:[true,false,false,false,false],
+      ctrlTimeType:[true,false,false,false,false,false],
       chartClass:'line',
       guestData:{},
       guestVisitedInfoData:[],
@@ -108,16 +108,16 @@ export default {
         'gender':'',
         'completeness':'',
         'occlusion':'',
-        'pitch_st': '',
-        'pitch_ed': '',
-        'yaw_st': '',
-        'yaw_ed': '',
-        'roll_st': '',
-        'roll_ed': '',
-        'illumination_st': '',
-        'illumination_ed': '',
-        'blur_st': '',
-        'blur_ed': '',
+        'st_pitch': '',
+        'ed_pitch': '',
+        'st_yaw': '',
+        'ed_yaw': '',
+        'st_roll': '',
+        'ed_roll': '',
+        'st_illumination': '',
+        'ed_illumination': '',
+        'st_blur': '',
+        'ed_blur': '',
         'occlusion':'',
         'un_angle':0,
         'un_illumination':0,
@@ -227,13 +227,13 @@ export default {
     },
 
     //到店人数
-    storeStatistics(d){
-      let timeData = {
-        time_start:d.begin_time,
-        time_end:d.end_time,
-      };
-
-    },
+    // storeStatistics(d){
+    //   let timeData = {
+    //     time_start:d.begin_time,
+    //     time_end:d.end_time,
+    //   };
+    //
+    // },
 
     //特征
     statisticsFeature(parameters, types){
@@ -243,6 +243,9 @@ export default {
       //   feature: types
       // }
       // console.log(list)
+      // console.log(parameters);
+      // console.log(types);
+      // console.log(this.$data.userDefined);
       if(types == 'face'){
         this.$data.list.st_time = parameters.begin_time;
         this.$data.list.ed_time = parameters.end_time;
@@ -254,73 +257,62 @@ export default {
 
     //查询
     onSubmit(){
-      // if(this.$data.ctrlTimeType[0]){
-      //   if(this.$data.day == null) { return false}
-      //   this.$data.guestParameters.begin_time = this.getS(this.$data.day);
-      //   this.$data.guestParameters.end_time =   this.getS(this.$data.day) + 86399;
-      //
-      // }else if(this.$data.ctrlTimeType[1]){
-      //   if(this.$data.week == null) { return false}
-      //   this.$data.guestParameters.begin_time = this.getS(this.$data.week);
-      //   this.$data.guestParameters.end_time =   this.getS(this.$data.week) + 604799;
-      //
-      // }else if(this.$data.ctrlTimeType[2]){
-      //   if(this.$data.month== null) { return false}
-      //   let nexty,nextm;
-      //   let t = new Date(this.$data.month);
-      //   let m = t.getMonth() + 1;
-      //   let y = t.getFullYear();
-      //   m === 12 ? (nexty = y + 1,nextm = 1):(nexty = y,nextm = m + 1)
-      //   this.$data.guestParameters.begin_time = t.getTime() / 1000;
-      //   this.$data.guestParameters.end_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
-      //
-      // }else if(this.$data.ctrlTimeType[3]){
-      //   if(this.$data.year == null) {return false;}
-      //   let yearDate = new Date(this.$data.year);
-      //   let y = yearDate.getFullYear();
-      //   this.$data.guestParameters.begin_time = this.getS(`${y}/01/01 00:00:00`);
-      //   this.$data.guestParameters.end_time =  this.getS(`${y}/12/31 23:59:59`);
-      //
-      // }else if(this.$data.ctrlTimeType[4]){
-      //   if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
-      //     this.$data.noTimeHide = true;
-      //     return false;
-      //   }else{
-      //     this.$data.noTimeHide = false;
-      //   }
-      //   this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
-      //   this.$data.guestParameters.end_time =  utils.getDateTime(this.userDefined[1]);
-      //
-      // }
-      // this.requestData();
+      console.log(this.$data.userDefined);
+      // this.statisticsFeature();
+      console.log(this.$data.timeType);
+      if(this.$data.timeType == 'all'){
+        this.$data.list.st_time = this.$data.userDefined[0] /1000;
+        this.$data.list.ed_time = this.$data.userDefined[1]/1000;
+        // console.log(this.$data.list.st_time);
+        // console.log(this.$data.list.ed_time);
+      }else if(this.$data.timeType == 'day'){
+        this.$data.list.st_time = this.getS(this.$data.day);
+        this.$data.list.ed_time = this.getS(this.$data.day) + 86399;
+      }else if(this.$data.timeType == 'week'){
+        this.$data.list.st_time = this.getS(this.$data.week);
+        this.$data.list.ed_time = this.getS(this.$data.week) + 604799;
+      }else if(this.$data.timeType == 'month'){
+        let nexty,nextm;
+        let t = new Date(this.$data.month);
+        let m = t.getMonth() + 1;
+        let y = t.getFullYear();
+        m === 12 ? (nexty = y + 1,nextm = 1):(nexty = y,nextm = m + 1)
+        this.$data.list.st_time = t.getTime() / 1000;
+        this.$data.list.ed_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
+      }else if(this.$data.timeType == 'year'){
+        let yearDate = new Date(this.$data.year);
+        let y = yearDate.getFullYear();
+        this.$data.list.st_time = this.getS(`${y}/01/01 00:00:00`);
+        this.$data.list.ed_time =  this.getS(`${y}/12/31 23:59:59`);
+      }else if(this.$data.timeType == 'userDefined'){
+        this.$data.list.st_time = this.$data.userDefined[0] /1000;
+        this.$data.list.ed_time = this.$data.userDefined[1]/1000;
+      }
+
       console.log(this.$data.list);
       this.$data.list.merchant_id = '';
       this.$data.list.store_id = '';
       this.$data.list.device_id = '';
- 
+
       //筛选信息
         this.$data.list.store_id = this.$data.storeId ;
         this.$data.list.device_id = this.$data.location;
-        this.$data.list.pitch_st= this.$data.ruleForm.pitchA,
-        this.$data.list.pitch_ed=this.$data.ruleForm.pitchB,
-        this.$data.list.yaw_st= this.$data.ruleForm.yawA,
-        this.$data.list.yaw_ed= this.$data.ruleForm.yawB,
-        this.$data.list.roll_st= this.$data.ruleForm.rollA,
-        this.$data.list.roll_ed=this.$data.ruleForm.rollB,
-        this.$data.list.illumination_st= this.$data.ruleForm.illA,
-        this.$data.list.illumination_ed=this.$data.ruleForm.illB,
-        this.$data.list.blur_st= this.$data.ruleForm.dimA,
-        this.$data.list.blur_ed= this.$data.ruleForm.dimB,
+        this.$data.list.st_pitch= this.$data.ruleForm.pitchA,
+        this.$data.list.ed_pitch=this.$data.ruleForm.pitchB,
+        this.$data.list.st_yaw= this.$data.ruleForm.yawA,
+        this.$data.list.ed_yaw= this.$data.ruleForm.yawB,
+        this.$data.list.st_roll= this.$data.ruleForm.rollA,
+        this.$data.list.ed_roll=this.$data.ruleForm.rollB,
+        this.$data.list.st_illumination= this.$data.ruleForm.illA,
+        this.$data.list.ed_illumination=this.$data.ruleForm.illB,
+        this.$data.list.st_blur= this.$data.ruleForm.dimA,
+        this.$data.list.ed_blur= this.$data.ruleForm.dimB,
         this.$data.list.occlusion= this.$data.ruleForm.keepOut,
         this.$data.list.completeness= this.$data.ruleForm.faceAll,
       //过滤异常的
       console.log(this.$data.checkAll);
       console.log(this.$data.checkedCities);
-      // {id:0,'name':'姿态角度'},
-      // {id:1,'name':'光照'},
-      // {id:2,'name':'模糊度'},
-      // {id:3,'name':'遮挡'},
-      // {id:4,'name':'脸完整度'},
+
       if(this.$data.checkAll == false){
         if(this.$data.checkedCities.indexOf(0)){
           this.$data.list.un_angle = 0;
@@ -366,8 +358,10 @@ export default {
       var nowIdx = tab.index;
       this.$data.ctrlTimeType = [false,false,false,false,false,false];
       this.$data.ctrlTimeType[nowIdx] = true;
-      (nowIdx !== 4) && (this.$data.noTimeHide = false);
+      (nowIdx !== 5) && (this.$data.noTimeHide = false);
       this.setData();
+      console.log(nowIdx)
+      console.log(this.$data.ctrlTimeType)
       console.log(tab)
     },
 
@@ -377,6 +371,7 @@ export default {
       return d;
     },
     getBeginEnd(val){
+      console.log(val);
       let t = new Date();
       let y = t.getFullYear();
       let m = t.getMonth() + 1;
@@ -384,9 +379,15 @@ export default {
       let weekd  = t.getDay();
       switch (val){
         case "all":
-          // this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`);
-          // this.$data.guestParameters.end_time =  this.getS(`${y}/${m}/${d} 23:59:59`);
-          // this.$data.day = this.modelDate(this.$data.guestParameters.begin_time)
+          // if(this.$data.userDefined !== null && this.$data.userDefined.length !== 0){
+          //   this.$data.noTimeHide = false;
+          //   this.$data.guestParameters.begin_time = utils.getDateTime(this.userDefined[0]);
+          //   this.$data.guestParameters.end_time =  utils.getDateTime(this.userDefined[1]);
+          //   console.log(this.$data.guestParameters.begin_time);
+          //   console.log(this.$data.guestParameters.end_time);
+          // }else{
+          //   this.$data.noTimeHide = true;
+          // }
           break;
         case "day":
           this.$data.guestParameters.begin_time = this.getS(`${y}/${m}/${d} 00:00:00`);
@@ -426,14 +427,14 @@ export default {
     setData(){
       console.log(this.$data.ctrlTimeType[0])
       console.log(this.$data.ctrlTimeType[1])
-      if(this.$data.ctrlTimeType[0] === true){
+      if(this.$data.ctrlTimeType[0]){
         //all
         this.$data.list.st_time = '';
         this.$data.list.ed_time = '';
         this.dataList();
-        // this.getBeginEnd("day")
+        // this.getBeginEnd("all")
         // this.requestData();
-        // return false;
+        return false;
       }
       if(this.$data.ctrlTimeType[1]){
         //日
@@ -471,13 +472,15 @@ export default {
     },
 
     requestData(){
+      console.log(this.$data.guestParameters)
       this.getCustomer(this.$data.guestParameters);
+      this.statisticsFeature(this.$data.guestParameters, 'all');
       this.statisticsFeature(this.$data.guestParameters, 'face');
       this.statisticsFeature(this.$data.guestParameters, 'buy');
       this.statisticsFeature(this.$data.guestParameters, 'age');
       this.statisticsFeature(this.$data.guestParameters, 'gender');
       this.statisticsFeature(this.$data.guestParameters, 'camera');
-      this.storeStatistics(this.$data.guestParameters)
+      // this.storeStatistics(this.$data.guestParameters)
     },
 //操作
     add(){

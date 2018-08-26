@@ -83,5 +83,8 @@ export default {
       console.log(val);
       this.$data.tableData3.splice(val,1);
     },
+    backFirst(){
+      this.$router.replace({name: 'DataList'})
+    },
   }
 }

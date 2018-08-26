@@ -17,11 +17,11 @@
                 <el-menu-item index="6-2"><router-link :to="{name: 'RecognitionList'}" replace>识别结果列表</router-link></el-menu-item>
               </el-submenu>
 							<el-submenu index="8">
-								<template slot="title"><img src="static/images/main/wesupervise.png">监控数据</template>
+								<template slot="title"><img src="static/images/main/myqc.png">监控数据</template>
 								<el-menu-item index="8-1"><router-link :to="{name: 'EyeDataList'}" replace>数据列表</router-link></el-menu-item>
-								<el-menu-item index="8-2"><router-link :to="{name: 'TimeFrameList'}" replace>时段列表</router-link></el-menu-item>
+								<!--<el-menu-item index="8-2"><router-link :to="{name: 'TimeFrameList'}" replace>时段列表</router-link></el-menu-item>-->
 							</el-submenu>
-							
+
               <el-submenu index="7">
                 <template slot="title"><img src="static/images/main/wesupervise.png">鹰眼数据</template>
                 <el-menu-item index="7-1"><router-link :to="{name: 'DataSetting'}" replace>基准数据</router-link></el-menu-item>
