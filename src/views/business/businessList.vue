@@ -345,7 +345,7 @@ export default {
       this.accountVisible = true
       this.account.mid = row.id;
       this.account.phone = row.account_phone ? row.account_phone : '';
-      this.account.username = row.account_name ? row.account_name : 'admin'
+      this.account.username = row.account_name ? row.account_name : '';
     },
     setAcc (formName) {
       this.$refs[formName].validate((valid) => {
