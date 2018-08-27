@@ -3,13 +3,13 @@
     <div class="top-box">
       <el-form :inline="true" class="demo-form-inline" size="mini">
         <el-form-item label="门店">
-          <el-select v-model="guestParameters.store_id" placeholder="请选门店">
+          <el-select v-model="storeId" placeholder="请选门店" @change="GETstoreId(storeId)">
             <el-option v-for="equipmentsName in equipmentsList" :key="equipmentsName.id" :label="equipmentsName.name"
                        :value="equipmentsName.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="安装位置">
-          <el-select v-model="guestParameters.device_id" placeholder="请选择安装位置">
+          <el-select v-model="location" placeholder="请选择安装位置">
             <el-option v-for="locationName in locationList" :key="locationName.id" :label="locationName.name"
                        :value="locationName.id"></el-option>
           </el-select>
@@ -67,7 +67,7 @@
         <el-tab-pane label="自定义统计" name="userDefined"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="radioGroup">			
+    <div class="radioGroup">
       <el-radio-group v-model="radioType" @change="selectType">
         <el-radio-button label="姿态角度"></el-radio-button>
         <el-radio-button label="模糊度"></el-radio-button>
@@ -76,9 +76,9 @@
         <el-radio-button label="遮挡"></el-radio-button>
       </el-radio-group>
     </div>
-    <div class="chartWrap">    	
+    <div class="chartWrap">
     	<data-charts :chartData='guestParameters' :chartClass="radioType" :changeFlag="changeFlag"></data-charts>
-    </div>    
+    </div>
   </div>
 </template>
 
@@ -94,5 +94,5 @@
 	.chartWrap{
 		background-color: #fff;
 	}
- 
+
 </style>

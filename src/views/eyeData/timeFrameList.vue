@@ -21,24 +21,46 @@
     >
       <el-table-column prop="id" label="序号" align="center">
       </el-table-column>
-      <el-table-column prop="store_name" label="门店" align="center">
+      <el-table-column prop="device_name" label="安装位置" align="center">
       </el-table-column>
-      <el-table-column prop="mdate" label="日期" align="center">
+      <el-table-column prop="device_cid" label="设备编号" align="center" width="120">
       </el-table-column>
-      <el-table-column prop="renci" label="人次" align="center">
+      <el-table-column  label="开始时间" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.st_time | date(8)}}</span>
+        </template>
       </el-table-column>
-      <el-table-column prop="renshu" label="人数" align="center">
+      <el-table-column  label="结束时间" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.ed_time | date(8)}}</span>
+        </template>
       </el-table-column>
-      <el-table-column prop="zhuapai_ratio" label="抓拍率" align="center">
+      <el-table-column label="进店人次（监控/鹰眼）" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.renci}}/{{scope.row.renci_yy}}</span>
+        </template>
       </el-table-column>
-      <el-table-column prop="shibie_ratio" label="识别率" align="center">
+      <el-table-column prop="renshu" label="进店人数（监控/鹰眼）" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.renshu}}/{{scope.row.renshu_yy}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column  label="抓拍率" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.zhuapai_ratio}}%</span>
+        </template>
+      </el-table-column>
+      <el-table-column  label="识别率" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.shibie_ratio}}%</span>
+        </template>
       </el-table-column>
       <el-table-column prop="created_at" label="创建时间" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.created_at | date(4)}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="210">
+      <el-table-column label="操作" align="center" width="160">
         <template slot-scope="scope">
           <div style="display: flex">
             <el-button size="mini" @click="rested(scope.row)">编辑</el-button>
@@ -56,12 +78,12 @@
       <el-form ref="form" :model="form" label-width="80px" >
 
         <el-form-item label="安装位置">
-          <el-select v-model="form.place" placeholder="请选安装位置">
+          <el-select v-model="form.place" placeholder="请选安装位置" @change="getSysBNum(form.place)">
             <el-option v-for="(item,index) in locationList" :key="index" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="设备编号">
-          <p></p>
+          <p>{{deviNum}}</p>
         </el-form-item>
         <el-form-item label="开始时间">
           <el-col :span="11">
@@ -95,8 +117,10 @@
           <el-input type="textarea" v-model="form.desc"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button @click="delet">取消</el-button>
-          <el-button type="primary" @click="onSubmit">保存</el-button>
+          <div style="float: right">
+            <el-button @click="delet">取消</el-button>
+            <el-button type="primary" @click="onSubmit">保存</el-button>
+          </div>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -127,6 +151,7 @@ export default {
       },
       isOrReturn:'',
       returnId:'',
+      deviNum:'',
       // list:{
       //   monitor_id:routerId,
       //   d_id:'',
@@ -172,11 +197,45 @@ export default {
         this.pages = response.data.data.pagination;
       })
     },
+    //分页
+    handleCurrentChange(val){
+      let list = {
+        'monitor_id': this.$data.routerId,
+        'd_id': this.$data.placeId,
+        'page':val,
+        'page_size':20
+      };
+      let qs = require('querystring');
+      eyeDataApi.monitoyingTimeList(qs.stringify(list)).then((response) => {
+        this.$data.tableData3 = response.data.data.list;
+        this.pages = response.data.data.pagination;
+      })
+    },
+    //联动获取设备编号
+    getSysBNum(val){
+      // console.log(val);
+      let list = {
+        'type': 2,
+        'id': val,
+      };
+      let qs = require('querystring');
+      eyeDataApi.monitoyingSDetail(qs.stringify(list)).then((response) => {
+        // console.log(response.data.data.device_cid);
+        this.$data.deviNum = response.data.data.device_cid;
+      })
+    },
     //新建
     add(){
       this.$data.FormVisible = true;
       this.$data.dialogTitle = '新建';
       this.$data.isOrReturn = 0;
+      this.$data.form.place='';
+      this.$data.form.date1 = '';
+      this.$data.form.date2 = '';
+      this.$data.form.personTime = '';
+      this.$data.form.personNum = '';
+      this.$data.form.desc = '';
+      this.$data.deviNum = '';
     },
   //  创建确认
     onSubmit(){
@@ -227,11 +286,11 @@ export default {
                     let list = {
                       'monitor_id': this.$data.routerId,
                       'd_id': this.$data.form.place,
-                      'st_time':this.$data.date1,
-                      'ed_time':this.$data.date2,
-                      'renci':this.$data.personTime,
-                      'renshu':this.$data.personNum,
-                      'remark':this.$data.desc
+                      'st_time':this.$data.form.date1/1000,
+                      'ed_time':this.$data.form.date2/1000,
+                      'renci':this.$data.form.personTime,
+                      'renshu':this.$data.form.personNum,
+                      'remark':this.$data.form.desc
                     };
                     let qs = require('querystring');
                     eyeDataApi.monitoyingTimeCreate(qs.stringify(list)).then((response) => {
@@ -242,6 +301,7 @@ export default {
                           center: true
                         });
                         this.getList();
+                        this.$data.FormVisible = false;
                       //  保存清空数据
                         this.$data.form.place='';
                         this.$data.form.date1 = '';
@@ -249,6 +309,7 @@ export default {
                         this.$data.form.personTime = '';
                         this.$data.form.personNum = '';
                         this.$data.form.desc = '';
+                        this.$data.deviNum = '';
                       }
                     })
                   }else if(this.$data.isOrReturn === 1){
@@ -256,12 +317,12 @@ export default {
                     let list = {
                       'id':this.$data.returnId,
                       'monitor_id': this.$data.routerId,
-                      'd_id': '',
-                      'st_time':'',
-                      'ed_time':'',
-                      'renci':'',
-                      'renshu':'',
-                      'remark':''
+                      'd_id': this.$data.form.place,
+                      'st_time':this.$data.form.date1,
+                      'ed_time':this.$data.form.date2,
+                      'renci':this.$data.form.personTime,
+                      'renshu':this.$data.form.personNum,
+                      'remark':this.$data.form.desc
                     };
                     let qs = require('querystring');
                     eyeDataApi.monitoyingTimeUpdate(qs.stringify(list)).then((response) => {
@@ -271,6 +332,7 @@ export default {
                           type: 'success',
                           center: true
                         });
+                        this.$data.FormVisible = false;
                         this.getList();
                         //  保存清空数据
                         this.$data.form.place='';
@@ -279,6 +341,7 @@ export default {
                         this.$data.form.personTime = '';
                         this.$data.form.personNum = '';
                         this.$data.form.desc = '';
+                        this.$data.deviNum = '';
                       }
                     })
                   }
@@ -316,6 +379,13 @@ export default {
       this.$data.dialogTitle = '编辑';
       this.$data.returnId = val.id;
       this.$data.isOrReturn = 1;
+      this.$data.form.place=val.d_id;
+      this.$data.form.date1 = val.st_time;
+      this.$data.form.date2 = val.ed_time;
+      this.$data.form.personTime = val.renci;
+      this.$data.form.personNum = val.renshu;
+      this.$data.form.desc = val.remark;
+      this.$data.deviNum = val.device_cid;
     },
   //  查询
     checkOut(){

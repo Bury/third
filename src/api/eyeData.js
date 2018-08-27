@@ -73,4 +73,13 @@ export default {
       })
     })
   },
+  monitoyingSDetail(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.MONITORING_SDETAIL, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
 }

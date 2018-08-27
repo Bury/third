@@ -68,7 +68,7 @@ export default {
   data () {
     return {
       defaultActive: '1',
-      openeds: ['2', '3', '4', '5'],
+      openeds: ['2', '3', '4', '5','8'],
       imgSrcHome: 'static/images/main/home_active.png'
     }
   },

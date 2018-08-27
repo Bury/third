@@ -29,7 +29,7 @@ export default {
       guestParameters:{
 				merchant_id:1,
 				store_id:'',
-				device_id:'',				
+				device_id:'',
         st_time:'',
         ed_time:'',
 				tj_type:''
@@ -43,15 +43,11 @@ export default {
       radio:2,
       noFilter:true,
       yesFilter:false,
-      equipmentsList:[
-        {name:'关凤点',id:1},
-        {name:'关凤点',id:2},
-      ],
-      locationList:[
-        {name:'上方',id:1},
-        {name:'下方',id:2}
-      ],
+      equipmentsList:[],
+      locationList:[],
       checkList:[],
+      location:'',
+      storeId:'',
     }
   },
 
@@ -61,10 +57,34 @@ export default {
     templates.navMenu = this.$route.name;
     templates.upperLevelMenu = '';
     this.setData();
+    this.getPartList();
   },
 
   methods: {
-
+    //门店下拉
+    getPartList(){
+      let list = {
+        'type': 1,
+        'parent_id': 1,
+      }
+      let qs = require('querystring')
+      dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
+        console.log(response.data.data);
+        this.$data.equipmentsList = response.data.data;
+      })
+    },
+    //联动获取位置
+    GETstoreId(val){
+      let list = {
+        'type': 2,
+        'parent_id': val,
+      }
+      let qs = require('querystring')
+      dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
+        console.log(response.data.data);
+        this.$data.locationList = response.data.data;
+      })
+    },
     //时间转为秒
     getS(value){
       var formatTimeS = new Date(value).getTime()/1000;
@@ -78,8 +98,8 @@ export default {
         time_end:d.ed_time,
       };
 
-    },       
-    
+    },
+
     //类型切换
     selectType(val){
     	if(val == "姿态角度"){
@@ -225,7 +245,7 @@ export default {
         this.getBeginEnd("select")
         return false;
       }
-     
+
     },
 
     requestData(){

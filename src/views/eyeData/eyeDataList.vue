@@ -29,13 +29,25 @@
 			</el-table-column>
 			<el-table-column prop="mdate" label="日期" align="center">
 			</el-table-column>
-			<el-table-column prop="renci" label="人次" align="center">
+			<el-table-column  label="进店人次（监控/鹰眼）" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.renci}}/{{scope.row.renci_yy}}</span>
+        </template>
 			</el-table-column>
-			<el-table-column prop="renshu" label="人数" align="center">
+			<el-table-column  label="进店人数（监控/鹰眼）" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.renshu}}/{{scope.row.renshu_yy}}</span>
+        </template>
 			</el-table-column>
-			<el-table-column prop="zhuapai_ratio" label="抓拍率" align="center">
+			<el-table-column label="抓拍率" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.zhuapai_ratio}}%</span>
+        </template>
 			</el-table-column>
-			<el-table-column prop="shibie_ratio" label="识别率" align="center">
+			<el-table-column  label="识别率" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.shibie_ratio}}%</span>
+        </template>
 			</el-table-column>
 			<el-table-column prop="created_at" label="创建时间" align="center">
         <template slot-scope="scope">
@@ -84,8 +96,10 @@
           <el-input type="textarea" v-model="form.desc"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button @click="delet">取消</el-button>
-          <el-button type="primary" @click="onSubmit">保存</el-button>
+          <div style="float: right">
+            <el-button @click="delet">取消</el-button>
+            <el-button type="primary" @click="onSubmit">保存</el-button>
+          </div>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -180,6 +194,10 @@
         this.$data.FormVisible = true;
         this.$data.dialogTitle = '新增';
         this.$data.isOrReturn = 0;
+        this.$data.form.parte = '';
+        this.$data.form.date1 = '';
+        this.$data.form.desc = '';
+        this.$data.returnId='';
       },
       changeStartTime(time){
         console.log(time);

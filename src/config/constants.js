@@ -161,4 +161,6 @@ global.MONITORING_TIME_CREATE = `${SERVER_IP}hawkeye/monitor-time/create`
 global.MONITORING_TIME_DELETE = `${SERVER_IP}hawkeye/monitor-time/delete`
 //编辑
 global.MONITORING_TIME_UPDATE = `${SERVER_IP}hawkeye/monitor-time/update`
+//联动获取设备编号
+global.MONITORING_SDETAIL = `${SERVER_IP}hawkeye/face/msd-detail`
 

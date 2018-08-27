@@ -39,7 +39,7 @@ export default {
       ],
       optionsKeep:[
         {value:0,name:'无遮挡'},
-        {value:1,name:'有遮挡'},
+
       ],
     }
   },

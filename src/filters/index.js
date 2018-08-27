@@ -38,6 +38,9 @@ export const dateFilter = (time, type) => {
     case 7:// Jan 05, 2015
       result = `${year}年${format(month)}月${format(day)}日  ${format(hours)}:${format(minutes)}`
       break
+    case 8: //11:12:06
+          result = `${format(hours)}:${format(minutes)}:${format(second)}`
+          break
   }
   return result
 }
