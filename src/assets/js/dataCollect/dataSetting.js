@@ -227,39 +227,31 @@ export default {
                     center: true
                   });
                 }else{
-                  if(this.$data.ruleForm.keepOut == ''){
-                    this.$message({
-                      message: '请选择遮挡范围',
-                      type: 'error',
-                      center: true
-                    });
-                  }else{
-                    let list = {
-                      'pitch_st': this.$data.ruleForm.pitchA,
-                      'pitch_ed': this.$data.ruleForm.pitchB,
-                      'yaw_st': this.$data.ruleForm.yawA,
-                      'yaw_ed': this.$data.ruleForm.yawB,
-                      'roll_st': this.$data.ruleForm.rollA,
-                      'roll_ed': this.$data.ruleForm.rollB,
-                      'illumination_st': this.$data.ruleForm.illA,
-                      'illumination_ed': this.$data.ruleForm.illB,
-                      'blur_st': this.$data.ruleForm.dimA,
-                      'blur_ed': this.$data.ruleForm.dimB,
-                      'occlusion': this.$data.ruleForm.keepOut,
-                      'completeness': this.$data.ruleForm.faceAll,
-                    }
-                    let qs = require('querystring')
-                    dataCollectApi.dataSettingSave(qs.stringify(list)).then((response) => {
-                      if(response.data.errno == 0){
-                        this.$message({
-                          message: '设置成功',
-                          type: 'success',
-                          center: true
-                        });
-                        this.dataBack();
-                      }
-                    })
+                  let list = {
+                    'pitch_st': this.$data.ruleForm.pitchA,
+                    'pitch_ed': this.$data.ruleForm.pitchB,
+                    'yaw_st': this.$data.ruleForm.yawA,
+                    'yaw_ed': this.$data.ruleForm.yawB,
+                    'roll_st': this.$data.ruleForm.rollA,
+                    'roll_ed': this.$data.ruleForm.rollB,
+                    'illumination_st': this.$data.ruleForm.illA,
+                    'illumination_ed': this.$data.ruleForm.illB,
+                    'blur_st': this.$data.ruleForm.dimA,
+                    'blur_ed': this.$data.ruleForm.dimB,
+                    'occlusion': this.$data.ruleForm.keepOut,
+                    'completeness': this.$data.ruleForm.faceAll,
                   }
+                  let qs = require('querystring')
+                  dataCollectApi.dataSettingSave(qs.stringify(list)).then((response) => {
+                    if(response.data.errno == 0){
+                      this.$message({
+                        message: '设置成功',
+                        type: 'success',
+                        center: true
+                      });
+                      this.dataBack();
+                    }
+                  })
                 }
               }
             }
