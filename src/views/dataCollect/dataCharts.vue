@@ -199,6 +199,14 @@
 							} else if(val === "roll") {
 								this.threePie(pieData);
 							}
+						}else{
+							if(val === "pitch") {
+								this.firstPie([]);
+							} else if(val === "yaw") {
+								this.secondPie([]);
+							} else if(val === "roll") {
+								this.threePie([]);
+							}
 
 						}
 					} else {
@@ -223,6 +231,8 @@
 								})
 							}
 							this.firstPie(pieData);
+						}else{
+							this.firstPie([]);
 						}
 					} else {
 						this.$message(res.data.msg)
