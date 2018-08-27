@@ -261,7 +261,7 @@
                   'id':this.$data.returnId,
                   'm_id': 1,
                   's_id': this.$data.form.parte,
-                  'mdate':this.$data.form.date1,
+                  'mdate':this.TimeOut(this.$data.form.date1/1000,4),
                   'remark':this.$data.form.desc,
                 };
                 let qs = require('querystring');
