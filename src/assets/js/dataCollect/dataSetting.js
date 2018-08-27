@@ -62,13 +62,23 @@ export default {
         });
         this.$data.ruleForm.dimB = '';
       }else {
-        if(this.$data.ruleForm.dimA > this.$data.ruleForm.dimB){
+        if(this.$data.ruleForm.dimA >= this.$data.ruleForm.dimB){
           this.$message({
             message: '开始范围不能大于结束范围',
             type: 'error',
             center: true
           });
           this.$data.ruleForm.dimB = '';
+        }else{
+          if(this.$data.ruleForm.dimA > 0.1 || this.$data.ruleForm.dimB > 0.1){
+            this.$message({
+              message: '填写范围不合法',
+              type: 'error',
+              center: true
+            });
+            this.$data.ruleForm.dimA = '';
+            this.$data.ruleForm.dimB = '';
+          }
         }
       }
     },
