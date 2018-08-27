@@ -92,6 +92,14 @@ export default {
           sidebar.defaultActive = '6-1'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
+        case 'EyeDataList':
+          sidebar.defaultActive = '8-1'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'TimeFrameList':
+          sidebar.defaultActive = '8-1'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break  
         case 'FaceSampleManage':
         case 'RecognitionResult':
         case 'RecognitionList':
