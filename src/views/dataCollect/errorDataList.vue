@@ -2,8 +2,14 @@
   <div class="business-list">
     <div class="top-box">
       <el-form :inline="true" class="demo-form-inline" size="mini">
+        <el-form-item label="商家">
+          <el-select v-model="merchantId" placeholder="请选商家" @change="GETmerchantId(merchantId)">
+            <el-option v-for="merchantName in merchantList" :key="merchantName.id" :label="merchantName.name"
+                       :value="merchantName.id"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="门店">
-          <el-select v-model="storeId" placeholder="请选门店">
+          <el-select v-model="storeId" placeholder="请选门店" @change="GETstoreId(storeId)">
             <el-option v-for="equipmentsName in equipmentsList" :key="equipmentsName.id" :label="equipmentsName.name"
                        :value="equipmentsName.id"></el-option>
           </el-select>

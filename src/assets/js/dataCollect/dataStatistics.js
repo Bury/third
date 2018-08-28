@@ -48,6 +48,8 @@ export default {
       checkList:[],
       location:'',
       storeId:'',
+      merchantId:'',
+      merchantList:[],
     }
   },
 
@@ -57,19 +59,31 @@ export default {
     templates.navMenu = this.$route.name;
     templates.upperLevelMenu = '';
     this.setData();
-    this.getPartList();
+    this.getMerchant();
   },
 
   methods: {
-    //门店下拉
-    getPartList(){
+    //商家下拉
+    getMerchant(){
       let list = {
-        'type': 1,
-        'parent_id': 1,
+        'type': 0,
+        'parent_id': 0,
       }
       let qs = require('querystring')
       dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
+        this.$data.merchantList = response.data.data;
+      })
+    },
+    //门店下拉
+    GETmerchantId(val){
+      let list = {
+        'type': 1,
+        'parent_id': val,
+      }
+      let qs = require('querystring')
+      dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
+        // console.log(response.data.data);
         this.$data.equipmentsList = response.data.data;
       })
     },
@@ -81,7 +95,7 @@ export default {
       }
       let qs = require('querystring')
       dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         this.$data.locationList = response.data.data;
       })
     },

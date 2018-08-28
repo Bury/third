@@ -126,6 +126,8 @@ const cityOptions = [
       checkList:[],
       checkListId:[],
       errText:'',
+      merchantId:'',
+      merchantList:[],
       // un_angle:0,
       // un_illumination:0,
       // un_blur:0,
@@ -141,19 +143,31 @@ const cityOptions = [
     templates.navMenu = this.$route.name
     templates.upperLevelMenu = ''
     this.dataList();
-    this.getPartList();
+    this.getMerchant();
   },
 
   methods: {
-//门店下拉
-    getPartList(){
+    //商家下拉
+    getMerchant(){
       let list = {
-        'type': 1,
-        'parent_id': 1,
+        'type': 0,
+        'parent_id': 0,
       }
       let qs = require('querystring')
       dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
+        this.$data.merchantList = response.data.data;
+      })
+    },
+//门店下拉
+    GETmerchantId(val){
+      let list = {
+        'type': 1,
+        'parent_id': val,
+      }
+      let qs = require('querystring')
+      dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
+        // console.log(response.data.data);
         this.$data.equipmentsList = response.data.data;
       })
     },
@@ -165,7 +179,7 @@ const cityOptions = [
       }
       let qs = require('querystring')
       dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         this.$data.locationList = response.data.data;
       })
     },
@@ -273,9 +287,9 @@ const cityOptions = [
         this.$data.list.ed_time = this.$data.userDefined[1]/1000;
       }
       console.log(this.$data.list);
-      this.$data.list.merchant_id = '';
-      this.$data.list.store_id = '';
-      this.$data.list.device_id = '';
+      this.$data.list.merchant_id = this.$data.merchantId;
+      // this.$data.list.store_id = '';
+      // this.$data.list.device_id = '';
 
       //筛选信息
         this.$data.list.store_id = this.$data.storeId ;

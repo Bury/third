@@ -14,6 +14,7 @@
       <el-col>
         <button class="btn" @click="alldele()">批量删除</button>
         <button class="btn" @click="takeUp()">识别查找</button>
+        <button class="btn" @click="takeUpImage()">上传图片</button>
       </el-col>
     </el-row>
     <el-table
@@ -39,7 +40,7 @@
     >
       <template slot-scope="scope">
         <!--<img src="http://dev-api.cc.ibetwo.com/upload/2018/08/09/1_1_1.jpg" alt="" style="width: 6rem;height: 6rem">-->
-        <img  :src="'http://dev-api.cc.ibetwo.com/' + scope.row.avatar" alt="" style="width: 6rem;height: 6rem">
+        <img  :src="scope.row.avatar" alt="" style="width: 6rem;height: 6rem">
       </template>
     </el-table-column>
       <el-table-column
@@ -132,6 +133,25 @@
         <el-button type="primary" @click="submitForm(formName)">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog :title="uploadTitle" :visible.sync="FormUpload">
+      <el-form :model='formIamge' ref="formIamge" label-width="180px" class="demo-ruleForm">
+        <el-upload
+          :action="importFileUrl()"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-success="getUploadIamge"
+          :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelImage(formIamge)">取 消</el-button>
+        <el-button type="primary" @click="submitImage(formIamge)">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -154,6 +174,13 @@
             idKeyList:[],
             groupId:'',
             groupList:[],
+            uploadTitle:'上传图片',
+            FormUpload:false,
+            dialogImageUrl: '',
+            dialogVisible: false,
+            formIamge:{
+
+            },
           }
       },
       created: function () {
@@ -178,6 +205,10 @@
         this.List()
       },
       methods:{
+        //  图片上传地址
+        importFileUrl(){
+          return global.LOADUP_IMAGES
+        },
         List(){
           let list = {
             'filter[and][][group_id]': this.$data.routerId,
@@ -237,10 +268,10 @@
               }
               })
             }).catch(() =>{
-                
+
             })
-            
-            
+
+
           }
         },
         //识别查找
@@ -271,14 +302,14 @@
           this.$data.groupList = [];
         },
         //删除
-        handleDelete(value){           
+        handleDelete(value){
           this.$confirm("确认删除？","提示",{
             confirmButtonText:'确定',
             cancelButtonText:'取消',
             type:'wraning'
           }).then(() => {
             let list = {
-             'ids':value.id 
+             'ids':value.id
             };
             let qs = require('querystring');
             faceDataApi.delteeFaceLit(qs.stringify(list)).then((response) => {
@@ -292,10 +323,10 @@
             };
             })
           }).catch(() => {
-            
+
           })
 
-          
+
         },
         //选取识别，确认查看
         submitForm(){
@@ -324,6 +355,31 @@
             })
 
           }
+
+        },
+        //上传图片
+        takeUpImage(){
+          this.$data.FormUpload = true;
+        },
+        //取消
+        cancelImage(){
+          this.$data.FormUpload = false;
+        },
+        //上传图片成功回调
+        getUploadIamge(response, file, fileList){
+          console.log(response);
+          console.log(file);
+          console.log(fileList);
+        },
+        handleRemove(file, fileList) {
+          console.log(file, fileList);
+        },
+        handlePictureCardPreview(file) {
+          this.dialogImageUrl = file.url;
+          this.dialogVisible = true;
+        },
+      //  确认上传
+        submitImage(){
 
         }
       }

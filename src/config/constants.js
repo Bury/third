@@ -6,6 +6,9 @@
 const SERVER_IP = 'http://dev-api.cc.ibetwo.com/'
 const COMMON = 'v1/'
 
+//图片上传接口
+global.LOADUP_IMAGES = `${SERVER_IP}${COMMON}test-face/upload`
+
 // post /v1/user/access-token 登录
 global.GET_LOGIN = `${SERVER_IP}${COMMON}user/access-token`
 
