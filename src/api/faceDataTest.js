@@ -127,4 +127,13 @@ export default {
       })
     })
   },
+  ImageUploadDing(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.IMAGE_UPLOAD_DO, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
 }

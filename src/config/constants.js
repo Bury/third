@@ -102,6 +102,8 @@ global.LINK_EQUIPMENT = `${SERVER_IP}${COMMON}test-device/link-list`
 global.DEVICE_LINK_IN = `${SERVER_IP}${COMMON}test-group/link-in`
 //设备断开
 global.DEVICE_LINK_OUT = `${SERVER_IP}${COMMON}test-group/link-out`
+//上传获取图片
+global.IMAGE_UPLOAD_DO = `${SERVER_IP}${COMMON}test-face/upload-do`
 
 //人脸样本
 global.FACE_GROUP_LIT = `${SERVER_IP}${COMMON}test-face/list`

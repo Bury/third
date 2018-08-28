@@ -119,6 +119,10 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pages" v-if="pages.pageCount > 0">
+      <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+      </el-pagination>
+    </div>
     <el-dialog :title="dialogTitle" :visible.sync="FormVisible">
       <el-form :model='formName' ref="formName" label-width="180px" class="demo-ruleForm">
         <el-form-item label="请选择人脸样本查找分组:">
@@ -136,6 +140,7 @@
     <el-dialog :title="uploadTitle" :visible.sync="FormUpload">
       <el-form :model='formIamge' ref="formIamge" label-width="180px" class="demo-ruleForm">
         <el-upload
+          ref='upload'
           :action="importFileUrl()"
           list-type="picture-card"
           :on-preview="handlePictureCardPreview"
@@ -178,6 +183,9 @@
             FormUpload:false,
             dialogImageUrl: '',
             dialogVisible: false,
+            ImageFileter:[],
+            postImage:'',
+            pages:'',
             formIamge:{
 
             },
@@ -214,14 +222,30 @@
             'filter[and][][group_id]': this.$data.routerId,
             'filter[and][][device_id][like]':'',
             'disable_pagination': '',
-            'page': 1
+            'page': 1,
+            'per-page':10
           }
           let qs = require('querystring')
           faceDataApi.faceGroupList(qs.stringify(list)).then((response) => {
             // console.log(response.data.data);
             this.$data.tableData3 = response.data.data.list;
             // console.log(this.$data.tableData3);
-            // this.pages = response.data.data.pagination;
+            this.pages = response.data.data.pagination;
+          })
+        },
+        //分页
+        handleCurrentChange(val){
+          let list = {
+            'filter[and][][group_id]': this.$data.routerId,
+            'filter[and][][device_id][like]':'',
+            'disable_pagination': '',
+            'page': val,
+            'per-page':10
+          }
+          let qs = require('querystring')
+          faceDataApi.faceGroupList(qs.stringify(list)).then((response) => {
+            this.$data.tableData3 = response.data.data.list;
+            this.pages = response.data.data.pagination;
           })
         },
         handleSelectionChange(val) {
@@ -360,19 +384,38 @@
         //上传图片
         takeUpImage(){
           this.$data.FormUpload = true;
+          // this.$refs.upload.clearFiles();
+          this.$data.ImageFileter = [];
+          this.$data.postImage = '';
         },
         //取消
         cancelImage(){
           this.$data.FormUpload = false;
+          this.$refs.upload.clearFiles();
+          this.$data.ImageFileter = [];
+          this.$data.postImage = '';
         },
         //上传图片成功回调
         getUploadIamge(response, file, fileList){
-          console.log(response);
-          console.log(file);
-          console.log(fileList);
+          // console.log(response);
+          // console.log(fileList);
+          this.$data.ImageFileter.push(response.data.path);
+          // console.log(this.$data.ImageFileter);
+          this.$data.postImage = this.$data.ImageFileter.join(',');
+          // console.log(this.$data.postImage);
         },
-        handleRemove(file, fileList) {
-          console.log(file, fileList);
+        handleRemove(file, fileList,index) {
+          this.$data.ImageFileter = [];
+          // console.log(file)
+          // console.log(fileList);
+          // console.log(index)
+          for(let i = 0; i< fileList.length; i++){
+            // console.log(fileList[i].response.data.path);
+            this.$data.ImageFileter.push(fileList[i].response.data.path);
+          }
+          // console.log(this.$data.ImageFileter);
+          this.$data.postImage = this.$data.ImageFileter.join(',');
+          // console.log(this.$data.postImage);
         },
         handlePictureCardPreview(file) {
           this.dialogImageUrl = file.url;
@@ -380,7 +423,32 @@
         },
       //  确认上传
         submitImage(){
-
+          this.$message({
+            message: '上传中...请稍后',
+            type: 'success',
+            center: true
+          });
+          this.FormUpload = false;
+          let list = {
+            'paths':this.$data.postImage,
+            'group_id':this.$data.routerId
+          }
+          let qs = require('querystring')
+          faceDataApi.ImageUploadDing(qs.stringify(list)).then((response) => {
+            console.log(response.data.data);
+            if(response.data.errno == -1){
+              this.$message({
+                message: response.data.msg,
+                type: 'success',
+                center: true
+              });
+              this.FormUpload = false;
+              this.List();
+              this.$refs.upload.clearFiles();
+              this.$data.ImageFileter = [];
+              this.$data.postImage = '';
+            }
+          })
         }
       }
     }
