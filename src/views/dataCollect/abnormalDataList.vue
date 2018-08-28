@@ -110,22 +110,24 @@
           </el-form-item>
         </el-form-item>
         <el-form-item label="模糊度:">
-          <el-select v-model="ruleForm.dimA" placeholder="请选择" style="width: 7rem" >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value">
-            </el-option>
-          </el-select>-
-          <el-select v-model="ruleForm.dimB" placeholder="请选择" style="width: 7rem" @change="dimBtnB">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <!--<el-select v-model="ruleForm.dimA" placeholder="请选择" style="width: 7rem" >-->
+            <!--<el-option-->
+              <!--v-for="item in options"-->
+              <!--:key="item.value"-->
+              <!--:label="item.name"-->
+              <!--:value="item.value">-->
+            <!--</el-option>-->
+          <!--</el-select>- -->
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="0" v-model="ruleForm.dimA">-
+          <!--<el-select v-model="ruleForm.dimB" placeholder="请选择" style="width: 7rem" @change="dimBtnB">-->
+            <!--<el-option-->
+              <!--v-for="item in options"-->
+              <!--:key="item.value"-->
+              <!--:label="item.name"-->
+              <!--:value="item.value">-->
+            <!--</el-option>-->
+          <!--</el-select>-->
+          <input  class="input" maxlength="16" style="width: 7rem" placeholder="0.1" v-model="ruleForm.dimB" @blur.prevent="dimBtnB()">
         </el-form-item>
         <el-form-item label="脸完整度:">
           <el-select v-model="ruleForm.faceIsAll" placeholder="请选择" style="width: 7rem">

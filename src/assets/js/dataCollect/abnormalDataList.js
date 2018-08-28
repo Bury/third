@@ -490,6 +490,16 @@ const cityOptions = [
             center: true
           });
           this.$data.ruleForm.dimB = '';
+        }else {
+          if(this.$data.ruleForm.dimA > 0.1 || this.$data.ruleForm.dimB > 0.1){
+            this.$message({
+              message: '填写范围不合法',
+              type: 'error',
+              center: true
+            });
+            this.$data.ruleForm.dimA = '';
+            this.$data.ruleForm.dimB = '';
+          }
         }
       }
     },
