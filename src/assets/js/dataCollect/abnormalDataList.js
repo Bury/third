@@ -72,7 +72,19 @@ const cityOptions = [
       rules:{
 
       },
-      options:[
+      optionsA:[
+        {value:0,name:0},
+        {value:0.1,name:0.1},
+        {value:0.2,name:0.2},
+        {value:0.3,name:0.3},
+        {value:0.4,name:0.4},
+        {value:0.5,name:0.5},
+        {value:0.6,name:0.6},
+        {value:0.7,name:0.7},
+        {value:0.8,name:0.8},
+        {value:0.9,name:0.9},
+      ],
+      optionsB:[
         {value:0.1,name:0.1},
         {value:0.2,name:0.2},
         {value:0.3,name:0.3},
@@ -490,17 +502,18 @@ const cityOptions = [
             center: true
           });
           this.$data.ruleForm.dimB = '';
-        }else {
-          if(this.$data.ruleForm.dimA > 0.1 || this.$data.ruleForm.dimB > 0.1){
-            this.$message({
-              message: '填写范围不合法',
-              type: 'error',
-              center: true
-            });
-            this.$data.ruleForm.dimA = '';
-            this.$data.ruleForm.dimB = '';
-          }
         }
+        // else {
+        //   if(this.$data.ruleForm.dimA > 0.1 || this.$data.ruleForm.dimB > 0.1){
+        //     this.$message({
+        //       message: '填写范围不合法',
+        //       type: 'error',
+        //       center: true
+        //     });
+        //     this.$data.ruleForm.dimA = '';
+        //     this.$data.ruleForm.dimB = '';
+        //   }
+        // }
       }
     },
     //光照范围判断

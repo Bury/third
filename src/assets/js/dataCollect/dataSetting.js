@@ -21,7 +21,19 @@ export default {
       rules:{
         // illA:globalRules.setting.illRules()
       },
-      options:[
+      optionsA:[
+        {value:0,name:0},
+        {value:0.1,name:0.1},
+        {value:0.2,name:0.2},
+        {value:0.3,name:0.3},
+        {value:0.4,name:0.4},
+        {value:0.5,name:0.5},
+        {value:0.6,name:0.6},
+        {value:0.7,name:0.7},
+        {value:0.8,name:0.8},
+        {value:0.9,name:0.9},
+      ],
+      optionsB:[
         {value:0.1,name:0.1},
         {value:0.2,name:0.2},
         {value:0.3,name:0.3},
@@ -69,17 +81,18 @@ export default {
             center: true
           });
           this.$data.ruleForm.dimB = '';
-        }else{
-          if(this.$data.ruleForm.dimA > 0.1 || this.$data.ruleForm.dimB > 0.1){
-            this.$message({
-              message: '填写范围不合法',
-              type: 'error',
-              center: true
-            });
-            this.$data.ruleForm.dimA = '';
-            this.$data.ruleForm.dimB = '';
-          }
         }
+        // else{
+        //   if(this.$data.ruleForm.dimA > 0.1 || this.$data.ruleForm.dimB > 0.1){
+        //     this.$message({
+        //       message: '填写范围不合法',
+        //       type: 'error',
+        //       center: true
+        //     });
+        //     this.$data.ruleForm.dimA = '';
+        //     this.$data.ruleForm.dimB = '';
+        //   }
+        // }
       }
     },
     //光照范围判断
@@ -216,7 +229,8 @@ export default {
               center: true
             });
           }else{
-            if(this.$data.ruleForm.dimA == '' || this.$data.ruleForm.dimB == ''){
+            //this.$data.ruleForm.dimA == '' ||
+            if( this.$data.ruleForm.dimB == ''){
               this.$message({
                 message: '请选择模糊度范围',
                 type: 'error',
@@ -246,7 +260,7 @@ export default {
                     'roll_ed': this.$data.ruleForm.rollB,
                     'illumination_st': this.$data.ruleForm.illA,
                     'illumination_ed': this.$data.ruleForm.illB,
-                    'blur_st': this.$data.ruleForm.dimA,
+                    'blur_st': 0,
                     'blur_ed': this.$data.ruleForm.dimB,
                     'occlusion': this.$data.ruleForm.keepOut,
                     'completeness': this.$data.ruleForm.faceAll,

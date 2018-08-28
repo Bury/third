@@ -15,25 +15,25 @@
           <input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.yawB" @blur.prevent="yawBBtn()">
         </el-form-item>
       </el-form-item>
-      <el-form-item label="模糊度:">
+      <el-form-item label="模糊度:大于">
         <!--<el-select v-model="ruleForm.dimA" placeholder="请选择" style="width: 7rem" >-->
           <!--<el-option-->
-            <!--v-for="item in options"-->
+            <!--v-for="item in optionsA"-->
             <!--:key="item.value"-->
             <!--:label="item.name"-->
             <!--:value="item.value">-->
           <!--</el-option>-->
         <!--</el-select>- -->
-        <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="0" v-model="ruleForm.dimA">-
-        <!--<el-select v-model="ruleForm.dimB" placeholder="请选择" style="width: 7rem" @change="dimBtnB">-->
-          <!--<el-option-->
-            <!--v-for="item in options"-->
-            <!--:key="item.value"-->
-            <!--:label="item.name"-->
-            <!--:value="item.value">-->
-          <!--</el-option>-->
-        <!--</el-select>-->
-        <input  class="input" maxlength="16" style="width: 7rem" placeholder="0.1" v-model="ruleForm.dimB" @blur.prevent="dimBtnB()">
+        <!--<input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="0" v-model="ruleForm.dimA">- -->
+        <el-select v-model="ruleForm.dimB" placeholder="请选择" style="width: 7rem" @change="dimBtnB">
+          <el-option
+            v-for="item in optionsB"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value">
+          </el-option>
+        </el-select>
+        <!--<input  class="input" maxlength="16" style="width: 7rem" placeholder="0.1" v-model="ruleForm.dimB" @blur.prevent="dimBtnB()">-->
       </el-form-item>
       <el-form-item label="脸完整度:">
         <el-select v-model="ruleForm.faceAll" placeholder="请选择" style="width: 7rem">

@@ -97,37 +97,43 @@
       <el-form :inline="true" class="demo-form-inline" :model="ruleForm" :rules="rules" ref="ruleForm" size="mini">
         <el-form-item label="姿态角度:" :inline="false">
           <el-form-item label="Pitch:">
-            <input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.pitchA">-
-            <input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.pitchB" @blur.prevent="pitchBBtn()">
+            <!--<input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.pitchA">- -->
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.pitchA">-
+            <!--<input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.pitchB" @blur.prevent="pitchBBtn()">-->
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.pitchB">
           </el-form-item>
           <el-form-item label="Roll:" style="">
-            <input  class="input" maxlength="4" onkeyup="this.value=this.value.replace(/[^-\d{1,4}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,4}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.rollA">-
-            <input  class="input" maxlength="4" onkeyup="this.value=this.value.replace(/[^-\d{1,4}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,4}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.rollB" @blur.prevent="rollBBtn()">
+            <!--<input  class="input" maxlength="4" onkeyup="this.value=this.value.replace(/[^-\d{1,4}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,4}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.rollA">- -->
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.rollA">-
+            <!--<input  class="input" maxlength="4" onkeyup="this.value=this.value.replace(/[^-\d{1,4}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,4}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.rollB" @blur.prevent="rollBBtn()">-->
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.rollB">
           </el-form-item>
           <el-form-item label="Yaw:" style="">
-            <input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.yawA">-
-            <input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.yawB" @blur.prevent="yawBBtn()">
+            <!--<input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.yawA">- -->
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.yawA">-
+            <!--<input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.yawB" @blur.prevent="yawBBtn()">-->
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.yawB">
           </el-form-item>
         </el-form-item>
         <el-form-item label="模糊度:">
-          <!--<el-select v-model="ruleForm.dimA" placeholder="请选择" style="width: 7rem" >-->
-            <!--<el-option-->
-              <!--v-for="item in options"-->
-              <!--:key="item.value"-->
-              <!--:label="item.name"-->
-              <!--:value="item.value">-->
-            <!--</el-option>-->
-          <!--</el-select>- -->
-          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="0" v-model="ruleForm.dimA">-
-          <!--<el-select v-model="ruleForm.dimB" placeholder="请选择" style="width: 7rem" @change="dimBtnB">-->
-            <!--<el-option-->
-              <!--v-for="item in options"-->
-              <!--:key="item.value"-->
-              <!--:label="item.name"-->
-              <!--:value="item.value">-->
-            <!--</el-option>-->
-          <!--</el-select>-->
-          <input  class="input" maxlength="16" style="width: 7rem" placeholder="0.1" v-model="ruleForm.dimB" @blur.prevent="dimBtnB()">
+          <el-select v-model="ruleForm.dimA" placeholder="请选择" style="width: 7rem" >
+            <el-option
+              v-for="item in optionsA"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value">
+            </el-option>
+          </el-select>-
+          <!--<input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="0" v-model="ruleForm.dimA">- -->
+          <el-select v-model="ruleForm.dimB" placeholder="请选择" style="width: 7rem" @change="dimBtnB">
+            <el-option
+              v-for="item in optionsB"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <!--<input  class="input" maxlength="16" style="width: 7rem" placeholder="0.1" v-model="ruleForm.dimB" @blur.prevent="dimBtnB()">-->
         </el-form-item>
         <el-form-item label="脸完整度:">
           <el-select v-model="ruleForm.faceIsAll" placeholder="请选择" style="width: 7rem">
