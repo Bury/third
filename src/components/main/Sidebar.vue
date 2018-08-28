@@ -12,9 +12,9 @@
                     <el-menu-item index="2-1"><router-link :to="{name: 'BusinessList'}" replace>商家管理</router-link></el-menu-item>
                 </el-submenu>
               <el-submenu index="6">
-                <template slot="title"><img src="static/images/main/wesupervise.png">鹰眼人脸数据测试</template>
+                <template slot="title"><img src="static/images/main/wesupervise.png">鹰眼数据测试对比</template>
                 <el-menu-item index="6-1"><router-link :to="{name: 'FaceSampleGrouping'}" replace>人脸样本分组管理</router-link></el-menu-item>
-                <el-menu-item index="6-2"><router-link :to="{name: 'RecognitionList'}" replace>识别结果列表</router-link></el-menu-item>
+                <el-menu-item index="6-2"><router-link :to="{name: 'RecognitionList'}" replace>人脸识别结果记录</router-link></el-menu-item>
               </el-submenu>
 							<el-submenu index="8">
 								<template slot="title"><img src="static/images/main/myqc.png">监控数据</template>
