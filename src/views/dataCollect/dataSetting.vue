@@ -15,7 +15,7 @@
           <input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.yawB" @blur.prevent="yawBBtn()">
         </el-form-item>
       </el-form-item>
-      <el-form-item label="模糊度:大于">
+      <el-form-item label="模糊度:小于">
         <!--<el-select v-model="ruleForm.dimA" placeholder="请选择" style="width: 7rem" >-->
           <!--<el-option-->
             <!--v-for="item in optionsA"-->

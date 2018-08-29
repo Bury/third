@@ -1,11 +1,11 @@
 import * as utils from '@/utils/index'
 import dataCollectApi from '@/api/dataCollect'
 const cityOptions = [
-  {id:0,'name':'姿态角度'},
-  {id:1,'name':'光照'},
-  {id:2,'name':'模糊度'},
-  {id:3,'name':'遮挡'},
-  {id:4,'name':'脸完整度'},
+  {id:1,'name':'姿态角度'},
+  {id:2,'name':'光照'},
+  {id:3,'name':'模糊度'},
+  {id:4,'name':'遮挡'},
+  {id:5,'name':'脸完整度'},
 ];
   export default {
   name: "abnormal-data-list",
@@ -124,11 +124,12 @@ const cityOptions = [
         'st_blur': '',
         'ed_blur': '',
         'occlusion':'',
-        'un_angle':0,
-        'un_illumination':0,
-        'un_blur':0,
-        'un_occlusion':0,
-        'un_completeness':0,
+        // 'un_angle':0,
+        // 'un_illumination':0,
+        // 'un_blur':0,
+        // 'un_occlusion':0,
+        // 'un_completeness':0,
+        'un_data':'',
         'err_gender':'',
         'err_age':'',
         'err_match':'',
@@ -140,6 +141,7 @@ const cityOptions = [
       errText:'',
       merchantId:'',
       merchantList:[],
+      postUnData:'',
       // un_angle:0,
       // un_illumination:0,
       // un_blur:0,
@@ -319,42 +321,12 @@ const cityOptions = [
         this.$data.list.occlusion= this.$data.ruleForm.keepOut,
         this.$data.list.completeness= this.$data.ruleForm.faceAll,
         //过滤异常的
-        console.log(this.$data.checkAll);
-      console.log(this.$data.checkedCities);
-      if(this.$data.checkAll == false){
-        if(this.$data.checkedCities.indexOf(0)){
-          this.$data.list.un_angle = 0;
-        }else{
-          this.$data.list.un_angle = 1;
-        }
-        if(this.$data.checkedCities.indexOf(1)){
-          console.log('存在')
-          this.$data.list.un_illumination = 0;
-        }else{
-          this.$data.list.un_illumination = 1;
-        }
-        if(this.$data.checkedCities.indexOf(2)){
-          this.$data.list.un_blur = 0;
-        }else{
-          this.$data.list.un_blur = 1;
-        }
-        if(this.$data.checkedCities.indexOf(3)){
-          this.$data.list.un_occlusion = 0;
-        }else{
-          this.$data.list.un_occlusion = 1;
-        }
-        if(this.$data.checkedCities.indexOf(4)){
-          this.$data.list.un_completeness = 0;
-        }else{
-          this.$data.list.un_completeness = 1;
-        }
-      }else if(this.$data.checkAll == true){
-        this.$data.list.un_angle = 1;
-        this.$data.list.un_illumination = 1;
-        this.$data.list.un_blur = 1;
-        this.$data.list.un_occlusion = 1;
-        this.$data.list.un_completeness = 1;
-      }
+        // console.log(this.$data.checkAll);
+      // console.log(this.$data.checkedCities);
+      this.$data.postUnData = this.$data.checkedCities.join(',');
+      // console.log(this.$data.postUnData);
+      this.$data.list.un_data = this.$data.postUnData;
+      
       this.dataList();
     },
 
@@ -485,24 +457,24 @@ const cityOptions = [
     },
     //模糊度
     dimBtnB(){
-      console.log(this.$data.ruleForm.dimA);
-      console.log(this.$data.ruleForm.dimB);
-      if(this.$data.ruleForm.dimA == ''){
-        this.$message({
-          message: '请先选取开始数据',
-          type: 'error',
-          center: true
-        });
-        this.$data.ruleForm.dimB = '';
-      }else {
-        if(this.$data.ruleForm.dimA > this.$data.ruleForm.dimB){
-          this.$message({
-            message: '开始范围不能大于结束范围',
-            type: 'error',
-            center: true
-          });
-          this.$data.ruleForm.dimB = '';
-        }
+      // console.log(this.$data.ruleForm.dimA);
+      // console.log(this.$data.ruleForm.dimB);
+      // if(this.$data.ruleForm.dimA == ''){
+      //   this.$message({
+      //     message: '请先选取开始数据',
+      //     type: 'error',
+      //     center: true
+      //   });
+      //   this.$data.ruleForm.dimB = '';
+      // }else {
+      //   if(this.$data.ruleForm.dimA > this.$data.ruleForm.dimB){
+      //     this.$message({
+      //       message: '开始范围不能大于结束范围',
+      //       type: 'error',
+      //       center: true
+      //     });
+      //     this.$data.ruleForm.dimB = '';
+      //   }
         // else {
         //   if(this.$data.ruleForm.dimA > 0.1 || this.$data.ruleForm.dimB > 0.1){
         //     this.$message({
@@ -514,40 +486,40 @@ const cityOptions = [
         //     this.$data.ruleForm.dimB = '';
         //   }
         // }
-      }
+      // }
     },
     //光照范围判断
     illBBtn(){
-      console.log(this.$data.ruleForm.illA)
-      console.log(this.$data.ruleForm.illB)
-      if(this.$data.ruleForm.illA == ''){
-        this.$message({
-          message: '请先填写开始范围',
-          type: 'error',
-          center: true
-        });
-        this.$data.ruleForm.illB = '';
-      }else{
-        if(this.$data.ruleForm.illA > this.$data.ruleForm.illB){
-          this.$message({
-            message: '开始范围必须小于结束范围',
-            type: 'error',
-            center: true
-          });
-          this.$data.ruleForm.illA = '';
-          this.$data.ruleForm.illB = '';
-        }else{
-          if(this.$data.ruleForm.illA > 255 || this.$data.ruleForm.illA > 255){
-            this.$message({
-              message: '填写范围不合法',
-              type: 'error',
-              center: true
-            });
-            this.$data.ruleForm.illA = '';
-            this.$data.ruleForm.illB = '';
-          }
-        }
-      }
+      // console.log(this.$data.ruleForm.illA)
+      // console.log(this.$data.ruleForm.illB)
+      // if(this.$data.ruleForm.illA == ''){
+      //   this.$message({
+      //     message: '请先填写开始范围',
+      //     type: 'error',
+      //     center: true
+      //   });
+      //   this.$data.ruleForm.illB = '';
+      // }else{
+      //   if(this.$data.ruleForm.illA > this.$data.ruleForm.illB){
+      //     this.$message({
+      //       message: '开始范围必须小于结束范围',
+      //       type: 'error',
+      //       center: true
+      //     });
+      //     this.$data.ruleForm.illA = '';
+      //     this.$data.ruleForm.illB = '';
+      //   }else{
+      //     if(this.$data.ruleForm.illA > 255 || this.$data.ruleForm.illA > 255){
+      //       this.$message({
+      //         message: '填写范围不合法',
+      //         type: 'error',
+      //         center: true
+      //       });
+      //       this.$data.ruleForm.illA = '';
+      //       this.$data.ruleForm.illB = '';
+      //     }
+      //   }
+      // }
     },
     test(a,b,num,type){
       // console.log(a);
@@ -616,27 +588,28 @@ const cityOptions = [
     },
     //姿态角度pitch判断
     pitchBBtn(){
-      this.test(this.$data.ruleForm.pitchA,this.$data.ruleForm.pitchB,90,1);
+      // this.test(this.$data.ruleForm.pitchA,this.$data.ruleForm.pitchB,90,1);
     },
     //姿态角度roll判断
     rollBBtn(){
-      this.test(this.$data.ruleForm.rollA,this.$data.ruleForm.rollB,180,2);
+      // this.test(this.$data.ruleForm.rollA,this.$data.ruleForm.rollB,180,2);
     },
     //姿态角度yaw判断
     yawBBtn(){
-      this.test(this.$data.ruleForm.yawA,this.$data.ruleForm.yawB,90,3);
+      // this.test(this.$data.ruleForm.yawA,this.$data.ruleForm.yawB,90,3);
     },
     //复选框
     handleCheckAllChange(val) {
       console.log(val);
-      console.log(this.checkedCities)
+
       this.checkedCities = val ? cityOptions : [];
       this.isIndeterminate = false;
       if(this.$data.checkAll == false){
         this.$data.checkedCities = []
       }else if(this.$data.checkAll == true){
-        this.$data.checkedCities = [0,1,2,3,4]
+        this.$data.checkedCities = [1,2,3,4,5]
       }
+      console.log(this.checkedCities)
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
@@ -716,6 +689,10 @@ const cityOptions = [
     //  取消操作
     cancel(){
       this.$data.FormVisible = false;
+    },
+    //  清除参数填写
+    clearRuleForm(){
+      this.$data.ruleForm = {};
     },
   }
 }

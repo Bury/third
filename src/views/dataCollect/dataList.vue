@@ -84,12 +84,21 @@
     <div class="content-box">
       <el-form>
         <!--默认为否-->
-        <el-form-item label="过滤异常参数:">
-          <el-radio-group v-model="radio" @change="filterBtn">
-            <el-radio :label="1">是</el-radio>
-            <el-radio :label="2">否</el-radio>
-          </el-radio-group>
-        </el-form-item>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="过滤异常参数:">
+              <el-radio-group v-model="radio" @change="filterBtn">
+                <el-radio :label="1">是</el-radio>
+                <el-radio :label="2">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4" v-show="yesFilter">
+            <el-button size="mini" style="margin-top: 0.3rem" @click="clearRuleForm">参数重置</el-button>
+          </el-col>
+        </el-row>
+
+
       </el-form>
 <!--否-->
       <el-form v-show="noFilter">

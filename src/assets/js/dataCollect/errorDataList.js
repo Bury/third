@@ -2,11 +2,11 @@
 import * as utils from '@/utils/index'
 import dataCollectApi from '@/api/dataCollect'
 const cityOptions = [
-  {id:0,'name':'姿态角度'},
-  {id:1,'name':'光照'},
-  {id:2,'name':'模糊度'},
-  {id:3,'name':'遮挡'},
-  {id:4,'name':'脸完整度'},
+  {id:1,'name':'姿态角度'},
+  {id:2,'name':'光照'},
+  {id:3,'name':'模糊度'},
+  {id:4,'name':'遮挡'},
+  {id:5,'name':'脸完整度'},
 ];
 export default {
   name: "error-data-list",
@@ -114,11 +114,12 @@ export default {
         'st_blur': '',
         'ed_blur': '',
         'occlusion':'',
-        'un_angle':0,
-        'un_illumination':0,
-        'un_blur':0,
-        'un_occlusion':0,
-        'un_completeness':0,
+        // 'un_angle':0,
+        // 'un_illumination':0,
+        // 'un_blur':0,
+        // 'un_occlusion':0,
+        // 'un_completeness':0,
+        'un_data':'',
         'err_gender':1,
         'err_age':1,
         'err_match':1,
@@ -130,6 +131,7 @@ export default {
       errText:'',
       merchantId:'',
       merchantList:[],
+      postUnData:'',
       // un_angle:0,
       // un_illumination:0,
       // un_blur:0,
@@ -319,55 +321,25 @@ export default {
       //筛选信息
         this.$data.list.store_id = this.$data.storeId ;
         this.$data.list.device_id = this.$data.location;
-        this.$data.list.st_pitch= this.$data.ruleForm.pitchA,
-        this.$data.list.ed_pitch=this.$data.ruleForm.pitchB,
-        this.$data.list.st_yaw= this.$data.ruleForm.yawA,
-        this.$data.list.ed_yaw= this.$data.ruleForm.yawB,
-        this.$data.list.st_roll= this.$data.ruleForm.rollA,
-        this.$data.list.ed_roll=this.$data.ruleForm.rollB,
-        this.$data.list.st_illumination= this.$data.ruleForm.illA,
-        this.$data.list.ed_illumination=this.$data.ruleForm.illB,
-        this.$data.list.st_blur= this.$data.ruleForm.dimA,
-        this.$data.list.ed_blur= this.$data.ruleForm.dimB,
-        this.$data.list.occlusion= this.$data.ruleForm.keepOut,
-        this.$data.list.completeness= this.$data.ruleForm.faceAll,
+        this.$data.list.st_pitch= '',
+        this.$data.list.ed_pitch='',
+        this.$data.list.st_yaw= '',
+        this.$data.list.ed_yaw= '',
+        this.$data.list.st_roll= '',
+        this.$data.list.ed_roll='',
+        this.$data.list.st_illumination= '',
+        this.$data.list.ed_illumination='',
+        this.$data.list.st_blur= '',
+        this.$data.list.ed_blur= '',
+        this.$data.list.occlusion= '',
+        this.$data.list.completeness= '',
         //过滤异常的
-        console.log(this.$data.checkAll);
-      console.log(this.$data.checkedCities);
-      if(this.$data.checkAll == false){
-        if(this.$data.checkedCities.indexOf(0)){
-          this.$data.list.un_angle = 0;
-        }else{
-          this.$data.list.un_angle = 1;
-        }
-        if(this.$data.checkedCities.indexOf(1)){
-          console.log('存在')
-          this.$data.list.un_illumination = 0;
-        }else{
-          this.$data.list.un_illumination = 1;
-        }
-        if(this.$data.checkedCities.indexOf(2)){
-          this.$data.list.un_blur = 0;
-        }else{
-          this.$data.list.un_blur = 1;
-        }
-        if(this.$data.checkedCities.indexOf(3)){
-          this.$data.list.un_occlusion = 0;
-        }else{
-          this.$data.list.un_occlusion = 1;
-        }
-        if(this.$data.checkedCities.indexOf(4)){
-          this.$data.list.un_completeness = 0;
-        }else{
-          this.$data.list.un_completeness = 1;
-        }
-      }else if(this.$data.checkAll == true){
-        this.$data.list.un_angle = 1;
-        this.$data.list.un_illumination = 1;
-        this.$data.list.un_blur = 1;
-        this.$data.list.un_occlusion = 1;
-        this.$data.list.un_completeness = 1;
-      }
+        // console.log(this.$data.checkAll);
+      // console.log(this.$data.checkedCities);
+      this.$data.postUnData = this.$data.checkedCities.join(',');
+      // console.log(this.$data.postUnData);
+      this.$data.list.un_data = this.$data.postUnData;
+      // console.log(this.$data.list.un_data)
       this.dataList();
     },
 
@@ -505,7 +477,7 @@ export default {
       if(this.$data.checkAll == false){
         this.$data.checkedCities = []
       }else if(this.$data.checkAll == true){
-        this.$data.checkedCities = [0,1,2,3,4]
+        this.$data.checkedCities = [1,2,3,4,5]
       }
     },
     handleCheckedCitiesChange(value) {

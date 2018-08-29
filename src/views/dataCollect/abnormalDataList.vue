@@ -95,6 +95,11 @@
       </el-form>
       <!--是-->
       <el-form :inline="true" class="demo-form-inline" :model="ruleForm" :rules="rules" ref="ruleForm" size="mini">
+        <el-row>
+          <el-col>
+            <el-button size="mini" style="margin-bottom: 0.5rem" @click="clearRuleForm">参数重置</el-button>
+          </el-col>
+        </el-row>
         <el-form-item label="姿态角度:" :inline="false">
           <el-form-item label="Pitch:">
             <!--<input  class="input" maxlength="3" onkeyup="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" onpaste="this.value=this.value.replace(/[^-\d{1,2}]/g,'')" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.pitchA">- -->
