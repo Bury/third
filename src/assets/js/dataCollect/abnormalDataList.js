@@ -326,7 +326,7 @@ const cityOptions = [
       this.$data.postUnData = this.$data.checkedCities.join(',');
       // console.log(this.$data.postUnData);
       this.$data.list.un_data = this.$data.postUnData;
-      
+
       this.dataList();
     },
 

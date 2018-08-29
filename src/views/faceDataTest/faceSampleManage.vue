@@ -30,6 +30,7 @@
       </el-table-column>
       <el-table-column prop="id"
         label="序号"
+                       align="center"
       >
         <!--<template slot-scope="scope">-->
           <!--<span style="margin-left: 10px">{{ scope.row.num }}</span>-->
@@ -37,14 +38,17 @@
       </el-table-column>
       <el-table-column
       label="照片"
+      width="120"
+      align="center"
     >
       <template slot-scope="scope">
         <!--<img src="http://dev-api.cc.ibetwo.com/upload/2018/08/09/1_1_1.jpg" alt="" style="width: 6rem;height: 6rem">-->
-        <img  :src="scope.row.avatar" alt="" style="width: 6rem;height: 6rem">
+        <img  :src="scope.row.avatar" alt="" style="width: 6rem;">
       </template>
     </el-table-column>
       <el-table-column
         label="性别"
+        align="center" width="60"
       >
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.gender == 1?'男':'女' }}</span>
@@ -53,6 +57,7 @@
       <el-table-column
         prop="age"
         label="年龄"
+        align="center" width="60"
       >
         <!--<template slot-scope="scope">-->
           <!--<span style="margin-left: 10px">{{ scope.row.f }}</span>-->
@@ -60,6 +65,7 @@
       </el-table-column>
       <el-table-column
         label="姿态角度"
+        align="center"
       >
         <template slot-scope="scope">
           <p>上下俯仰角度:{{ scope.row.pitch }}</p>
@@ -69,6 +75,7 @@
       </el-table-column>
       <el-table-column prop="illumination"
         label="光照"
+                       align="center"
       >
         <!--<template slot-scope="scope">-->
           <!--<span style="margin-left: 10px">{{ scope.row.c }}</span>-->
@@ -76,6 +83,7 @@
       </el-table-column>
       <el-table-column prop="blur"
         label="模糊度"
+                       align="center"
       >
         <!--<template slot-scope="scope">-->
           <!--<span style="margin-left: 10px">{{ scope.row.e }}</span>-->
@@ -83,6 +91,7 @@
       </el-table-column>
       <el-table-column
         label="遮挡"
+        align="center" width="200"
       >
         <template slot-scope="scope">
           <p>左眼遮挡:{{ scope.row.left_eye }}</p>
@@ -96,6 +105,7 @@
       </el-table-column>
       <el-table-column
         label="脸完整度"
+        align="center"
       >
         <template slot-scope="scope" style="text-align: center">
           <span>{{scope.row.completeness == 1 ? '完整' : '溢出'}}</span>
@@ -103,6 +113,7 @@
       </el-table-column>
       <el-table-column
         label="时间"
+        align="center"
       >
         <template slot-scope="scope" style="text-align: center">
           <span>{{scope.row.created_at | date(4)}}</span>
@@ -112,10 +123,12 @@
         prop=""
         label="操作">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.row)">删除</el-button>
+          <div style="text-align: center">
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.row)">删除</el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
