@@ -123,7 +123,7 @@
         <el-form-item label="模糊度:">
           <el-select v-model="ruleForm.dimA" placeholder="请选择" style="width: 7rem" >
             <el-option
-              v-for="item in optionsA"
+              v-for="item in optionsB"
               :key="item"
               :label="item"
               :value="item">
@@ -132,7 +132,7 @@
           <!--<input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="0" v-model="ruleForm.dimA">- -->
           <el-select v-model="ruleForm.dimB" placeholder="请选择" style="width: 7rem" @change="dimBtnB">
             <el-option
-              v-for="item in optionsB"
+              v-for="item in optionsA"
               :key="item"
               :label="item"
               :value="item">
