@@ -120,6 +120,7 @@
     </el-table>
     <el-row>
       <el-col style="text-align: center">
+        <button class="btn" @click="back()" style="margin-right: 2rem">返回</button>
         <button class="btn" @click="add()">保存</button>
       </el-col>
     </el-row>
@@ -260,6 +261,10 @@
               }
             })
           }
+        },
+      //  返回上一页
+        back(){
+          this.$router.replace({name: 'DataList',params: {id:1}})
         },
       }
     }

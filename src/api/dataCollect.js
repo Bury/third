@@ -116,5 +116,14 @@ export default {
 				reject(error)
 			})
 		})
-	},	
+	},
+  unDataBlur(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.UNDATA_BLUR, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
 }

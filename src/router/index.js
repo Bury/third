@@ -88,7 +88,7 @@ const router = new Router({
       component:Templates,
       children:[
         {path:'DataSetting',name:'DataSetting',component:DataSetting},
-        {path:'DataList',name:'DataList',component:DataList},
+        {path:'DataList/:id',name:'DataList',component:DataList},
         {path:'MergeFace/:id',name:'MergeFace',component:MergeFace},
         {path:'AbnormalDataList',name:'AbnormalDataList',component:AbnormalDataList},
         {path:'DataStatistics',name:'DataStatistics',component:DataStatistics},

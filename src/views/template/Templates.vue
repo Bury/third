@@ -73,21 +73,21 @@
         <el-breadcrumb v-if="navMenu === 'MergeFace'" separator="/">
           <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
           <el-breadcrumb-item>
-            <router-link :to="{ name: 'DataList' }" replace>数据列表</router-link>
+            <router-link :to="{ name: 'DataList',params: {'id': 1} }" replace>数据列表</router-link>
           </el-breadcrumb-item>
           <el-breadcrumb-item>合并数据</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'MegerRecord'" separator="/">
           <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
           <el-breadcrumb-item>
-            <router-link :to="{ name: 'DataList' }" replace>数据列表</router-link>
+            <router-link :to="{ name: 'DataList' ,params: {'id': 1}}" replace>数据列表</router-link>
           </el-breadcrumb-item>
           <el-breadcrumb-item>合并记录</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'ArriveRecord'" separator="/">
           <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
           <el-breadcrumb-item>
-            <router-link :to="{ name: 'DataList' }" replace>数据列表</router-link>
+            <router-link :to="{ name: 'DataList',params: {'id': 1} }" replace>数据列表</router-link>
           </el-breadcrumb-item>
           <el-breadcrumb-item>到店记录</el-breadcrumb-item>
         </el-breadcrumb>

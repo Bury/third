@@ -69,7 +69,7 @@ export default {
               center: true
             });
           }
-          this.$router.replace({name: 'DataList'})
+          this.$router.replace({name: 'DataList',params: {id:1}})
         })
       }else{
         this.$message({
@@ -84,7 +84,7 @@ export default {
       this.$data.tableData3.splice(val,1);
     },
     backFirst(){
-      this.$router.replace({name: 'DataList'})
+      this.$router.replace({name: 'DataList',params: {id:1}})
     },
   }
 }

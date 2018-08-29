@@ -2,6 +2,7 @@
 
 import * as utils from '@/utils/index'
 import dataCollectApi from '@/api/dataCollect'
+import storage from '@/utils/storage'
 const cityOptions = [
   {'name':'姿态角度','id':1},
   {'name':'光照','id':2},
@@ -150,6 +151,8 @@ export default {
       idOrChangeMark:'',
       errText:'',
       postUnData:'',
+      PostLocalList:'',
+      currentPage:1,
       // un_angle:0,
       // un_illumination:0,
       // un_blur:0,
@@ -163,8 +166,157 @@ export default {
     // 刷新时，获取动态数据 设置navmenu
     let templates = this.$parent
     templates.navMenu = this.$route.name
-    templates.upperLevelMenu = ''
-    this.dataList();
+    templates.upperLevelMenu = '';
+    this.$data.routerId = this.$route.params.id;
+    if(this.$data.routerId === 1){
+      this.$data.PostLocalList = storage.getLocalStorage('postList');
+      console.log(this.$data.PostLocalList);
+      console.log(this.$data.PostLocalList.st_pitch);
+      console.log(this.$data.PostLocalList.ed_pitch);
+      //填充取到的数据
+      //-商家联动
+      this.$data.merchantId = this.$data.PostLocalList.merchant_id;
+      this.GETmerchantId(this.$data.PostLocalList.merchant_id)
+      this.$data.storeId =this.$data.PostLocalList.store_id;
+      this.GETstoreId(this.$data.PostLocalList.store_id);
+      this.$data.location = this.$data.PostLocalList.device_id ;
+      //-筛选条件
+      this.$data.ruleForm.pitchA = this.$data.PostLocalList.st_pitch;
+      this.$data.ruleForm.pitchB = this.$data.PostLocalList.ed_pitch;
+      this.$data.ruleForm.yawA = this.$data.PostLocalList.st_yaw;
+      this.$data.ruleForm.yawB = this.$data.PostLocalList.ed_yaw;
+      this.$data.ruleForm.rollA = this.$data.PostLocalList.st_roll;
+      this.$data.ruleForm.rollB = this.$data.PostLocalList.ed_roll;
+      this.$data.ruleForm.illA = this.$data.PostLocalList.st_illumination;
+      this.$data.ruleForm.illB = this.$data.PostLocalList.ed_illumination;
+      this.$data.ruleForm.dimA = this.$data.PostLocalList.st_blur;
+      this.$data.ruleForm.dimB = this.$data.PostLocalList.ed_blur;
+      this.$data.ruleForm.keepOut = this.$data.PostLocalList.occlusion;
+      this.$data.ruleForm.faceAll = this.$data.PostLocalList.completeness;
+      //  -时间
+      console.log(storage.getLocalStorage('timeType'));
+      this.$data.timeType = storage.getLocalStorage('timeType');
+      if(this.$data.timeType === 'month'){
+        this.$data.ctrlTimeType = [false,false,false,true,false,false];
+        console.log(this.$data.PostLocalList.st_time);
+        console.log(this.TimeOut(this.$data.PostLocalList.st_time,4))
+        if(this.$data.PostLocalList.st_time == null || this.$data.PostLocalList.st_time == 0){
+          this.$data.month = '';
+        }else{
+          this.$data.month = this.TimeOut(this.$data.PostLocalList.st_time,4);
+        }
+
+      }else if(this.$data.timeType === 'all'){
+        this.$data.ctrlTimeType = [true,false,false,false,false,false];
+        console.log(this.$data.PostLocalList.st_time);
+        console.log(this.$data.PostLocalList.ed_time);
+        // console.log(this.TimeOut(this.$data.PostLocalList.st_time,4))
+        // console.log(this.TimeOut(this.$data.PostLocalList.ed_time,4))
+        if(this.$data.PostLocalList.st_time == null || this.$data.PostLocalList.st_time == 0){
+          this.$data.userDefined[0] = '';
+          this.$data.userDefined[1] = '';
+        }else{
+          this.$data.userDefined[0] = this.TimeOut(this.$data.PostLocalList.st_time,4);
+          this.$data.userDefined[1] = this.TimeOut(this.$data.PostLocalList.ed_time,4);
+        }
+      }else if(this.$data.timeType === 'day'){
+        this.$data.ctrlTimeType = [false,true,false,false,false,false];
+        // console.log(this.$data.PostLocalList.st_time);
+        if(this.$data.PostLocalList.st_time == null || this.$data.PostLocalList.st_time == 0){
+          this.$data.day = '';
+        }else{
+          this.$data.day = this.TimeOut(this.$data.PostLocalList.st_time,4);
+        }
+        // console.log(this.TimeOut(this.$data.PostLocalList.st_time,4))
+        // console.log(this.TimeOut(this.$data.PostLocalList.ed_time,4))
+
+        // this.$data.day[1] = this.TimeOut(this.$data.PostLocalList.ed_time,4);
+      }else if(this.$data.timeType === 'week'){
+        this.$data.ctrlTimeType = [false,false,true,false,false,false];
+        // console.log(this.$data.PostLocalList.st_time);
+        // console.log(this.TimeOut(this.$data.PostLocalList.st_time,4))
+        // console.log(this.TimeOut(this.$data.PostLocalList.ed_time,4))
+        if(this.$data.PostLocalList.st_time == null || this.$data.PostLocalList.st_time == 0){
+          this.$data.week = '';
+        }else {
+          let t = new Date();
+          let y = t.getFullYear();
+          let m = t.getMonth() + 1;
+          let d = t.getDate();
+          let weekd  = t.getDay();
+          if(weekd === 0){ weekd = 7 }
+          this.$data.PostLocalList.st_time = this.getS(`${y}/${m}/${d} 00:00:00`) - 86400*(weekd-1);
+          this.$data.PostLocalList.ed_time =  this.getS(`${y}/${m}/${d} 23:59:59`) + 86400*(7 - weekd);
+          this.$data.week =  this.modelDate(this.$data.PostLocalList.st_time)
+        }
+      }else if(this.$data.timeType === 'year'){
+        this.$data.ctrlTimeType = [false,false,false,false,true,false];
+        // console.log(this.$data.PostLocalList.st_time);
+        // console.log(this.TimeOut(this.$data.PostLocalList.st_time,4))
+        // console.log(this.TimeOut(this.$data.PostLocalList.ed_time,4))
+        if(this.$data.PostLocalList.st_time == null || this.$data.PostLocalList.st_time == 0){
+          this.$data.year = '';
+        }else {
+          this.$data.PostLocalList.st_time = this.getS(`${y}/01/01 00:00:00`);
+          this.$data.PostLocalList.ed_time =  this.getS(`${y}/12/31 23:59:59`);
+          this.$data.year =  this.modelDate(this.$data.PostLocalList.st_time)
+        }
+
+      }else if(this.$data.timeType === 'userDefined'){
+        this.$data.ctrlTimeType = [false,false,false,false,false,true];
+        // console.log(this.$data.PostLocalList.st_time);
+        // console.log(this.TimeOut(this.$data.PostLocalList.st_time,4))
+        // console.log(this.TimeOut(this.$data.PostLocalList.ed_time,4))
+        if(this.$data.PostLocalList.st_time == null || this.$data.PostLocalList.st_time == 0){
+          this.$data.userDefined[0] = '';
+          this.$data.userDefined[1] = '';
+        }else {
+          this.$data.userDefined[0] = this.TimeOut(this.$data.PostLocalList.st_time,4);
+          this.$data.userDefined[1] = this.TimeOut(this.$data.PostLocalList.ed_time,4);
+        }
+
+      }
+    //  -勾选异常
+      if(this.$data.PostLocalList.un_data !== ''){
+        if(this.$data.PostLocalList.un_data === '1'){
+          this.$data.checkAll == true;
+          this.$data.checkedCities = [1];
+        }else if(this.$data.PostLocalList.un_data === '1,2'){
+          this.$data.checkAll == true;
+          this.$data.checkedCities = [1,2];
+        }else if(this.$data.PostLocalList.un_data === '1,2,3'){
+          this.$data.checkAll == true;
+          this.$data.checkedCities = [1,2,3];
+        }else if(this.$data.PostLocalList.un_data === '1,2,3,4'){
+          this.$data.checkAll == true;
+          this.$data.checkedCities = [1,2,3,4];
+        }else if(this.$data.PostLocalList.un_data === '1,2,3,4,5'){
+          this.$data.checkAll == true;
+          this.$data.checkedCities = [1,2,3,4,5];
+        }
+      }
+    //  是否过滤异常
+      console.log(storage.getLocalStorage('radio'))
+      if(storage.getLocalStorage('radio') === 2){
+        this.$data.radio = 2;
+        this.$data.noFilter = true;
+        this.yesFilter = false;
+      }else if(storage.getLocalStorage('radio') === 1){
+        this.$data.radio = 1;
+        this.yesFilter = true;
+        this.$data.noFilter = false;
+      }
+      //分页显示
+      console.log(this.$data.PostLocalList.page)
+      // this.$data.PostLocalList.page = this.$data.PostLocalList.page;
+      this.handleCurrentChange(this.$data.PostLocalList.page);
+      // this.LocalList();
+    }else{
+      console.log('原始');
+      this.dataList();
+    }
+    this.$data.checkListId = [];
+
     this.getMerchant();
   },
 
@@ -238,10 +390,41 @@ export default {
         this.pages = response.data.data.pagination;
       })
     },
+    //缓存数据列表
+    LocalList(){
+      let qs = require('querystring')
+      dataCollectApi.dataListFace(qs.stringify(this.$data.PostLocalList)).then((response) => {
+        console.log(response.data.data.list);
+        this.$data.tableData3 = response.data.data.list;
+        this.pages = response.data.data.pagination;
+      })
+    },
     //切换分页
     handleCurrentChange(val){
-      this.$data.list.page = val;
-      this.dataList();
+      if(this.$data.routerId === 1){
+        console.log('我调动了点击事件')
+        this.$data.PostLocalList.page = val;
+        this.$data.currentPage = val;
+        this.LocalList();
+      }else{
+        this.$data.list.page = val;
+        this.$data.currentPage = val;
+        this.dataList();
+      }
+
+    },
+    //直接跳转分页
+    handleSizeChange(val){
+      if(this.$data.routerId === 1){
+        console.log('我调动了点击事件')
+        this.$data.PostLocalList.page = val;
+        this.$data.currentPage = val;
+        this.LocalList();
+      }else{
+        this.$data.list.page = val;
+        this.$data.currentPage = val;
+        this.dataList();
+      }
     },
     //时间转为秒
     getS(value){
@@ -492,14 +675,22 @@ export default {
         console.log(this.$data.checkListId);
         let deleArry = this.$data.checkListId.join(',');
         console.log(deleArry)
+        //合并之前调一次查询，防止上次已经进行一次存了
+        this.onSubmit();
+        //存储所有填入的值
+        storage.setLocalStorage('postList',this.$data.list);
+        storage.setLocalStorage('timeType',this.$data.timeType);
+        storage.setLocalStorage('radio',this.$data.radio);
+        console.log(this.$data.month);
         this.$router.replace({name: 'MergeFace', params: {id:deleArry}})
       }
+      this.$data.checkListId = [];
     },
     //勾选状态
     handleSelectionChange(val){
       console.log(val);
       this.$data.checkList = val;
-      this.$data.checkListId = [];
+      // this.$data.checkListId = [];
       for(let i = 0; this.$data.checkList.length > 0; i ++){
         let ids = this.$data.checkList[i].id;
         this.$data.checkListId.push(ids);
@@ -762,6 +953,12 @@ export default {
     },
   //  查看合并记录
     handleEdit(val){
+      //查看合并记录之前调一次查询，防止上次已经进行一次存了
+      this.onSubmit();
+      //存储所有填入的值
+      storage.setLocalStorage('postList',this.$data.list);
+      storage.setLocalStorage('timeType',this.$data.timeType);
+      storage.setLocalStorage('radio',this.$data.radio);
       this.$router.replace({name: 'MegerRecord', params: {id:val.id}})
     },
   //  删除记录
@@ -785,6 +982,12 @@ export default {
     },
     //到店记录
     handleDelete(val){
+      //到店记录之前调一次查询，防止上次已经进行一次存了
+      this.onSubmit();
+      //存储所有填入的值
+      storage.setLocalStorage('postList',this.$data.list);
+      storage.setLocalStorage('timeType',this.$data.timeType);
+      storage.setLocalStorage('radio',this.$data.radio);
       this.$router.replace({name: 'ArriveRecord', params: {id:val.customer_id}})
     },
   //  查看百度人脸图

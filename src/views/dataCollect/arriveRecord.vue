@@ -48,6 +48,11 @@
       <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
       </el-pagination>
     </div>
+    <el-row>
+      <el-col style="text-align: center">
+        <button class="btn" @click="back()" style="margin-right: 2rem">返回</button>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -100,10 +105,45 @@
           this.$data.pageThis = val;
           this.getArriveList();
         },
+      //  返回主页
+        back(){
+          this.$router.replace({name: 'DataList',params: {id:1}})
+        }
       }
     }
 </script>
 
 <style scoped>
-
+  .btn{
+    width: 5rem;
+    height: 2.5rem;
+    /*float: right;*/
+    /*margin-right: 5rem;*/
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #4BC076;
+    color: white;
+  }
+  .btn:hover{
+    background: #4DB076;
+    color: #fff!important;
+  }
 </style>

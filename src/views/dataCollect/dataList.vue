@@ -107,6 +107,11 @@
           <div style="margin: 15px 0;"></div>
           <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange" label="isCheck">
             <el-checkbox v-for="city in cities" :label="city.id" :key="city.id" :value="city.id">{{city.name}}</el-checkbox>
+            <!--<el-checkbox label="1" key="1" value="1">姿态角度</el-checkbox>-->
+            <!--<el-checkbox  label="2" key="2" value="2">光照</el-checkbox>-->
+            <!--<el-checkbox  label="3" key="3" value="3">模糊度</el-checkbox>-->
+            <!--<el-checkbox  label="4" key="4" value="4">遮挡</el-checkbox>-->
+            <!--<el-checkbox  label="5" key="5" value="5">脸完整度</el-checkbox>-->
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -268,10 +273,13 @@
       label="识别结果" width="280" align="center"
     >
       <template slot-scope="scope" >
-        <div style="display: flex;align-items: center">
+        <div style="display: flex;align-items: center" v-show="scope.row.score >= 85">
           <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
-          <span :class="{getRed:scope.row.match_mark === 1}">{{scope.row.score}}%相似</span>
+          <span :class="{getRed:scope.row.match_mark === 1}" >{{scope.row.score}}%相似</span>
           <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeErrorB(scope.row,2)"></i>
+        </div>
+        <div style="display: flex;align-items: center" v-show="scope.row.score < 85">
+          <p>/</p>
         </div>
       </template>
     </el-table-column>
@@ -309,7 +317,7 @@
     </el-table-column>
   </el-table>
     <div class="pages" v-if="pages.pageCount > 0">
-    <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+    <el-pagination background layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount' :current-page="currentPage" @size-change="handleSizeChange" :total="pages.totalCount">
     </el-pagination>
     </div>
     <!--标记错误-->
@@ -401,6 +409,10 @@
   }
   .getInYellow{
     color: #800080;
+  }
+  .bir{
+    background-color: #CDEB8B;
+    border:1px solid red;
   }
   .iamgStyle{
     display: flex;

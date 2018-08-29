@@ -124,18 +124,18 @@
           <el-select v-model="ruleForm.dimA" placeholder="请选择" style="width: 7rem" >
             <el-option
               v-for="item in optionsA"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value">
+              :key="item"
+              :label="item"
+              :value="item">
             </el-option>
           </el-select>-
           <!--<input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="0" v-model="ruleForm.dimA">- -->
           <el-select v-model="ruleForm.dimB" placeholder="请选择" style="width: 7rem" @change="dimBtnB">
             <el-option
               v-for="item in optionsB"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value">
+              :key="item"
+              :label="item"
+              :value="item">
             </el-option>
           </el-select>
           <!--<input  class="input" maxlength="16" style="width: 7rem" placeholder="0.1" v-model="ruleForm.dimB" @blur.prevent="dimBtnB()">-->
@@ -281,7 +281,7 @@
       <!--</el-table-column>-->
     </el-table>
     <div class="pages" v-if="pages.pageCount > 0">
-      <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+      <el-pagination background layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount' @size-change="handleSizeChange" :total="pages.totalCount">
       </el-pagination>
     </div>
     <!--恢复标记错误-->

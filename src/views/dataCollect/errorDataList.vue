@@ -263,7 +263,7 @@
         </el-table-column>
       </el-table>
       <div class="pages" v-if="pages.pageCount > 0">
-        <el-pagination background layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount'>
+        <el-pagination background layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount' @size-change="handleSizeChange" :total="pages.totalCount">
         </el-pagination>
       </div>
       <el-dialog :title="dialogTitle" :visible.sync="FormVisible">

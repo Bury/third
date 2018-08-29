@@ -143,6 +143,8 @@ global.CUSTOMER_RECORE = `${SERVER_IP}hawkeye/face/customer-recore`
 global.BAIDU_FACE = `${SERVER_IP}hawkeye/face/baidu-recore`
 //统计
 global.DATA_TJ = `${SERVER_IP}hawkeye/face/data-tj`
+//异常数据下拉列表
+global.UNDATA_BLUR = `${SERVER_IP}hawkeye/face/undata-blur-sel`
 
 //要合并的数据列表
 global.NEED_MERGE = `${SERVER_IP}hawkeye/face/show-faces`

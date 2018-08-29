@@ -72,30 +72,8 @@ const cityOptions = [
       rules:{
 
       },
-      optionsA:[
-        {value:0,name:0},
-        {value:0.1,name:0.1},
-        {value:0.2,name:0.2},
-        {value:0.3,name:0.3},
-        {value:0.4,name:0.4},
-        {value:0.5,name:0.5},
-        {value:0.6,name:0.6},
-        {value:0.7,name:0.7},
-        {value:0.8,name:0.8},
-        {value:0.9,name:0.9},
-      ],
-      optionsB:[
-        {value:0.1,name:0.1},
-        {value:0.2,name:0.2},
-        {value:0.3,name:0.3},
-        {value:0.4,name:0.4},
-        {value:0.5,name:0.5},
-        {value:0.6,name:0.6},
-        {value:0.7,name:0.7},
-        {value:0.8,name:0.8},
-        {value:0.9,name:0.9},
-        {value:1,name:1},
-      ],
+      optionsA:[],
+      optionsB:[],
       equipmentsList:[],
       locationList:[],
       checkList:[],
@@ -158,6 +136,7 @@ const cityOptions = [
     templates.upperLevelMenu = ''
     this.dataList();
     this.getMerchant();
+    this.getAbOption();
   },
 
   methods: {
@@ -197,6 +176,17 @@ const cityOptions = [
         this.$data.locationList = response.data.data;
       })
     },
+    //异常参数下拉
+    getAbOption(){
+      let list = {};
+      let qs = require('querystring')
+      dataCollectApi.unDataBlur(qs.stringify(list)).then((response) => {
+        console.log(response.data.data.ed_sel.opts);
+        this.$data.optionsA = response.data.data.ed_sel.opts;
+        this.$data.optionsB = response.data.data.st_sel.opts;
+        // this.$data.locationList = response.data.data;
+      })
+    },
     //数据列表
     dataList(){
       // let list = {
@@ -232,6 +222,11 @@ const cityOptions = [
     },
     //切换分页
     handleCurrentChange(val){
+      this.$data.list.page = val;
+      this.dataList();
+    },
+    //输入跳转页
+    handleSizeChange(val){
       this.$data.list.page = val;
       this.dataList();
     },

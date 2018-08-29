@@ -202,6 +202,11 @@ export default {
       this.$data.list.page = val;
       this.dataList();
     },
+    //跳分页
+    handleSizeChange(val){
+      this.$data.list.page = val;
+      this.dataList();
+    },
     //选择全部，性别等
     clickAll(){
 
