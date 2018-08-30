@@ -38,7 +38,6 @@ export default {
   },
   created: function () {
     this.$data.username = storage.getLocalStorage('userName');
-    console.log(this.$data.username)
   },
   mounted: function () {
   },

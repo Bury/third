@@ -171,3 +171,7 @@ global.MONITORING_TIME_UPDATE = `${SERVER_IP}hawkeye/monitor-time/update`
 //联动获取设备编号
 global.MONITORING_SDETAIL = `${SERVER_IP}hawkeye/face/msd-detail`
 
+//标签管理
+global.TAG_PARENT_LIST = `${SERVER_IP}hawkeye/tag/parent-list` //父级标签
+global.TAG_CHILDS_LIST = `${SERVER_IP}hawkeye/tag/childs-list` //子级标签
+global.TAG_CHILDS_EDIT = `${SERVER_IP}hawkeye/tag/childs-edit` //子级标签
