@@ -95,12 +95,19 @@
       //  删除
         handleDelete(val){
           let list = {
-            'id	':val.id,
+            'id':val.id,
           }
           let qs = require('querystring')
           faceDataApi.faceGroupDelete(qs.stringify(list)).then((response) => {
             console.log(response.data.data);
-
+            if(response.data.errno === 0){
+              this.getList();
+                this.$message({
+                  message: '删除成功',
+                  type: 'success',
+                  center: true
+                });
+            }
           })
         },
 

@@ -16,19 +16,22 @@
                 <el-menu-item index="6-1"><router-link :to="{name: 'FaceSampleGrouping'}" replace>人脸样本分组管理</router-link></el-menu-item>
                 <el-menu-item index="6-2"><router-link :to="{name: 'RecognitionList'}" replace>人脸识别结果记录</router-link></el-menu-item>
               </el-submenu>
-							<el-submenu index="8">
-								<template slot="title"><img src="static/images/main/myqc.png">监控数据</template>
-								<el-menu-item index="8-1"><router-link :to="{name: 'EyeDataList'}" replace>数据列表</router-link></el-menu-item>
-								<!--<el-menu-item index="8-2"><router-link :to="{name: 'TimeFrameList'}" replace>时段列表</router-link></el-menu-item>-->
-							</el-submenu>
+							<!--<el-submenu index="8">-->
+								<!--<template slot="title"><img src="static/images/main/myqc.png">监控数据</template>-->
+								<!--<el-menu-item index="8-1"><router-link :to="{name: 'EyeDataList'}" replace>数据列表</router-link></el-menu-item>-->
+							<!--</el-submenu>-->
 
               <el-submenu index="7">
-                <template slot="title"><img src="static/images/main/wesupervise.png">鹰眼数据</template>
-                <el-menu-item index="7-1"><router-link :to="{name: 'DataSetting'}" replace>基准数据</router-link></el-menu-item>
+                <template slot="title"><img src="static/images/main/wesupervise.png">鹰眼实时数据观测</template>
+                <el-menu-item index="7-0"><router-link :to="{name: 'ActualArgument'}" replace>实际使用参数同步</router-link></el-menu-item>
+                <el-menu-item index="7-9"><router-link :to="{name: 'ObservationSetting'}" replace>观测识别基准设置</router-link></el-menu-item>
+                <el-menu-item index="7-1"><router-link :to="{name: 'DataSetting'}" replace>正常参数基准设置</router-link></el-menu-item>
                 <el-menu-item index="7-2"><router-link :to="{name: 'DataList'}" replace>数据列表</router-link></el-menu-item>
                 <el-menu-item index="7-3"><router-link :to="{name: 'AbnormalDataList'}" replace>异常数据列表</router-link></el-menu-item>
                 <el-menu-item index="7-4"><router-link :to="{name: 'DataStatistics'}" replace>统计</router-link></el-menu-item>
                 <el-menu-item index="7-6"><router-link :to="{name: 'ErrorDataList'}" replace>错误数据列表</router-link></el-menu-item>
+                <el-menu-item index="7-7"><router-link :to="{name: 'DataRecyleBin'}" replace>回收站</router-link></el-menu-item>
+                <el-menu-item index="7-8"><router-link :to="{name: 'EyeDataList'}" replace>监控视频观察结果</router-link></el-menu-item>
               </el-submenu>
                 <el-submenu index="3">
                     <template slot="title"><img src="static/images/main/icontrol.png">设备</template>
