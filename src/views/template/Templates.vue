@@ -58,58 +58,70 @@
 
 				 <!--监控数据 -->
 				 <el-breadcrumb v-if="navMenu === 'EyeDataList'" separator="/">
-				 	<el-breadcrumb-item>监控数据</el-breadcrumb-item>
-				 	<el-breadcrumb-item>数据列表</el-breadcrumb-item>
+				 	<el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
+				 	<el-breadcrumb-item>监控视频观察结果</el-breadcrumb-item>
 				 </el-breadcrumb>
 				 <el-breadcrumb v-if="navMenu === 'TimeFrameList'" separator="/">
-				 <el-breadcrumb-item>监控数据</el-breadcrumb-item>
+				 <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
            <el-breadcrumb-item>
-             <router-link :to="{ name: 'EyeDataList' }" replace>数据列表</router-link>
+             <router-link :to="{ name: 'EyeDataList' }" replace>监控视频观察结果</router-link>
            </el-breadcrumb-item>
 				 <el-breadcrumb-item>时段列表</el-breadcrumb-item>
 				 </el-breadcrumb>
 
         <!--鹰眼数据-->
+        <el-breadcrumb v-if="navMenu === 'ActualArgument'" separator="/">
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
+          <el-breadcrumb-item>实际使用参数同步</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'ObservationSetting'" separator="/">
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
+          <el-breadcrumb-item>观测识别基准设置</el-breadcrumb-item>
+        </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'DataSetting'" separator="/">
-          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
-          <el-breadcrumb-item>基准数据</el-breadcrumb-item>
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
+          <el-breadcrumb-item>正常参数基准设置</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'DataList'" separator="/">
-          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
           <el-breadcrumb-item>数据列表</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'MergeFace'" separator="/">
-          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
           <el-breadcrumb-item>
             <router-link :to="{ name: 'DataList',params: {'id': 1} }" replace>数据列表</router-link>
           </el-breadcrumb-item>
           <el-breadcrumb-item>合并数据</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'MegerRecord'" separator="/">
-          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
           <el-breadcrumb-item>
             <router-link :to="{ name: 'DataList' ,params: {'id': 1}}" replace>数据列表</router-link>
           </el-breadcrumb-item>
           <el-breadcrumb-item>合并记录</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'ArriveRecord'" separator="/">
-          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
           <el-breadcrumb-item>
             <router-link :to="{ name: 'DataList',params: {'id': 1} }" replace>数据列表</router-link>
           </el-breadcrumb-item>
           <el-breadcrumb-item>到店记录</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'AbnormalDataList'" separator="/">
-          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
           <el-breadcrumb-item>异常数据列表</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'DataStatistics'" separator="/">
-          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
           <el-breadcrumb-item>统计</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'ErrorDataList'" separator="/">
-          <el-breadcrumb-item>鹰眼数据</el-breadcrumb-item>
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
           <el-breadcrumb-item>错误数据列表</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'DataRecyleBin'" separator="/">
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
+          <el-breadcrumb-item>回收站</el-breadcrumb-item>
         </el-breadcrumb>
         <!-- 设备 -->
         <el-breadcrumb v-if="navMenu === 'Pallet'" separator="/">

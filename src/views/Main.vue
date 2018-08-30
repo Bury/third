@@ -100,14 +100,11 @@ export default {
           sidebar.defaultActive = '6-1'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
-        case 'EyeDataList':
-          sidebar.defaultActive = '8-1'
-          sidebar.imgSrcHome = 'static/images/main/home.png'
-          break
+
         case 'TimeFrameList':
           sidebar.defaultActive = '8-1'
           sidebar.imgSrcHome = 'static/images/main/home.png'
-          break  
+          break
         case 'FaceSampleManage':
         case 'RecognitionResult':
         case 'RecognitionList':
@@ -116,6 +113,10 @@ export default {
           break
         case 'RecognitionResultsFound':
         //  鹰眼数据
+        case 'ActualArgument':
+          sidebar.defaultActive = '7-0'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
         case 'DataSetting':
           sidebar.defaultActive = '7-1'
           sidebar.imgSrcHome = 'static/images/main/home.png'
@@ -137,6 +138,18 @@ export default {
           break
         case 'ErrorDataList':
           sidebar.defaultActive = '7-6'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'DataRecyleBin':
+          sidebar.defaultActive = '7-7'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'EyeDataList':
+          sidebar.defaultActive = '7-8'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'ObservationSetting':
+          sidebar.defaultActive = '7-9'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
         //   usercenter.topMenu = ''

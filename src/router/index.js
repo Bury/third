@@ -51,6 +51,9 @@ import DataStatistics from '../views/dataCollect/dataStatistics'
 import ErrorDataList from '../views/dataCollect/errorDataList'
 import MegerRecord from '../views/dataCollect/megerRecord'
 import ArriveRecord from '../views/dataCollect/arriveRecord'
+import DataRecyleBin from '../views/dataCollect/dataRecyleBin'
+import ActualArgument from '../views/dataCollect/actualArgument'
+import ObservationSetting from '../views/dataCollect/observationSetting'
 
 Vue.use(Router)
 
@@ -107,6 +110,9 @@ const router = new Router({
         {path:'ErrorDataList',name:'ErrorDataList',component:ErrorDataList},
         {path:'MegerRecord/:id',name:'MegerRecord',component:MegerRecord},
         {path:'ArriveRecord/:id',name:'ArriveRecord',component:ArriveRecord},
+        {path:'DataRecyleBin',name:'DataRecyleBin',component:DataRecyleBin},
+        {path:'ActualArgument',name:'ActualArgument',component:ActualArgument},
+        {path:'ObservationSetting',name:'ObservationSetting',component:ObservationSetting},
       ]
     },{
 			path:'eyeData',

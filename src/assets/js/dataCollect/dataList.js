@@ -319,7 +319,11 @@ export default {
 
     this.getMerchant();
   },
-
+mounted(){
+  storage.setLocalStorage('postList','');
+  storage.setLocalStorage('timeType','');
+  storage.setLocalStorage('radio','');
+},
   methods: {
     //商家下拉
     getMerchant(){
@@ -401,16 +405,22 @@ export default {
     },
     //切换分页
     handleCurrentChange(val){
+      //this.$data.routerId === 1   storage.getLocalStorage('postList') === ''
       if(this.$data.routerId === 1){
-        console.log('我调动了点击事件')
+        console.log('我走了存储')
         this.$data.PostLocalList.page = val;
         this.$data.currentPage = val;
         this.LocalList();
+        this.dataList();
       }else{
+        console.log('我走了原生');
         this.$data.list.page = val;
         this.$data.currentPage = val;
         this.dataList();
       }
+      // this.$data.list.page = val;
+      // this.$data.currentPage = val;
+      // this.dataList();
 
     },
     //直接跳转分页
@@ -504,6 +514,9 @@ export default {
       this.$data.list.merchant_id = this.$data.merchantId;
       // this.$data.list.store_id = '';
       // this.$data.list.device_id = '';
+      //传分页
+      console.log('分页' + this.$data.currentPage);
+      this.$data.list.page = this.$data.currentPage;
 
       //筛选信息
         this.$data.list.store_id = this.$data.storeId ;
@@ -965,6 +978,7 @@ export default {
     handleDeleteThis(val){
       let list = {
         'id': val.id,
+        'type':0
       }
       let qs = require('querystring')
       dataCollectApi.deletFasce(qs.stringify(list)).then((response) => {
