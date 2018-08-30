@@ -38,7 +38,7 @@ export default {
       if (usercenter) {
         usercenter.navMenu = pathName
       }
-
+       console.log(pathName)
       switch (pathName) {
         // 商家
         case 'BusinessList':
@@ -46,6 +46,14 @@ export default {
           sidebar.defaultActive = '2-1'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
+        case 'tagManage':
+          sidebar.defaultActive = '9'
+           sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'childsTag':
+          sidebar.defaultActive = '9'
+           sidebar.imgSrcHome = 'static/images/main/home.png'
+          break  
         // 设备
         case 'Pallet':
         case 'Store':

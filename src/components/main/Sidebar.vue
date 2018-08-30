@@ -7,6 +7,9 @@
                 <el-menu-item index="1">
                   <router-link :to="{name: 'Dashboard'}" replace><img :src="imgSrcHome">统计</router-link>
                 </el-menu-item>
+                <el-menu-item index="9">
+                  <router-link :to="{name: 'tagManage'}" replace><img src="static/images/main/myqc.png">标签管理</router-link>
+                </el-menu-item>
                 <el-submenu index="2">
                     <template slot="title"><img src="static/images/main/myqc.png">商家</template>
                     <el-menu-item index="2-1"><router-link :to="{name: 'BusinessList'}" replace>商家管理</router-link></el-menu-item>

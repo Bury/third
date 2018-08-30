@@ -9,6 +9,11 @@ import Templates from '../views/template/Templates'
 // 登录页面
 import Home from '../views/Home'
 
+//标签管理
+import tagManage from '../views/tags/tagManage'
+import childsTag from '../views/tags/childsTag'
+
+
 //商家
 import BusinessList from '../views/business/businessList'
 import Modules from '../views/business/modules'
@@ -64,6 +69,13 @@ const router = new Router({
       path: '',
       name: 'Dashboard',
       component: Dashboard
+    },{    	
+    	path: 'tags',
+      component: Templates,
+      children:[
+          { path: 'tagManage', name: 'tagManage', component: tagManage },
+          { path: 'childsTag/:id', name: 'childsTag', component: childsTag }
+      ]
     },{
       path: 'business',
       component: Templates,
