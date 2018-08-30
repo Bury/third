@@ -269,16 +269,16 @@
           <span>{{scope.row.created_at | date(4)}}</span>
         </template>
       </el-table-column>
-      <!--<el-table-column-->
-      <!--label="操作"-->
-      <!--&gt;-->
-      <!--<template slot-scope="scope" style="display: flex">-->
-      <!--<el-button-->
-      <!--size="mini"-->
-      <!--type="danger"-->
-      <!--@click="handleDelete(scope.row)">移除</el-button>-->
-      <!--</template>-->
-      <!--</el-table-column>-->
+      <el-table-column
+      label="操作"
+      >
+      <template slot-scope="scope" style="display: flex">
+        <el-button
+        size="mini"
+        type="danger"
+        @click="handleBack(scope.row)">恢复</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <div class="pages" v-if="pages.pageCount > 0">
       <el-pagination background layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount' @size-change="handleSizeChange" :total="pages.totalCount">

@@ -691,6 +691,26 @@ export default {
     clearRuleForm(){
       this.$data.ruleForm = {};
     },
+  //  恢复删除
+    handleBack(val){
+      let list = {
+        'id': val.id,
+        'type':1
+      }
+      let qs = require('querystring')
+      dataCollectApi.deletFasce(qs.stringify(list)).then((response) => {
+        console.log(response.data.errno);
+        if(response.data.errno === 0){
+          this.$message({
+            message: '数据恢复成功',
+            type: 'success',
+            center: true
+          });
+          this.dataList();
+        };
+
+      })
+    },
   }
 
 }

@@ -978,6 +978,7 @@ mounted(){
     handleDeleteThis(val){
       let list = {
         'id': val.id,
+        'type':0
       }
       let qs = require('querystring')
       dataCollectApi.deletFasce(qs.stringify(list)).then((response) => {
