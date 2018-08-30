@@ -82,7 +82,7 @@ export default {
       tableData3: [],
       pages:'',
       list:{
-        'list_type':1,
+        'list_type':9,
         'merchant_id':'',
         'store_id':'',
         'device_id':'',
