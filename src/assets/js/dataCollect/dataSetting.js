@@ -80,22 +80,15 @@ export default {
     dimBtnB(){
       console.log(this.$data.ruleForm.dimA);
       console.log(this.$data.ruleForm.dimB);
-      if(this.$data.ruleForm.dimA == ''){
-        this.$message({
-          message: '请先选取开始数据',
-          type: 'error',
-          center: true
-        });
-        this.$data.ruleForm.dimB = '';
-      }else {
-        if(this.$data.ruleForm.dimA >= this.$data.ruleForm.dimB){
-          this.$message({
-            message: '开始范围不能大于结束范围',
-            type: 'error',
-            center: true
-          });
-          this.$data.ruleForm.dimB = '';
-        }
+
+        // if(this.$data.ruleForm.dimA >= this.$data.ruleForm.dimB){
+        //   this.$message({
+        //     message: '开始范围不能大于结束范围',
+        //     type: 'error',
+        //     center: true
+        //   });
+        //   this.$data.ruleForm.dimB = '';
+        // }
         // else{
         //   if(this.$data.ruleForm.dimA > 0.1 || this.$data.ruleForm.dimB > 0.1){
         //     this.$message({
@@ -107,40 +100,40 @@ export default {
         //     this.$data.ruleForm.dimB = '';
         //   }
         // }
-      }
+      // }
     },
     //光照范围判断
     illBBtn(){
       console.log(this.$data.ruleForm.illA)
       console.log(this.$data.ruleForm.illB)
-      if(this.$data.ruleForm.illA == ''){
-        this.$message({
-          message: '请先填写开始范围',
-          type: 'error',
-          center: true
-        });
-        this.$data.ruleForm.illB = '';
-      }else{
-        if(this.$data.ruleForm.illA > this.$data.ruleForm.illB){
-          this.$message({
-            message: '开始范围必须小于结束范围',
-            type: 'error',
-            center: true
-          });
-          this.$data.ruleForm.illA = '';
-          this.$data.ruleForm.illB = '';
-        }else{
-          if(this.$data.ruleForm.illA > 255 || this.$data.ruleForm.illA > 255){
-            this.$message({
-              message: '填写范围不合法',
-              type: 'error',
-              center: true
-            });
-            this.$data.ruleForm.illA = '';
-            this.$data.ruleForm.illB = '';
-          }
-        }
-      }
+      // if(this.$data.ruleForm.illA == ''){
+      //   this.$message({
+      //     message: '请先填写开始范围',
+      //     type: 'error',
+      //     center: true
+      //   });
+      //   this.$data.ruleForm.illB = '';
+      // }else{
+      //   if(this.$data.ruleForm.illA > this.$data.ruleForm.illB){
+      //     this.$message({
+      //       message: '开始范围必须小于结束范围',
+      //       type: 'error',
+      //       center: true
+      //     });
+      //     this.$data.ruleForm.illA = '';
+      //     this.$data.ruleForm.illB = '';
+      //   }else{
+      //     if(this.$data.ruleForm.illA > 255 || this.$data.ruleForm.illA > 255){
+      //       this.$message({
+      //         message: '填写范围不合法',
+      //         type: 'error',
+      //         center: true
+      //       });
+      //       this.$data.ruleForm.illA = '';
+      //       this.$data.ruleForm.illB = '';
+      //     }
+      //   }
+      // }
     },
     test(a,b,num,type){
       console.log(a);
@@ -209,15 +202,15 @@ export default {
     },
     //姿态角度pitch判断
     pitchBBtn(){
-      this.test(parseFloat(this.$data.ruleForm.pitchA),parseFloat(this.$data.ruleForm.pitchB),90,1);
+      // this.test(parseFloat(this.$data.ruleForm.pitchA),parseFloat(this.$data.ruleForm.pitchB),90,1);
     },
     //姿态角度roll判断
     rollBBtn(){
-      this.test(parseFloat(this.$data.ruleForm.rollA),parseFloat(this.$data.ruleForm.rollB),180,2);
+      // this.test(parseFloat(this.$data.ruleForm.rollA),parseFloat(this.$data.ruleForm.rollB),180,2);
     },
     //姿态角度yaw判断
     yawBBtn(){
-      this.test(parseFloat(this.$data.ruleForm.yawA),parseFloat(this.$data.ruleForm.yawB),90,3);
+      // this.test(parseFloat(this.$data.ruleForm.yawA),parseFloat(this.$data.ruleForm.yawB),90,3);
     },
   //  保存
     submitForm(val){
