@@ -17,6 +17,20 @@ export default {
         keepOut:'',
         illA:'',
         illB:'',
+        left_eye_st:'',
+        left_eye_ed:'',
+        right_eye_st:'',
+        right_eye_ed:'',
+        nose_st:'',
+        nose_ed:'',
+        mouth_st:'',
+        mouth_ed:'',
+        left_cheek_st:'',
+        left_cheek_ed:'',
+        right_cheek_st:'',
+        right_cheek_ed:'',
+        chin_contour_st:'',
+        chin_contour_ed:''
       },
       rules:{
         // illA:globalRules.setting.illRules()
@@ -264,6 +278,23 @@ export default {
                     'blur_ed': this.$data.ruleForm.dimB,
                     'occlusion': this.$data.ruleForm.keepOut,
                     'completeness': this.$data.ruleForm.faceAll,
+
+                  //遮挡
+                    'left_eye_st':this.$data.ruleForm.left_eye_st,
+                    'left_eye_ed':this.$data.ruleForm.left_eye_ed,
+                    'right_eye_st':this.$data.ruleForm.right_eye_st,
+                    'right_eye_ed':this.$data.ruleForm.right_eye_ed,
+                    'nose_st':this.$data.ruleForm.nose_st,
+                    'nose_ed':this.$data.ruleForm.nose_ed,
+                    'mouth_st':this.$data.ruleForm.mouth_st,
+                    'mouth_ed':this.$data.ruleForm.mouth_ed,
+                    'left_cheek_st':this.$data.ruleForm.left_cheek_st,
+                    'left_cheek_ed':this.$data.ruleForm.left_cheek_ed,
+                    'right_cheek_st':this.$data.ruleForm.right_cheek_st,
+                    'right_cheek_ed':this.$data.ruleForm.right_cheek_ed,
+                    'chin_contour_st':this.$data.ruleForm.chin_contour_st,
+                    'chin_contour_ed':this.$data.ruleForm.chin_contour_ed
+
                   }
                   let qs = require('querystring')
                   dataCollectApi.dataSettingSave(qs.stringify(list)).then((response) => {
@@ -300,6 +331,22 @@ export default {
         this.$data.ruleForm.dimB = response.data.data.blur_ed;
         this.$data.ruleForm.keepOut = response.data.data.occlusion;
         this.$data.ruleForm.faceAll = response.data.data.completeness;
+
+        //遮挡
+          this.$data.ruleForm.left_eye_st=response.data.data.left_eye_st;
+          this.$data.ruleForm.left_eye_ed=response.data.data.left_eye_ed;
+          this.$data.ruleForm.right_eye_st=response.data.data.right_eye_st;
+          this.$data.ruleForm.right_eye_ed=response.data.data.right_eye_ed;
+          this.$data.ruleForm.nose_st=response.data.data.nose_st;
+          this.$data.ruleForm.nose_ed=response.data.data.nose_ed;
+          this.$data.ruleForm.mouth_st=response.data.data.mouth_st;
+          this.$data.ruleForm.mouth_ed=response.data.data.mouth_ed;
+          this.$data.ruleForm.left_cheek_st=response.data.data.left_cheek_st;
+          this.$data.ruleForm.left_cheek_ed=response.data.data.left_cheek_ed;
+          this.$data.ruleForm.right_cheek_st=response.data.data.right_cheek_st;
+          this.$data.ruleForm.right_cheek_ed=response.data.data.right_cheek_ed;
+         this.$data.ruleForm.chin_contour_st=response.data.data.chin_contour_st;
+          this.$data.ruleForm.chin_contour_ed=response.data.data.chin_contour_ed;
       })
     },
   }

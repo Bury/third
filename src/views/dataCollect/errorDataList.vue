@@ -100,41 +100,76 @@
           <el-radio-button label="身份"></el-radio-button>
         </el-radio-group>
       </el-row>
-      <div class="allTop" :model="ruleForm" ref="ruleForm">
+      <div class="allTop" :model="ruleForm" ref="ruleForm" style="width: 70rem">
         <h3>参数超标范围:</h3>
-        <div  style="margin-top: 1rem">
+        <div  style="margin-top: 1rem;display: flex">
+          <div style="width: 33rem">
+            <div class="firstTop">
+              <h4 style="margin-top: 3rem">姿态角度:</h4>
+              <div style="margin-left: 2rem">
+                <div class="firstTop">
+                  <p>上下俯仰上限范围:{{ruleForm.pitchA}}</p>
+                  <p style="margin-left: 2rem">上下俯仰下限范围:{{ruleForm.pitchB}}</p>
+                </div>
+                <div class="firstTop">
+                  <p>左右旋转上限范围:{{ruleForm.rollA}}</p>
+                  <p style="margin-left: 2rem">左右旋转下限范围:{{ruleForm.rollB}}</p>
+                </div>
+                <div class="firstTop">
+                  <p>平面旋转上限范围:{{ruleForm.yawA}}</p>
+                  <p style="margin-left: 2rem">平面旋转下限范围:{{ruleForm.yawB}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="firstTop decond">
+              <h4 style="width: 3rem">光照:</h4>
+              <div style="margin-right: 2rem">
+                <div style="margin-left: 1rem">
+                  <p>上限范围:{{ruleForm.illA}}</p>
+                  <p>下限范围:{{ruleForm.illB}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="firstTop deconds">
+              <h4 >模糊度:</h4>
+              <div>
+                <div style="margin-left: 2rem">
+                  <p>上限范围:{{ruleForm.dimA}}</p>
+                  <p>下限范围:{{ruleForm.dimB}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="firstTop">
-            <h4 style="margin-top: 3rem">姿态角度:</h4>
+            <h4 style="margin-top: 3rem">遮挡:</h4>
             <div style="margin-left: 2rem">
               <div class="firstTop">
-                <p>上下俯仰上限范围:{{ruleForm.pitchA}}</p>
-                <p style="margin-left: 2rem">上下俯仰下限范围:{{ruleForm.pitchB}}</p>
+                <p>左眼被遮挡上限范围:{{ruleForm.left_eye_st}}</p>
+                <p style="margin-left: 2rem">左眼被遮挡下限范围:{{ruleForm.left_eye_ed}}</p>
               </div>
               <div class="firstTop">
-                <p>左右旋转上限范围:{{ruleForm.rollA}}</p>
-                <p style="margin-left: 2rem">左右旋转下限范围:{{ruleForm.rollB}}</p>
+                <p>右眼被遮挡上限范围:{{ruleForm.right_eye_st}}</p>
+                <p style="margin-left: 2rem">右眼被遮挡下限范围:{{ruleForm.right_eye_ed}}</p>
               </div>
               <div class="firstTop">
-                <p>平面旋转上限范围:{{ruleForm.yawA}}</p>
-                <p style="margin-left: 2rem">平面旋转下限范围:{{ruleForm.yawB}}</p>
+                <p>鼻子被遮挡上限范围:{{ruleForm.nose_st}}</p>
+                <p style="margin-left: 2rem">鼻子被遮挡下限范围:{{ruleForm.nose_ed}}</p>
               </div>
-            </div>
-          </div>
-          <div class="firstTop decond">
-            <h4>光照:</h4>
-            <div style="margin-right: 2rem">
-              <div style="margin-left: 1rem">
-                <p>上限范围:{{ruleForm.illA}}</p>
-                <p>下限范围:{{ruleForm.illB}}</p>
+              <div class="firstTop">
+                <p>嘴巴被遮挡上限范围:{{ruleForm.mouth_st}}</p>
+                <p style="margin-left: 2rem">嘴巴被遮挡下限范围:{{ruleForm.mouth_ed}}</p>
               </div>
-            </div>
-          </div>
-          <div class="firstTop deconds">
-            <h4>模糊度:</h4>
-            <div>
-              <div style="margin-left: 2rem">
-                <p>上限范围:{{ruleForm.dimA}}</p>
-                <p>下限范围:{{ruleForm.dimB}}</p>
+              <div class="firstTop">
+                <p>左脸颊被遮挡上限范围:{{ruleForm.left_cheek_st}}</p>
+                <p style="margin-left: 2rem">左脸颊被遮挡下限范围:{{ruleForm.left_cheek_ed}}</p>
+              </div>
+              <div class="firstTop">
+                <p>右脸颊被遮挡上限范围:{{ruleForm.right_cheek_st}}</p>
+                <p style="margin-left: 2rem">右脸颊被遮挡下限范围:{{ruleForm.right_cheek_ed}}</p>
+              </div>
+              <div class="firstTop">
+                <p>下巴被遮挡上限范围:{{ruleForm.chin_contour_st}}</p>
+                <p style="margin-left: 2rem">下巴被遮挡下限范围:{{ruleForm.chin_contour_ed}}</p>
               </div>
             </div>
           </div>

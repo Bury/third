@@ -126,4 +126,22 @@ export default {
       })
     })
   },
+  saveMacthSet(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.SAVE_MACTH_SET, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  seeMacthSet(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.SEE_MACTH_SET, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
 }

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+  import dataCollectApi from '@/api/dataCollect'
     export default {
         name: "observation-setting",
       data(){
@@ -33,6 +34,7 @@
         templates.navMenu = this.$route.name
         templates.upperLevelMenu = '';
         this.getOption();
+        this.dataBack();
       },
       methods:{
         getOption(){
@@ -42,7 +44,28 @@
 
         },
         onSubmit(){
-
+          let list = {
+            'match_set':this.$data.form.region
+          }
+          let qs = require('querystring')
+          dataCollectApi.saveMacthSet(qs.stringify(list)).then((response) => {
+            if(response.data.errno == 0){
+              this.$message({
+                message: '设置成功',
+                type: 'success',
+                center: true
+              });
+              this.dataBack();
+            }
+          })
+        },
+        dataBack(){
+          let list = {}
+          let qs = require('querystring')
+          dataCollectApi.seeMacthSet(qs.stringify(list)).then((response) => {
+            console.log(response.data.data.match_set);
+            this.$data.form.region = response.data.data.match_set;
+          })
         },
       }
     }

@@ -68,6 +68,20 @@ const cityOptions = [
         illA:'',
         illB:'',
         faceIsAll:'',
+        left_eye_st:'',
+        left_eye_ed:'',
+        right_eye_st:'',
+        right_eye_ed:'',
+        nose_st:'',
+        nose_ed:'',
+        mouth_st:'',
+        mouth_ed:'',
+        left_cheek_st:'',
+        left_cheek_ed:'',
+        right_cheek_st:'',
+        right_cheek_ed:'',
+        chin_contour_st:'',
+        chin_contour_ed:''
       },
       rules:{
 
@@ -113,6 +127,21 @@ const cityOptions = [
         'err_match':'',
         'page':1,
         'page_size':10,
+        //  遮挡
+        'left_eye_st':'',
+        'left_eye_ed':'',
+        'right_eye_st':'',
+        'right_eye_ed':'',
+        'nose_st':'',
+        'nose_ed':'',
+        'mouth_st':'',
+        'mouth_ed':'',
+        'left_cheek_st':'',
+        'left_cheek_ed':'',
+        'right_cheek_st':'',
+        'right_cheek_ed':'',
+        'chin_contour_st':'',
+        'chin_contour_ed':''
       },
       checkList:[],
       checkListId:[],
@@ -315,6 +344,22 @@ const cityOptions = [
         this.$data.list.ed_blur= this.$data.ruleForm.dimB,
         this.$data.list.occlusion= this.$data.ruleForm.keepOut,
         this.$data.list.completeness= this.$data.ruleForm.faceAll,
+
+          //    -遮挡
+          this.$data.list.left_eye_st = this.$data.ruleForm.left_eye_st;
+      this.$data.list.left_eye_ed = this.$data.ruleForm.left_eye_ed;
+      this.$data.list.right_eye_st = this.$data.ruleForm.right_eye_st;
+      this.$data.list.right_eye_ed = this.$data.ruleForm.right_eye_ed;
+      this.$data.list.nose_st =  this.$data.ruleForm.nose_st;
+      this.$data.list.nose_ed = this.$data.ruleForm.nose_ed;
+      this.$data.list.mouth_st = this.$data.ruleForm.mouth_st;
+      this.$data.list.mouth_ed = this.$data.ruleForm.mouth_ed;
+      this.$data.list.left_cheek_st =  this.$data.ruleForm.left_cheek_st;
+      this.$data.list.left_cheek_ed = this.$data.ruleForm.left_cheek_ed;
+      this.$data.list.right_cheek_st = this.$data.ruleForm.right_cheek_st;
+      this.$data.list.right_cheek_ed = this.$data.ruleForm.right_cheek_ed;
+      this.$data.list.chin_contour_st = this.$data.ruleForm.chin_contour_st;
+      this.$data.list.chin_contour_ed = this.$data.ruleForm.chin_contour_ed;
         //过滤异常的
         // console.log(this.$data.checkAll);
       // console.log(this.$data.checkedCities);

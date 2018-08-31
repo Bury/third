@@ -145,6 +145,10 @@ global.BAIDU_FACE = `${SERVER_IP}hawkeye/face/baidu-recore`
 global.DATA_TJ = `${SERVER_IP}hawkeye/face/data-tj`
 //异常数据下拉列表
 global.UNDATA_BLUR = `${SERVER_IP}hawkeye/face/undata-blur-sel`
+//观测数据限制设定
+global.SAVE_MACTH_SET = `${SERVER_IP}hawkeye/datum/save-match-set`
+//查看
+global.SEE_MACTH_SET = `${SERVER_IP}hawkeye/datum/match-set`
 
 //要合并的数据列表
 global.NEED_MERGE = `${SERVER_IP}hawkeye/face/show-faces`

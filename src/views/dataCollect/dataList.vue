@@ -168,10 +168,38 @@
         <input type="text" class="input" maxlength="3" placeholder="255" v-model="ruleForm.illB" onkeyup="this.value=this.value.replace(/[^\d{1,3}]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d{1,3}]/g,'') " style="width: 7rem" @blur.prevent="illBBtn()">
       </el-form-item>
       <el-form-item label="遮挡:">
-        <el-select v-model="ruleForm.keepOut" placeholder="请选择" style="width: 7rem">
-          <el-option value="1" label="是">是</el-option>
-          <el-option value="2" label="否">否</el-option>
-        </el-select>
+        <!--<el-select v-model="ruleForm.keepOut" placeholder="请选择" style="width: 7rem">-->
+          <!--<el-option value="1" label="是">是</el-option>-->
+          <!--<el-option value="2" label="否">否</el-option>-->
+        <!--</el-select>-->
+        <el-form-item label="左眼被遮挡的阈值:" >
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.left_eye_st">-
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.left_eye_ed">
+        </el-form-item>
+        <el-form-item label="右眼被遮挡的阈值:" >
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.right_eye_st">-
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.right_eye_ed">
+        </el-form-item>
+        <el-form-item label="鼻子被遮挡的阈值:" >
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.nose_st">-
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.nose_ed">
+        </el-form-item>
+        <el-form-item label="嘴巴被遮挡的阈值:" >
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.mouth_st">-
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.mouth_ed">
+        </el-form-item>
+        <el-form-item label="左脸颊被遮挡的阈值:" >
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.left_cheek_st">-
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.left_cheek_ed">
+        </el-form-item>
+        <el-form-item label="右脸颊被遮挡的阈值:" >
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.right_cheek_st">-
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.right_cheek_ed">
+        </el-form-item>
+        <el-form-item label="下巴被遮挡的阈值:" >
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.chin_contour_st">-
+          <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.chin_contour_ed">
+        </el-form-item>
       </el-form-item>
     </el-form>
     </div>
@@ -273,12 +301,12 @@
       label="识别结果" width="280" align="center"
     >
       <template slot-scope="scope" >
-        <div style="display: flex;align-items: center" v-show="scope.row.score >= 85">
+        <div style="display: flex;align-items: center" v-show="scope.row.score >= getBackCheck">
           <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
           <span :class="{getRed:scope.row.match_mark === 1}" >{{scope.row.score}}%相似</span>
           <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeErrorB(scope.row,2)"></i>
         </div>
-        <div style="display: flex;align-items: center" v-show="scope.row.score < 85">
+        <div style="display: flex;align-items: center" v-show="scope.row.score < getBackCheck">
           <p>/</p>
         </div>
       </template>
@@ -317,7 +345,7 @@
     </el-table-column>
   </el-table>
     <div class="pages" v-if="pages.pageCount > 0">
-    <el-pagination background layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount' :current-page="currentPage" @size-change="handleSizeChange" :total="pages.totalCount">
+    <el-pagination background layout="total,prev, pager, next,jumper" @current-change="handleCurrentChange" :page-size="pages.perPage" :page-count = 'pages.pageCount' :current-page="pages.currentPage" @size-change="handleSizeChange" :total="pages.totalCount">
     </el-pagination>
     </div>
     <!--标记错误-->

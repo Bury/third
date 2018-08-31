@@ -77,6 +77,20 @@ export default {
         illA:'',
         illB:'',
         faceIsAll:'',
+        left_eye_st:'',
+        left_eye_ed:'',
+        right_eye_st:'',
+        right_eye_ed:'',
+        nose_st:'',
+        nose_ed:'',
+        mouth_st:'',
+        mouth_ed:'',
+        left_cheek_st:'',
+        left_cheek_ed:'',
+        right_cheek_st:'',
+        right_cheek_ed:'',
+        chin_contour_st:'',
+        chin_contour_ed:''
       },
       rules:{
 
@@ -145,6 +159,21 @@ export default {
         'err_match':'',
         'page':1,
         'page_size':10,
+      //  遮挡
+        'left_eye_st':'',
+        'left_eye_ed':'',
+        'right_eye_st':'',
+        'right_eye_ed':'',
+        'nose_st':'',
+        'nose_ed':'',
+        'mouth_st':'',
+        'mouth_ed':'',
+        'left_cheek_st':'',
+        'left_cheek_ed':'',
+        'right_cheek_st':'',
+        'right_cheek_ed':'',
+        'chin_contour_st':'',
+        'chin_contour_ed':''
       },
       checkList:[],
       checkListId:[],
@@ -152,12 +181,14 @@ export default {
       errText:'',
       postUnData:'',
       PostLocalList:'',
-      currentPage:1,
+      // currentPage:1,
+
       // un_angle:0,
       // un_illumination:0,
       // un_blur:0,
       // un_occlusion:0,
       // un_completeness:0,
+      getBackCheck:'',
     }
   },
 
@@ -193,6 +224,21 @@ export default {
       this.$data.ruleForm.dimB = this.$data.PostLocalList.ed_blur;
       this.$data.ruleForm.keepOut = this.$data.PostLocalList.occlusion;
       this.$data.ruleForm.faceAll = this.$data.PostLocalList.completeness;
+      //-遮挡
+      this.$data.ruleForm.left_eye_st=this.$data.PostLocalList.left_eye_st;
+      this.$data.ruleForm.left_eye_ed=this.$data.PostLocalList.left_eye_ed;
+      this.$data.ruleForm.right_eye_st=this.$data.PostLocalList.right_eye_st;
+      this.$data.ruleForm.right_eye_ed=this.$data.PostLocalList.right_eye_ed;
+      this.$data.ruleForm.nose_st=this.$data.PostLocalList.nose_st;
+      this.$data.ruleForm.nose_ed=this.$data.PostLocalList.nose_ed;
+      this.$data.ruleForm.mouth_st=this.$data.PostLocalList.mouth_st;
+      this.$data.ruleForm.mouth_ed=this.$data.PostLocalList.mouth_ed;
+      this.$data.ruleForm.left_cheek_st=this.$data.PostLocalList.left_cheek_st;
+      this.$data.ruleForm.left_cheek_ed=this.$data.PostLocalList.left_cheek_ed;
+      this.$data.ruleForm.right_cheek_st=this.$data.PostLocalList.right_cheek_st;
+      this.$data.ruleForm.right_cheek_ed=this.$data.PostLocalList.right_cheek_ed;
+      this.$data.ruleForm.chin_contour_st=this.$data.PostLocalList.chin_contour_st;
+      this.$data.ruleForm.chin_contour_ed=this.$data.PostLocalList.chin_contour_ed;
       //  -时间
       console.log(storage.getLocalStorage('timeType'));
       this.$data.timeType = storage.getLocalStorage('timeType');
@@ -308,9 +354,10 @@ export default {
       }
       //分页显示
       console.log(this.$data.PostLocalList.page)
+      // this.$data.currentPage = this.$data.PostLocalList.page;
       // this.$data.PostLocalList.page = this.$data.PostLocalList.page;
-      this.handleCurrentChange(this.$data.PostLocalList.page);
-      // this.LocalList();
+      // this.handleCurrentChange(this.$data.PostLocalList.page);
+      this.LocalList();
     }else{
       console.log('原始');
       this.dataList();
@@ -318,11 +365,12 @@ export default {
     this.$data.checkListId = [];
 
     this.getMerchant();
+    this.dataBack();
   },
 mounted(){
-  storage.setLocalStorage('postList','');
-  storage.setLocalStorage('timeType','');
-  storage.setLocalStorage('radio','');
+  // storage.setLocalStorage('postList','');
+  // storage.setLocalStorage('timeType','');
+  // storage.setLocalStorage('radio','');
 },
   methods: {
     //商家下拉
@@ -359,6 +407,15 @@ mounted(){
       dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
         // console.log(response.data.data);
         this.$data.locationList = response.data.data;
+      })
+    },
+    //获取观测识别标准
+    dataBack(){
+      let list = {}
+      let qs = require('querystring')
+      dataCollectApi.seeMacthSet(qs.stringify(list)).then((response) => {
+        console.log(response.data.data.match_set);
+        this.$data.getBackCheck = response.data.data.match_set;
       })
     },
     //数据列表
@@ -406,12 +463,13 @@ mounted(){
     //切换分页
     handleCurrentChange(val){
       //this.$data.routerId === 1   storage.getLocalStorage('postList') === ''
+      console.log(val);
       if(this.$data.routerId === 1){
         console.log('我走了存储')
         this.$data.PostLocalList.page = val;
         this.$data.currentPage = val;
         this.LocalList();
-        this.dataList();
+        // this.dataList();
       }else{
         console.log('我走了原生');
         this.$data.list.page = val;
@@ -516,7 +574,12 @@ mounted(){
       // this.$data.list.device_id = '';
       //传分页
       console.log('分页' + this.$data.currentPage);
-      this.$data.list.page = this.$data.currentPage;
+      if(this.$data.currentPage == '' || this.$data.currentPage == undefined){
+        this.$data.list.page = this.$data.PostLocalList.page;
+      }else{
+        this.$data.list.page = this.$data.currentPage;
+      }
+
 
       //筛选信息
         this.$data.list.store_id = this.$data.storeId ;
@@ -533,6 +596,21 @@ mounted(){
         this.$data.list.ed_blur= this.$data.ruleForm.dimB,
         this.$data.list.occlusion= this.$data.ruleForm.keepOut,
         this.$data.list.completeness= this.$data.ruleForm.faceAll,
+      //    -遮挡
+          this.$data.list.left_eye_st = this.$data.ruleForm.left_eye_st;
+      this.$data.list.left_eye_ed = this.$data.ruleForm.left_eye_ed;
+      this.$data.list.right_eye_st = this.$data.ruleForm.right_eye_st;
+      this.$data.list.right_eye_ed = this.$data.ruleForm.right_eye_ed;
+     this.$data.list.nose_st =  this.$data.ruleForm.nose_st;
+      this.$data.list.nose_ed = this.$data.ruleForm.nose_ed;
+      this.$data.list.mouth_st = this.$data.ruleForm.mouth_st;
+      this.$data.list.mouth_ed = this.$data.ruleForm.mouth_ed;
+     this.$data.list.left_cheek_st =  this.$data.ruleForm.left_cheek_st;
+      this.$data.list.left_cheek_ed = this.$data.ruleForm.left_cheek_ed;
+      this.$data.list.right_cheek_st = this.$data.ruleForm.right_cheek_st;
+      this.$data.list.right_cheek_ed = this.$data.ruleForm.right_cheek_ed;
+      this.$data.list.chin_contour_st = this.$data.ruleForm.chin_contour_st;
+      this.$data.list.chin_contour_ed = this.$data.ruleForm.chin_contour_ed;
       //过滤异常的
       // console.log(this.$data.checkAll);
       // console.log(this.$data.checkedCities);

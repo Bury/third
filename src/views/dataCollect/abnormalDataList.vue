@@ -151,10 +151,39 @@
           <input type="text" class="input" maxlength="3" placeholder="255" v-model="ruleForm.illB" onkeyup="this.value=this.value.replace(/[^\d{1,3}]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d{1,3}]/g,'') " style="width: 7rem" @blur.prevent="illBBtn()">
         </el-form-item>
         <el-form-item label="遮挡:">
-          <el-select v-model="ruleForm.keepOut" placeholder="请选择" style="width: 7rem">
-            <el-option value="1" label="是">是</el-option>
-            <el-option value="2" label="否">否</el-option>
-          </el-select>
+          <!--<el-select v-model="ruleForm.keepOut" placeholder="请选择" style="width: 7rem">-->
+            <!--<el-option value="1" label="是">是</el-option>-->
+            <!--<el-option value="2" label="否">否</el-option>-->
+          <!--</el-select>-->
+          <el-form-item label="左眼被遮挡的阈值:" >
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.left_eye_st">-
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.left_eye_ed">
+          </el-form-item>
+          <el-form-item label="右眼被遮挡的阈值:" >
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.right_eye_st">-
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.right_eye_ed">
+          </el-form-item>
+          <el-form-item label="鼻子被遮挡的阈值:" >
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.nose_st">-
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.nose_ed">
+          </el-form-item>
+          <el-form-item label="嘴巴被遮挡的阈值:" >
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.mouth_st">-
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.mouth_ed">
+          </el-form-item>
+          <el-form-item label="左脸颊被遮挡的阈值:" >
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.left_cheek_st">-
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.left_cheek_ed">
+          </el-form-item>
+          <el-form-item label="右脸颊被遮挡的阈值:" >
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.right_cheek_st">-
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.right_cheek_ed">
+          </el-form-item>
+          <el-form-item label="下巴被遮挡的阈值:" >
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.chin_contour_st">-
+            <input  class="input" maxlength="16" type="number" style="width: 7rem" placeholder="请输入内容" v-model="ruleForm.chin_contour_ed">
+          </el-form-item>
+
         </el-form-item>
       </el-form>
     </div>

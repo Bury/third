@@ -250,6 +250,21 @@ export default {
         this.$data.ruleForm.dimB = response.data.data.blur_ed;
         this.$data.ruleForm.keepOut = response.data.data.occlusion;
         this.$data.ruleForm.faceAll = response.data.data.completeness;
+        //遮挡
+        this.$data.ruleForm.left_eye_st=response.data.data.left_eye_st;
+        this.$data.ruleForm.left_eye_ed=response.data.data.left_eye_ed;
+        this.$data.ruleForm.right_eye_st=response.data.data.right_eye_st;
+        this.$data.ruleForm.right_eye_ed=response.data.data.right_eye_ed;
+        this.$data.ruleForm.nose_st=response.data.data.nose_st;
+        this.$data.ruleForm.nose_ed=response.data.data.nose_ed;
+        this.$data.ruleForm.mouth_st=response.data.data.mouth_st;
+        this.$data.ruleForm.mouth_ed=response.data.data.mouth_ed;
+        this.$data.ruleForm.left_cheek_st=response.data.data.left_cheek_st;
+        this.$data.ruleForm.left_cheek_ed=response.data.data.left_cheek_ed;
+        this.$data.ruleForm.right_cheek_st=response.data.data.right_cheek_st;
+        this.$data.ruleForm.right_cheek_ed=response.data.data.right_cheek_ed;
+        this.$data.ruleForm.chin_contour_st=response.data.data.chin_contour_st;
+        this.$data.ruleForm.chin_contour_ed=response.data.data.chin_contour_ed;
       })
     },
     //时间转为秒
