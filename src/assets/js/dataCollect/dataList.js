@@ -976,10 +976,10 @@ mounted(){
       this.$data.faceId = val.id;
       this.$data.errorType = type;
       // console.log(val.gender_mark);
-      if(val.gender_mark == 0 || val.age_mark === 0 ){
+      if(val.gender_mark == 0){
         this.$data.idOrChangeMark = 1;
         this.$data.errText = '错误';
-      }else if(val.gender_mark == 1 || val.age_mark === 1){
+      }else if(val.gender_mark == 1){
         this.$data.idOrChangeMark = 0;
         this.$data.errText = '正确';
       }
