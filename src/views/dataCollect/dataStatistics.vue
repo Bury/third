@@ -61,7 +61,7 @@
             :picker-options="pickerOptionsSet">
           </el-date-picker>
         </el-form-item>
-        </el-form-item>
+        <el-form-item>
          <el-button type="primary" size="mini" @click="onSubmit">查询</el-button>
         </el-form-item>
       </el-form>
@@ -72,6 +72,14 @@
         <el-tab-pane label="年统计" name="year"></el-tab-pane>
         <el-tab-pane label="自定义统计" name="userDefined"></el-tab-pane>
       </el-tabs>
+    </div>
+    <hr>
+    <div class="contentBox">
+      <el-radio-group v-model="radioAbnormal" style="margin-left: 3rem" @change="changeRadio">
+        <el-radio-button label="全部"></el-radio-button>
+        <el-radio-button label="正常"></el-radio-button>
+        <el-radio-button label="异常"></el-radio-button>
+      </el-radio-group>
     </div>
     <div class="radioGroup">
       <el-radio-group v-model="radioType" @change="selectType">
@@ -100,5 +108,7 @@
 	.chartWrap{
 		background-color: #fff;
 	}
-
+.contentBox{
+  margin-top: 2rem;
+}
 </style>

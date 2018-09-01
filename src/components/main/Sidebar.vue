@@ -32,6 +32,7 @@
                 <el-menu-item index="7-2"><router-link :to="{name: 'DataList'}" replace>数据列表</router-link></el-menu-item>
                 <el-menu-item index="7-3"><router-link :to="{name: 'AbnormalDataList'}" replace>异常数据列表</router-link></el-menu-item>
                 <el-menu-item index="7-4"><router-link :to="{name: 'DataStatistics'}" replace>统计</router-link></el-menu-item>
+                <el-menu-item index="7-10"><router-link :to="{name: 'DistinguishStatistics'}" replace>识别统计统计</router-link></el-menu-item>
                 <el-menu-item index="7-6"><router-link :to="{name: 'ErrorDataList'}" replace>错误数据列表</router-link></el-menu-item>
                 <el-menu-item index="7-7"><router-link :to="{name: 'DataRecyleBin'}" replace>回收站</router-link></el-menu-item>
                 <el-menu-item index="7-8"><router-link :to="{name: 'EyeDataList'}" replace>监控视频观察结果</router-link></el-menu-item>

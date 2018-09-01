@@ -32,7 +32,8 @@ export default {
 				device_id:'',
         st_time:'',
         ed_time:'',
-				tj_type:''
+				tj_type:'',
+        tj_tab:'',
       },
       changeFlag:false,
       pickerOptionsSet:{
@@ -50,6 +51,7 @@ export default {
       storeId:'',
       merchantId:'',
       merchantList:[],
+      radioAbnormal:'全部'
     }
   },
 
@@ -128,6 +130,18 @@ export default {
     		this.$data.guestParameters.tj_type = "occlusion";
     	}
     	this.$data.changeFlag = !this.$data.changeFlag;
+    },
+    //异常切换
+    changeRadio(val){
+      console.log(val);
+      if(val == '全部'){
+        this.$data.guestParameters.tj_tab = 0;
+      }else if(val == '正常'){
+        this.$data.guestParameters.tj_tab = 1;
+      }else if(val == '异常'){
+        this.$data.guestParameters.tj_tab = 2;
+      }
+      this.$data.changeFlag = !this.$data.changeFlag;
     },
 
     //搜索

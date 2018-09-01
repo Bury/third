@@ -149,6 +149,13 @@ global.UNDATA_BLUR = `${SERVER_IP}hawkeye/face/undata-blur-sel`
 global.SAVE_MACTH_SET = `${SERVER_IP}hawkeye/datum/save-match-set`
 //查看
 global.SEE_MACTH_SET = `${SERVER_IP}hawkeye/datum/match-set`
+//实际使用数据设置
+global.SAVE_MACTH_SET_TRUE = `${SERVER_IP}hawkeye/datum/save-f`
+//查看
+global.SEE_MACTH_SET_TRUE = `${SERVER_IP}hawkeye/datum/detail-f`
+//识别统计
+global.DISTINGUISHS = `${SERVER_IP}hawkeye/face/distinguish-tj`
+
 
 //要合并的数据列表
 global.NEED_MERGE = `${SERVER_IP}hawkeye/face/show-faces`

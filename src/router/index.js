@@ -54,6 +54,7 @@ import ArriveRecord from '../views/dataCollect/arriveRecord'
 import DataRecyleBin from '../views/dataCollect/dataRecyleBin'
 import ActualArgument from '../views/dataCollect/actualArgument'
 import ObservationSetting from '../views/dataCollect/observationSetting'
+import DistinguishStatistics from '../views/dataCollect/distinguishStatistics'
 
 Vue.use(Router)
 
@@ -72,7 +73,7 @@ const router = new Router({
       path: '',
       name: 'Dashboard',
       component: Dashboard
-    },{    	
+    },{
     	path: 'tags',
       component: Templates,
       children:[
@@ -113,6 +114,7 @@ const router = new Router({
         {path:'DataRecyleBin',name:'DataRecyleBin',component:DataRecyleBin},
         {path:'ActualArgument',name:'ActualArgument',component:ActualArgument},
         {path:'ObservationSetting',name:'ObservationSetting',component:ObservationSetting},
+        {path:'DistinguishStatistics',name:'DistinguishStatistics',component:DistinguishStatistics},
       ]
     },{
 			path:'eyeData',

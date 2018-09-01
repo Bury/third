@@ -144,4 +144,31 @@ export default {
       })
     })
   },
+  saveMacthSetTrue(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.SAVE_MACTH_SET_TRUE, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  seeMacthSetTrue(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.SEE_MACTH_SET_TRUE, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  distinguishS(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.DISTINGUISHS, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
 }
