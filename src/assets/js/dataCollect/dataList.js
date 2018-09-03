@@ -366,6 +366,7 @@ export default {
 
     this.getMerchant();
     this.dataBack();
+    this.getSubmit();
   },
 mounted(){
   // storage.setLocalStorage('postList','');
@@ -1114,6 +1115,17 @@ mounted(){
       // this.$data.list.page = 1;
       // this.$data.list.page_size = 10;
       this.dataList();
+    },
+  //  enter标记事件
+    getSubmit(){
+      document.onkeydown=e=>{
+        let _key=window.event.keyCode;
+        if(_key===13){
+          console.log('v');
+          this.submitForm();
+        }
+      }
+
     },
   }
 

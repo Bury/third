@@ -8,7 +8,7 @@
           <el-breadcrumb-item>商家</el-breadcrumb-item>
           <el-breadcrumb-item>商家管理</el-breadcrumb-item>
         </el-breadcrumb>
-        
+
         <el-breadcrumb v-if="navMenu === 'tagManage'" separator="/">
           <el-breadcrumb-item>标签管理</el-breadcrumb-item>
         </el-breadcrumb>
@@ -113,7 +113,11 @@
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'DataStatistics'" separator="/">
           <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
-          <el-breadcrumb-item>统计</el-breadcrumb-item>
+          <el-breadcrumb-item>参数统计</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'DistinguishStatistics'" separator="/">
+          <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>
+          <el-breadcrumb-item>识别统计</el-breadcrumb-item>
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'ErrorDataList'" separator="/">
           <el-breadcrumb-item>鹰眼实时数据观测</el-breadcrumb-item>

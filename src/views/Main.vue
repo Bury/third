@@ -53,7 +53,7 @@ export default {
         case 'childsTag':
           sidebar.defaultActive = '9'
            sidebar.imgSrcHome = 'static/images/main/home.png'
-          break  
+          break
         // 设备
         case 'Pallet':
         case 'Store':
@@ -150,6 +150,10 @@ export default {
           break
         case 'ObservationSetting':
           sidebar.defaultActive = '7-9'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break
+        case 'DistinguishStatistics':
+          sidebar.defaultActive = '7-10'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
         //   usercenter.topMenu = ''

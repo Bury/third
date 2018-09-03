@@ -149,6 +149,7 @@ export default {
     this.dataList();
     this.dataBack();
     this.getMerchant();
+    this.getSubmit();
   },
 
   methods: {
@@ -599,6 +600,16 @@ export default {
 
       })
     },
+//  enter标记事件
+    getSubmit(){
+      document.onkeydown=e=>{
+        let _key=window.event.keyCode;
+        if(_key===13){
+          console.log('v');
+          this.submitForm();
+        }
+      }
 
+    },
   }
 }

@@ -166,6 +166,7 @@ const cityOptions = [
     this.dataList();
     this.getMerchant();
     this.getAbOption();
+    this.getSubmit();
   },
 
   methods: {
@@ -733,6 +734,17 @@ const cityOptions = [
     //  清除参数填写
     clearRuleForm(){
       this.$data.ruleForm = {};
+    },
+    //  enter标记事件
+    getSubmit(){
+      document.onkeydown=e=>{
+        let _key=window.event.keyCode;
+        if(_key===13){
+          console.log('v');
+          this.submitForm();
+        }
+      }
+
     },
   }
 }
