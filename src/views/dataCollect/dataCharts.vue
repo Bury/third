@@ -179,7 +179,8 @@
 					device_id: this.$props.chartData.device_id,
 					st_time: this.$props.chartData.st_time,
 					ed_time: this.$props.chartData.ed_time,
-					tj_type: val
+					tj_type: val,
+          tj_tab:this.$props.chartData.tj_tab
 				}
 				dataCollectApi.getDataTj(qs.stringify(list)).then((res) => {
 					if(res.data.errno === 0) {
@@ -272,7 +273,7 @@
 						   text: chartname
 					   }
 					})
-					
+
 				})
 			},
 

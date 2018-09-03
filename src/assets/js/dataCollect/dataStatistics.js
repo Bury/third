@@ -11,13 +11,14 @@ export default {
     return {
       noTimeHide:false,
       goStoreNum:'',
-      timeType: 'day',
+      timeType: 'all',
       day:'',
       week:'',
       month:'',
       year:'',
       userDefined:[],
-      ctrlTimeType:[true,false,false,false,false],
+      allTime:[],
+      ctrlTimeType:[true,false,false,false,false,false],
       chartClass:'line',
       guestData:{},
       guestVisitedInfoData:[],
@@ -27,13 +28,13 @@ export default {
       guestFromData:[],
       radioType:'姿态角度',
       guestParameters:{
-				merchant_id:1,
+				merchant_id:'',
 				store_id:'',
 				device_id:'',
         st_time:'',
         ed_time:'',
 				tj_type:'',
-        tj_tab:'',
+        tj_tab:0,
       },
       changeFlag:false,
       pickerOptionsSet:{
@@ -51,7 +52,8 @@ export default {
       storeId:'',
       merchantId:'',
       merchantList:[],
-      radioAbnormal:'全部'
+      radioAbnormal:'全部',
+      merchant_id:'',
     }
   },
 
@@ -147,16 +149,27 @@ export default {
     //搜索
     onSubmit(){
       if(this.$data.ctrlTimeType[0]){
+        // this.$data.guestParameters.st_time = '';
+        // this.$data.guestParameters.ed_time =  '';
+        if(this.$data.allTime == null || this.$data.allTime.length == 0) {
+          this.$data.noTimeHide = true;
+          return false;
+        }else{
+          this.$data.noTimeHide = false;
+        }
+        this.$data.guestParameters.st_time = utils.getDateTime(this.allTime[0]);
+        this.$data.guestParameters.ed_time =  utils.getDateTime(this.allTime[1]);
+      }else if(this.$data.ctrlTimeType[1]){
         if(this.$data.day == null) { return false}
         this.$data.guestParameters.st_time = this.getS(this.$data.day);
         this.$data.guestParameters.ed_time =   this.getS(this.$data.day) + 86399;
 
-      }else if(this.$data.ctrlTimeType[1]){
+      }else if(this.$data.ctrlTimeType[2]){
         if(this.$data.week == null) { return false}
         this.$data.guestParameters.st_time = this.getS(this.$data.week);
         this.$data.guestParameters.ed_time =   this.getS(this.$data.week) + 604799;
 
-      }else if(this.$data.ctrlTimeType[2]){
+      }else if(this.$data.ctrlTimeType[3]){
         if(this.$data.month== null) { return false}
         let nexty,nextm;
         let t = new Date(this.$data.month);
@@ -166,14 +179,14 @@ export default {
         this.$data.guestParameters.st_time = t.getTime() / 1000;
         this.$data.guestParameters.ed_time =  this.getS(`${nexty}/${nextm}/01 00:00:00`) - 1;
 
-      }else if(this.$data.ctrlTimeType[3]){
+      }else if(this.$data.ctrlTimeType[4]){
         if(this.$data.year == null) {return false;}
         let yearDate = new Date(this.$data.year);
         let y = yearDate.getFullYear();
         this.$data.guestParameters.st_time = this.getS(`${y}/01/01 00:00:00`);
         this.$data.guestParameters.ed_time =  this.getS(`${y}/12/31 23:59:59`);
 
-      }else if(this.$data.ctrlTimeType[4]){
+      }else if(this.$data.ctrlTimeType[5]){
         if(this.$data.userDefined == null || this.$data.userDefined.length == 0) {
           this.$data.noTimeHide = true;
           return false;
@@ -184,6 +197,9 @@ export default {
         this.$data.guestParameters.ed_time =  utils.getDateTime(this.userDefined[1]);
 
       }
+      this.$data.guestParameters.merchant_id = this.$data.merchant_id;
+      this.$data.guestParameters.store_id = this.$data.storeId;
+      this.$data.guestParameters.device_id = this.$data.location;
       this.$data.changeFlag = !this.$data.changeFlag;
     },
 
@@ -192,9 +208,9 @@ export default {
     */
     cateChanged(tab, event){
       var nowIdx = tab.index;
-      this.$data.ctrlTimeType = [false,false,false,false,false];
+      this.$data.ctrlTimeType = [false,false,false,false,false,false];
       this.$data.ctrlTimeType[nowIdx] = true;
-      (nowIdx !== 4) && (this.$data.noTimeHide = false);
+      (nowIdx !== 5) && (this.$data.noTimeHide = false);
       this.setData();
       this.$data.changeFlag = !this.$data.changeFlag;
     },
@@ -211,6 +227,17 @@ export default {
       let d = t.getDate();
       let weekd  = t.getDay();
       switch (val){
+        case "allTime":
+          if(this.$data.userDefined !== null && this.$data.userDefined.length !== 0){
+            this.$data.noTimeHide = false;
+            // this.$data.guestParameters.st_time = '';
+            // this.$data.guestParameters.ed_time =  '';
+            this.$data.guestParameters.st_time = utils.getDateTime(this.userDefined[0]);
+            this.$data.guestParameters.ed_time =  utils.getDateTime(this.userDefined[1]);
+          }else{
+            this.$data.noTimeHide = true;
+          }
+          break;
         case "day":
           this.$data.guestParameters.st_time = this.getS(`${y}/${m}/${d} 00:00:00`);
           this.$data.guestParameters.ed_time =  this.getS(`${y}/${m}/${d} 23:59:59`);
@@ -248,32 +275,36 @@ export default {
 
     setData(){
       if(this.$data.ctrlTimeType[0]){
+        //全部
+        this.getBeginEnd("allTime")
+        return false;
+      }
+      if(this.$data.ctrlTimeType[1]){
         //日
         this.getBeginEnd("day");
         return false;
       }
-      if(this.$data.ctrlTimeType[1]){
+      if(this.$data.ctrlTimeType[2]){
         //周
         this.getBeginEnd("week")
         return false;
 
       }
-      if(this.$data.ctrlTimeType[2]){
+      if(this.$data.ctrlTimeType[3]){
         //月
         this.getBeginEnd("month")
         return false;
       }
-      if(this.$data.ctrlTimeType[3]){
+      if(this.$data.ctrlTimeType[4]){
         //年
         this.getBeginEnd("year")
         return false;
       }
-      if(this.$data.ctrlTimeType[4]){
+      if(this.$data.ctrlTimeType[5]){
         //自定义
         this.getBeginEnd("select")
         return false;
       }
-
     },
 
     requestData(){
