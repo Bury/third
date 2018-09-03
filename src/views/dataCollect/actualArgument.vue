@@ -95,7 +95,7 @@
         <!--</el-form-item>-->
       <!--</el-form-item>-->
       <el-form-item>
-        <el-button type="primary" style="margin-left: 0rem">还原</el-button>
+        <el-button type="primary" style="margin-left: 0rem" @click="backInfo()">还原</el-button>
         <el-button type="primary" @click="submitForm(ruleForm)" style="margin-left: 10rem">保存</el-button>
       </el-form-item>
     </el-form>
@@ -377,6 +377,10 @@
             // this.$data.ruleForm.chin_contour_st=response.data.data.chin_contour_st;
             // this.$data.ruleForm.chin_contour_ed=response.data.data.chin_contour_ed;
           })
+        },
+      //  还原数据
+        backInfo(){
+          this.dataBack();
         },
       }
     }
