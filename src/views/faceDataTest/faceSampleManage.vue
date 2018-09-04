@@ -14,6 +14,7 @@
       <el-col>
         <button class="btn" @click="alldele()">批量删除</button>
         <button class="btn" @click="takeUp()">识别查找</button>
+        <button class="btn" @click="loadListForm()">数据同步</button>
         <button class="btn" @click="takeUpImage()">上传图片</button>
       </el-col>
     </el-row>
@@ -170,12 +171,49 @@
         <el-button type="primary" @click="submitImage(formIamge)">确 定</el-button>
       </div>
     </el-dialog>
+    <!--同步操作-->
+    <el-dialog :title="loadTitle" :visible.sync="LoadVisible">
+      <el-form :model='loadName' ref="loadName" label-width="180px" class="demo-form-inline">
+        <el-form-item label="商家">
+          <el-select v-model="merchantId" placeholder="请选商家" @change="GETmerchantId(merchantId)">
+            <el-option v-for="merchantName in merchantList" :key="merchantName.id" :label="merchantName.name"
+                       :value="merchantName.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="门店">
+          <el-select v-model="storeId" placeholder="请选门店" @change="GETstoreId(storeId)">
+            <el-option v-for="equipmentsName in equipmentsList" :key="equipmentsName.id" :label="equipmentsName.name"
+                       :value="equipmentsName.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="摄像头:">
+          <el-checkbox-group v-model="location" @change="handleCheckedCitiesChange" label="isCheck">
+            <el-checkbox v-for="locationName in locationList" :label="locationName.id" :key="locationName.id" :value="locationName.id">{{locationName.name}}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="时间">
+          <div class="block">
+            <el-date-picker
+              v-model="dateValue"
+              type="date"
+              placeholder="选择日期"
+            :picker-options="pickerOp">
+            </el-date-picker>
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="loadcancel(loadName)">取 消</el-button>
+        <el-button type="primary" @click="submitLoad(loadName)">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import faceDataApi from '../../api/faceDataTest'
   import storage from '../../utils/storage'
+  import dataCollectApi from '@/api/dataCollect'
     export default {
         name: "face-sample-manage",
       data(){
@@ -202,6 +240,25 @@
             formIamge:{
 
             },
+            loadTitle:'',
+            LoadVisible:false,
+            loadName:{
+
+            },
+            merchantList:[],
+            equipmentsList:[],
+            locationList:[],
+            merchantId:'',
+            storeId:'',
+            location:[],
+            isIndeterminate: true,
+            dateValue:Date.now(),
+            locationArry:'',
+            pickerOp:{
+              disabledDate(time){
+                return time.getTime() > Date.now();
+              }
+            }
           }
       },
       created: function () {
@@ -221,11 +278,48 @@
         }else{
           this.$data.routerName = storage.getSessionStorage('groupName');
         }
-        // console.log(this.$data.routerId);
-        // console.log(this.$data.routerName);
-        this.List()
+        console.log(this.$data.routerId);
+        console.log(this.$data.routerName);
+        this.List();
+        this.getMerchant();
       },
       methods:{
+        //商家下拉
+        getMerchant(){
+          let list = {
+            'type': 0,
+            'parent_id': 0,
+          }
+          let qs = require('querystring')
+          dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
+            // console.log(response.data.data);
+            this.$data.merchantList = response.data.data;
+          })
+        },
+        //门店下拉
+        GETmerchantId(val){
+          let list = {
+            'type': 1,
+            'parent_id': val,
+          }
+          let qs = require('querystring')
+          dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
+            // console.log(response.data.data);
+            this.$data.equipmentsList = response.data.data;
+          })
+        },
+        //联动获取位置
+        GETstoreId(val){
+          let list = {
+            'type': 2,
+            'parent_id': val,
+          }
+          let qs = require('querystring')
+          dataCollectApi.getDepartList(qs.stringify(list)).then((response) => {
+            // console.log(response.data.data);
+            this.$data.locationList = response.data.data;
+          })
+        },
         //  图片上传地址
         importFileUrl(){
           return global.LOADUP_IMAGES
@@ -462,7 +556,88 @@
               this.$data.postImage = '';
             }
           })
-        }
+        },
+      //  数据同步操作
+        loadListForm(){
+          this.$data.LoadVisible = true;
+          this.$data.loadTitle = '数据同步操作';
+          this.$data.merchantId = '';
+          this.$data.storeId = '';
+          this.$data.locationArry = '';
+          this.$data.location = [];
+          this.$data.locationList = [];
+          this.$data.dateValue = Date.now();
+        },
+      //  取消操作
+        loadcancel(){
+          this.$data.LoadVisible = false;
+          this.$data.merchantId = '';
+          this.$data.storeId = '';
+          this.$data.locationArry = '';
+          this.$data.location = [];
+          this.$data.locationList = [];
+          this.$data.dateValue = Date.now();
+        },
+      //  勾选
+        handleCheckedCitiesChange(val){
+          let checkedCount = val.length;
+          this.checkAll = checkedCount === this.locationList.length;
+          this.isIndeterminate = checkedCount > 0 && checkedCount < this.locationList.length;
+          // console.log(val);
+          // console.log(this.$data.location)
+          this.$data.locationArry = this.$data.location.join(',');
+          // console.log(this.$data.locationArry);
+        },
+      //  添加确定
+        submitLoad(){
+          // console.log(this.$data.routerId);
+          let postTime  = this.TimeOut(this.$data.dateValue/1000,2)
+          console.log(postTime);
+          if(this.$data.location == ''){
+            this.$message({
+              message: '请选择摄像头',
+              type: 'success',
+              center: true
+            });
+          }else{
+            if(this.$data.dateValue == ''){
+              this.$message({
+                message: '请选择日期',
+                type: 'success',
+                center: true
+              });
+            }else {
+              let list = {
+                'group_id':this.$data.routerId,
+                'merchant_id':this.$data.merchantId,
+                'store_id':this.$data.storeId,
+                'device_ids':this.$data.locationArry,
+                'sdate':postTime
+              }
+              let qs = require('querystring')
+              faceDataApi.fromYYImage(qs.stringify(list)).then((response) => {
+                console.log(response.data.data);
+                if(response.data.errno == -1){
+                  this.$message({
+                    message: response.data.msg,
+                    type: 'error',
+                    center: true
+                  });
+                  this.$data.LoadVisible = false;
+                }else {
+                  this.$message({
+                    message: '正在同步数据，请稍后',
+                    type: 'success',
+                    center: true
+                  });
+                  this.$data.LoadVisible = false;
+                  this.List();
+                }
+              })
+            }
+          }
+
+        },
       }
     }
 </script>

@@ -136,4 +136,13 @@ export default {
       })
     })
   },
+  fromYYImage(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.FROM_YY_IMAGE, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
 }

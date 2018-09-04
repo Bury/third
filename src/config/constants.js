@@ -113,6 +113,9 @@ global.DELETE_FEACE_LIT = `${SERVER_IP}${COMMON}test-face/delete`
 global.FACE_SEARCH = `${SERVER_IP}${COMMON}test-group/select`
 //查询下拉选取确认
 global.FACE_SEARCH_SURE = `${SERVER_IP}${COMMON}test-face/search`
+//鹰眼人脸图片同步
+global.FROM_YY_IMAGE = `${SERVER_IP}${COMMON}test-face/tongbu`
+
 
 //人脸查找结果
 global.FACE_SRLUT = `${SERVER_IP}${COMMON}test-search/list`
