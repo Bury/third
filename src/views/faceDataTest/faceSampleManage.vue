@@ -590,6 +590,7 @@
         },
       //  添加确定
         submitLoad(){
+          this.$data.LoadVisible = false;
           // console.log(this.$data.routerId);
           let postTime  = this.TimeOut(this.$data.dateValue/1000,2)
           console.log(postTime);
