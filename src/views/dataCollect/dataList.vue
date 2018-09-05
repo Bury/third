@@ -303,8 +303,13 @@
       <template slot-scope="scope" >
         <div style="display: flex;align-items: center" v-show="scope.row.score >= getBackCheck">
           <img :src="scope.row.customer_avatar" alt="" style="width: 6rem;height: 6rem">
-          <span :class="{getRed:scope.row.match_mark === 1}" >{{scope.row.score}}%相似</span>
-          <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeErrorB(scope.row,2)"></i>
+          <div>
+            <div>
+              <span :class="{getRed:scope.row.match_mark === 1}" >{{scope.row.score}}%相似</span>
+              <i class="el-icon-edit-outline" style="font-size: 1.2rem" @click="takeErrorB(scope.row,2)"></i>
+            </div>
+            <span>{{scope.row.customer_created_at | date(4)}}</span>
+          </div>
         </div>
         <div style="display: flex;align-items: center" v-show="scope.row.score < getBackCheck">
           <p>/</p>
