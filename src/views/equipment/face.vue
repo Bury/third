@@ -150,7 +150,7 @@ export default {
         device_id: '',
         belong_mid: '',
         version: '',
-        status: 1
+        status: 2
       },
       deviceId: '',
       rules: {
@@ -362,7 +362,7 @@ export default {
           device_id: '',
           belong_mid: '',
           version: '',
-          status: 1
+          status: 2
         }
         this.addPallet = true;
     },
