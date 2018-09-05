@@ -8,7 +8,7 @@
 				</el-table-column>
 				<el-table-column align="center" label="状态">
 					<template slot-scope="scope">
-						{{scope.row.is_delete === 1 ? '启用' : '禁用'}}
+						{{scope.row.is_delete === 1 ? '禁用' : '启用'}}
 					</template>
 				</el-table-column>
 				<el-table-column align="center" label="操作">
@@ -33,7 +33,7 @@
 						<el-input v-model.trim="dialogForm.sort"></el-input>
 					</el-form-item>
 					<el-form-item label="状态:" prop="is_delete" label-width="100px">
-							<el-switch v-model="dialogForm.is_delete"  :active-value="1" :inactive-value="0">
+							<el-switch v-model="dialogForm.is_delete"  :active-value="0" :inactive-value="1">
 							</el-switch>
 					</el-form-item>
 				</el-form>
@@ -119,7 +119,7 @@
 					if(valid) {
 						tags.childsEdit(qs.stringify(this.$data.dialogForm)).then((res) => {
 							if(res.data.errno === 0) {
-								this.$message('编辑程功！')
+								this.$message('编辑成功！')
 							} else {
 								this.$message(res.data.msg)
 							}
