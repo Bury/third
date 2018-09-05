@@ -330,7 +330,7 @@
             'filter[and][][device_id][like]':'',
             'disable_pagination': '',
             'page': 1,
-            'per-page':10
+            'per-page':100
           }
           let qs = require('querystring')
           faceDataApi.faceGroupList(qs.stringify(list)).then((response) => {
@@ -347,7 +347,7 @@
             'filter[and][][device_id][like]':'',
             'disable_pagination': '',
             'page': val,
-            'per-page':10
+            'per-page':100
           }
           let qs = require('querystring')
           faceDataApi.faceGroupList(qs.stringify(list)).then((response) => {
