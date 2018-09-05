@@ -119,7 +119,7 @@
 					if(valid) {
 						tags.childsEdit(qs.stringify(this.$data.dialogForm)).then((res) => {
 							if(res.data.errno === 0) {
-								this.$message('编辑程功！')
+								this.$message('编辑成功！')
 							} else {
 								this.$message(res.data.msg)
 							}
