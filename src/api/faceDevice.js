@@ -55,9 +55,9 @@ export default {
     })
   },
   // 编辑货盘列表 按设备
-  editDevice (list, id) {
+  editDevice (list) {
     return new Promise((resolve, reject) => {
-      axios.post(`${DEVICE_FACE_UPDATE}${id}`, list).then((response) => {
+      axios.post(global.DEVICE_FACE_EDIT, list).then((response) => {
         resolve(response)
       }).catch((error) => {
         reject(error)

@@ -392,6 +392,7 @@ export default {
     // 修改设备
     editShow (row) {
       this.title = '修改人脸识别设备'
+      console.log(row)
       this.deviceId = row.id
       this.addDevice.device_id = row.device_id
       this.addDevice.belong_mid = row.belong_mid
@@ -408,12 +409,20 @@ export default {
     edit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let qs = require('querystring')
-          equipmentApi.editDevice(qs.stringify(this.addDevice), this.deviceId).then((response) => {
+          let list = {
+            id:this.deviceId,
+            device_id: this.$data.addDevice.device_id,
+            belong_mid: this.$data.addDevice.belong_mid,
+            version: this.$data.addDevice.version,
+            status: this.$data.addDevice.status
+          };
+          let qs = require('querystring');
+          equipmentApi.editDevice(qs.stringify(list)).then((response) => {
             let returnData = response.data
             if (returnData.errno === 0) {
-              this.addPallet = false
-              this.request()
+              this.addPallet = false;
+              this.request();
+              this.$message("修改成功！")
             } else {
               this.$alert(returnData.msg, {
                 type: 'error',

@@ -57,6 +57,7 @@ global.DEVICE_FACE_LIST_MERCHANT = `${SERVER_IP}${COMMON}device-face/list-by-mer
 //新增
 global.DEVICE_FACE_CREATE = `${SERVER_IP}${COMMON}device-face/create`
 global.DEVICE_FACE_UPDATE = `${SERVER_IP}${COMMON}device-face/update/`
+global.DEVICE_FACE_EDIT = `${SERVER_IP}${COMMON}device-face/edit`
 global.DEVICE_FACE_VERSION_LIST = `${SERVER_IP}${COMMON}device-face/version-list`
 global.DEVICE_FACE_VERSION_ADD = `${SERVER_IP}${COMMON}device-face/version-add`
 global.DEVICE_FACE_DELTE = `${SERVER_IP}${COMMON}device-face/version-delte`
