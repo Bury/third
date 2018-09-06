@@ -14,7 +14,7 @@
         </el-breadcrumb>
         <el-breadcrumb v-if="navMenu === 'childsTag'" separator="/">
           <el-breadcrumb-item><router-link :to="{ name: 'tagManage' }" replace>商家管理</router-link></el-breadcrumb-item>
-          <el-breadcrumb-item>字标签</el-breadcrumb-item>
+          <el-breadcrumb-item>子标签</el-breadcrumb-item>
         </el-breadcrumb>
 
         <el-breadcrumb v-if="navMenu === 'Modules'" separator="/">
