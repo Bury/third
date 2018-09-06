@@ -73,13 +73,19 @@
         templates.navMenu = this.$route.name
         templates.upperLevelMenu = ''
         this.$data.routerId = this.$route.params.id;
+        this.$data.MId = this.$route.params.m_id;
+        this.$data.SId = this.$route.params.s_id;
         console.log(this.$data.routerId);
+        console.log(this.$data.MId);
+        console.log(this.$data.SId);
         this.getArriveList();
       },
       methods:{
         getArriveList(){
           let list = {
             'customer_id': this.$data.routerId,
+            'm_id':this.$data.MId,
+            's_id':this.$data.SId,
             'page':this.$data.pageThis,
             'page_size':10
           }

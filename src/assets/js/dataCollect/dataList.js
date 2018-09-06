@@ -1081,12 +1081,14 @@ mounted(){
       storage.setLocalStorage('postList',this.$data.list);
       storage.setLocalStorage('timeType',this.$data.timeType);
       storage.setLocalStorage('radio',this.$data.radio);
-      this.$router.replace({name: 'ArriveRecord', params: {id:val.customer_id}})
+      this.$router.replace({name: 'ArriveRecord', params: {id:val.customer_id,m_id:val.m_id,s_id:val.s_id}})
     },
   //  查看百度人脸图
     manage(val){
       this.$data.FaceVisible = true;
       let list = {
+        's_id':val.s_id,
+        'm_id':val.m_id,
         'id': val.id,
         'customer_id': val.customer_id,
       }

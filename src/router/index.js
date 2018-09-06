@@ -110,7 +110,7 @@ const router = new Router({
         {path:'DataStatistics',name:'DataStatistics',component:DataStatistics},
         {path:'ErrorDataList',name:'ErrorDataList',component:ErrorDataList},
         {path:'MegerRecord/:id',name:'MegerRecord',component:MegerRecord},
-        {path:'ArriveRecord/:id',name:'ArriveRecord',component:ArriveRecord},
+        {path:'ArriveRecord/:id&&:m_id&&:s_id',name:'ArriveRecord',component:ArriveRecord},
         {path:'DataRecyleBin',name:'DataRecyleBin',component:DataRecyleBin},
         {path:'ActualArgument',name:'ActualArgument',component:ActualArgument},
         {path:'ObservationSetting',name:'ObservationSetting',component:ObservationSetting},
