@@ -259,8 +259,8 @@
     >
       <template slot-scope="scope">
         <p :class="{getInYellow:scope.row.pitch_d === 1}">上下俯仰角度:{{ scope.row.pitch }}</p>
-        <p :class="{getInYellow:scope.row.pitch_d === 1}">左右旋转角度:{{ scope.row.yaw }}</p>
-        <p :class="{getInYellow:scope.row.pitch_d === 1}">平面旋转角度:{{ scope.row.roll }}</p>
+        <p :class="{getInYellow:scope.row.yaw_d === 1}">左右旋转角度:{{ scope.row.yaw }}</p>
+        <p :class="{getInYellow:scope.row.roll_d === 1}">平面旋转角度:{{ scope.row.roll }}</p>
       </template>
     </el-table-column>
     <el-table-column
