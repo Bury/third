@@ -264,13 +264,13 @@
         label="遮挡" width="200" align="center"
       >
         <template slot-scope="scope">
-          <p :class="{getInYellow:scope.row.occlusion_d === 1}">左眼遮挡:{{ scope.row.left_eye }}</p>
-          <p :class="{getInYellow:scope.row.occlusion_d === 1}">右眼遮挡:{{ scope.row.right_eye }}</p>
-          <p :class="{getInYellow:scope.row.occlusion_d === 1}">左脸颊遮挡:{{ scope.row.left_cheek }}</p>
-          <p :class="{getInYellow:scope.row.occlusion_d === 1}">右脸颊遮挡:{{ scope.row.right_cheek }}</p>
-          <p :class="{getInYellow:scope.row.occlusion_d === 1}">鼻子遮挡:{{ scope.row.nose }}</p>
-          <p :class="{getInYellow:scope.row.occlusion_d === 1}">嘴巴遮挡:{{ scope.row.mouth }}</p>
-          <p :class="{getInYellow:scope.row.occlusion_d === 1}">下巴遮挡:{{ scope.row.chin_contour }}</p>
+          <p :class="{getInYellow:scope.row.left_eye_d === 1}">左眼遮挡:{{ scope.row.left_eye }}</p>
+          <p :class="{getInYellow:scope.row.right_eye_d === 1}">右眼遮挡:{{ scope.row.right_eye }}</p>
+          <p :class="{getInYellow:scope.row.left_cheek_d === 1}">左脸颊遮挡:{{ scope.row.left_cheek }}</p>
+          <p :class="{getInYellow:scope.row.right_cheek_d === 1}">右脸颊遮挡:{{ scope.row.right_cheek }}</p>
+          <p :class="{getInYellow:scope.row.nose_d === 1}">鼻子遮挡:{{ scope.row.nose }}</p>
+          <p :class="{getInYellow:scope.row.mouth_d === 1}">嘴巴遮挡:{{ scope.row.mouth }}</p>
+          <p :class="{getInYellow:scope.row.chin_contour_d === 1}">下巴遮挡:{{ scope.row.chin_contour }}</p>
         </template>
       </el-table-column>
       <el-table-column

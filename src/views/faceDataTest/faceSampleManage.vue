@@ -191,13 +191,23 @@
             <el-checkbox v-for="locationName in locationList" :label="locationName.id" :key="locationName.id" :value="locationName.id">{{locationName.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="时间">
+        <el-form-item label="开始时间">
           <div class="block">
             <el-date-picker
               v-model="dateValue"
               type="date"
               placeholder="选择日期"
             :picker-options="pickerOp">
+            </el-date-picker>
+          </div>
+        </el-form-item>
+        <el-form-item label="结束时间">
+          <div class="block">
+            <el-date-picker
+              v-model="dateValueEnd"
+              type="date"
+              placeholder="选择日期"
+              :picker-options="pickerOp">
             </el-date-picker>
           </div>
         </el-form-item>
@@ -253,6 +263,7 @@
             location:[],
             isIndeterminate: true,
             dateValue:Date.now(),
+            dateValueEnd:Date.now(),
             locationArry:'',
             pickerOp:{
               disabledDate(time){
@@ -567,6 +578,7 @@
           this.$data.location = [];
           this.$data.locationList = [];
           this.$data.dateValue = Date.now();
+          this.$data.dateValueEnd = Date.now();
         },
       //  取消操作
         loadcancel(){
@@ -577,6 +589,7 @@
           this.$data.location = [];
           this.$data.locationList = [];
           this.$data.dateValue = Date.now();
+          this.$data.dateValueEnd = Date.now();
         },
       //  勾选
         handleCheckedCitiesChange(val){
@@ -592,7 +605,8 @@
         submitLoad(){
           this.$data.LoadVisible = false;
           // console.log(this.$data.routerId);
-          let postTime  = this.TimeOut(this.$data.dateValue/1000,2)
+          let postTime  = this.TimeOut(this.$data.dateValue/1000,2);
+          let postTiemEnd = this.TimeOut(this.$data.dateValueEnd/1000,2);
           console.log(postTime);
           if(this.$data.location == ''){
             this.$message({
@@ -613,7 +627,8 @@
                 'merchant_id':this.$data.merchantId,
                 'store_id':this.$data.storeId,
                 'device_ids':this.$data.locationArry,
-                'sdate':postTime
+                'st_date':postTime,
+                'ed_date':postTiemEnd,
               }
               let qs = require('querystring')
               faceDataApi.fromYYImage(qs.stringify(list)).then((response) => {
