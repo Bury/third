@@ -75,7 +75,7 @@
 		methods: {
 			getId() {
 				let qs = require('querystring');
-				faceDataApi.faceSingleSearch(qs.stringify(this.$data.parameter)).then((response) => {
+				faceDataApi.faceSingleSearch(qs.stringify(this.$data.parameter)).then((response) => {					
 					if(response.data.errno === 0){
 						this.$data.insert_id = response.data.data.insert_id;
 						this.getList();
@@ -88,6 +88,7 @@
 				}
 				let qs = require('querystring')
 				faceDataApi.faceSoultDetail(qs.stringify(list)).then((response) => {
+					console.log(response)
 					if(response.data.errno === 0){
 						this.$data.firstName = response.data.data.group_name;
 					    this.$data.SecondName = response.data.data.s_group_name;

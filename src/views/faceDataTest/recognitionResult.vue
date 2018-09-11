@@ -63,7 +63,6 @@
             }
             let qs = require('querystring')
             faceDataApi.faceSoultDetail(qs.stringify(list)).then((response) => {
-              console.log(response.data.data);
               this.$data.tableData = response.data.data.search;
               this.$data.firstName = response.data.data.group_name;
               this.$data.SecondName = response.data.data.s_group_name;

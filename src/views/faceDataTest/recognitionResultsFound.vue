@@ -8,7 +8,7 @@
 					<th class="col-md-1 text-center">{{SecondName}}</th>
 				</tr>
 			</thead>
-			<tbody style="text-align: center">
+			<tbody v-if="isSingle === false" style="text-align: center">
 				<tr v-for="(item,index) in tableData" :key="index" height="40">
 					<td>
 						<div  class="lookWrap">
@@ -23,6 +23,24 @@
 					<td style="display: flex;flex-direction: column;align-items: center;">
 						<p style="margin-top: 2rem">相识度: {{item.bd_score}}</p>
 						<img src="static/images/main/rightLeft.png" alt="" style="margin-top: 3rem">
+					</td>
+					<td>
+						<p>来客编号/照片</p>
+						<img :src="item.s_face_avatar" alt="" class="imgSize">
+						<p>{{item.s_face_id == null ? '暂无匹配数据' : item.s_face_id}}</p>
+					</td>
+				</tr>
+			</tbody>
+			<tbody v-if="isSingle === true" style="text-align: center">
+				<tr v-for="(item,index) in tableData" :key="index" height="40">
+					<td v-if="index === 0" :rowspan="tableData.length">
+						<p>来客编号/照片</p>
+						<img :src="searchData.face_avatar" alt="" class="imgSize">
+						<p>{{searchData.face_id}}</p>
+					</td>
+					<td style="display: flex;flex-direction: column;align-items: center;">
+						<p style="margin-top: 2rem">相识度: {{item.bd_score}}</p>
+						<img src="static/images/main/rightLeft.png"  style="margin-top: 3rem">
 					</td>
 					<td>
 						<p>来客编号/照片</p>
@@ -47,6 +65,11 @@
 		data() {
 			return {
 				tableData: '',
+				isSingle:false,
+				searchData:{
+					face_avatar:'',
+					face_id:''
+				},
 				id: '',
 				firstName: '',
 				SecondName: '',
@@ -69,10 +92,24 @@
 				}
 				let qs = require('querystring')
 				faceDataApi.faceSoultDetail(qs.stringify(list)).then((response) => {
-					this.$data.tableData = response.data.data.search;
-					this.$data.firstName = response.data.data.group_name;
-					this.$data.SecondName = response.data.data.s_group_name;
-					this.$data.s_group_id = response.data.data.s_group_id;
+					if(response.data.errno === 0){
+						if(response.data.data.search.type == undefined){
+							this.$data.isSingle = false;
+							this.$data.tableData = response.data.data.search;
+					        this.$data.firstName = response.data.data.group_name;
+					        this.$data.SecondName = response.data.data.s_group_name;
+					        this.$data.s_group_id = response.data.data.s_group_id;
+						}else if(response.data.data.search.type == 'single'){
+							this.$data.isSingle = true;
+							this.$data.tableData = response.data.data.search.search_res;
+							this.$data.firstName = response.data.data.group_name;
+					        this.$data.SecondName = response.data.data.s_group_name;
+					        this.$data.searchData.face_avatar = response.data.data.search.face_avatar;
+					        this.$data.searchData.face_id = response.data.data.search.face_id;						    	
+						}
+						
+					}
+					
 				})
 			},
 			takeUps() {
