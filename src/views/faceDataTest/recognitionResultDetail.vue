@@ -102,7 +102,7 @@
 				// console.log('回到列表')
 				this.$router.replace({
 					name: 'RecognitionResultsFound',
-					params: {'id': this.$data.parsentListId,}
+					params: {'id': this.$data.parsentListId}
 				})
 			}
 		}

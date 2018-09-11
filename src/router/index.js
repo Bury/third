@@ -37,7 +37,7 @@ import FaceSampleManage from '../views/faceDataTest/faceSampleManage'
 import RecognitionList from '../views/faceDataTest/recognitionList'
 import RecognitionResult from '../views/faceDataTest/recognitionResult'
 import RecognitionResultsFound from '../views/faceDataTest/recognitionResultsFound'
-import RecognitionResultDetail from '../views/faceDataTest/RecognitionResultDetail'
+import RecognitionResultDetail from '../views/faceDataTest/recognitionResultDetail'
 
 //监控数据
 import EyeDataList from '../views/eyeData/eyeDataList'
