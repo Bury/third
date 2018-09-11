@@ -145,4 +145,13 @@ export default {
       })
     })
   },
+  faceSingleSearch(list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.FACE_SINGLE_SEARCH, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
 }

@@ -38,7 +38,7 @@ export default {
       if (usercenter) {
         usercenter.navMenu = pathName
       }
-       console.log(pathName)
+      
       switch (pathName) {
         // 商家
         case 'BusinessList':
@@ -111,6 +111,10 @@ export default {
           sidebar.defaultActive = '6-2'
           sidebar.imgSrcHome = 'static/images/main/home.png'
           break
+        case 'RecognitionResultDetail':
+          sidebar.defaultActive = '6-2'
+          sidebar.imgSrcHome = 'static/images/main/home.png'
+          break  
         case 'RecognitionResultsFound':
         //  鹰眼数据
         case 'ActualArgument':

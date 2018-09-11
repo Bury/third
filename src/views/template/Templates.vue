@@ -55,6 +55,15 @@
           </el-breadcrumb-item>
           <el-breadcrumb-item>识别结果查看</el-breadcrumb-item>
         </el-breadcrumb>
+        
+        <el-breadcrumb v-if="navMenu === 'RecognitionResultDetail'" separator="/">
+          <el-breadcrumb-item>鹰眼人脸数据测试</el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <router-link :to="{ name: 'RecognitionList' }" replace>识别结果列表</router-link>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item  :to="{ name: 'RecognitionResultsFound',params: {'id': singleParsentId}}" replace>识别结果查看</el-breadcrumb-item>
+          <el-breadcrumb-item>查看</el-breadcrumb-item>
+        </el-breadcrumb>
 
 				 <!--监控数据 -->
 				 <el-breadcrumb v-if="navMenu === 'EyeDataList'" separator="/">
@@ -208,7 +217,8 @@ export default {
       orderId: '',
       projectId: '',
       splice: '',
-      storeId:''
+      storeId:'',
+      singleParsentId:''
     }
   },
   created: function () {

@@ -37,6 +37,7 @@ import FaceSampleManage from '../views/faceDataTest/faceSampleManage'
 import RecognitionList from '../views/faceDataTest/recognitionList'
 import RecognitionResult from '../views/faceDataTest/recognitionResult'
 import RecognitionResultsFound from '../views/faceDataTest/recognitionResultsFound'
+import RecognitionResultDetail from '../views/faceDataTest/RecognitionResultDetail'
 
 //监控数据
 import EyeDataList from '../views/eyeData/eyeDataList'
@@ -98,6 +99,7 @@ const router = new Router({
         {path:'RecognitionList',name:'RecognitionList',component:RecognitionList},
         {path:'RecognitionResult/:id',name:'RecognitionResult',component:RecognitionResult},
         {path:'RecognitionResultsFound/:id',name:'RecognitionResultsFound',component:RecognitionResultsFound},
+        {path:'RecognitionResultDetail/:listId/:id/:group_id',name:'RecognitionResultDetail',component:RecognitionResultDetail},
       ]
     },{
       path:'dataCollect',

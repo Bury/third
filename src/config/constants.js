@@ -116,6 +116,9 @@ global.FACE_SEARCH = `${SERVER_IP}${COMMON}test-group/select`
 global.FACE_SEARCH_SURE = `${SERVER_IP}${COMMON}test-face/search`
 //鹰眼人脸图片同步
 global.FROM_YY_IMAGE = `${SERVER_IP}${COMMON}test-face/tongbu`
+//人脸识别查找_单人
+global.FACE_SINGLE_SEARCH = `${SERVER_IP}${COMMON}test-face/single-search`
+
 
 
 //人脸查找结果
