@@ -7,7 +7,7 @@
           <el-input placeholder="账号" auto-complete="off" name="username" v-model="user.username"></el-input>
         </div>
         <div class="password">
-          <el-input placeholder="密码" type="password" auto-complete="off" v-model="user.password"></el-input>
+          <el-input @keydown.enter.native="show($event)" placeholder="密码" type="password" auto-complete="off" v-model="user.password"></el-input>
         </div>
         <div class="remember-forget">
           <div class="remember-me">
@@ -42,6 +42,11 @@ export default {
   mounted: function () {
   },
   methods: {
+    show:function (ev) {
+      if(ev.keyCode == 13){
+        this.login();
+      }
+    },
     login () {
 
       // 登录逻辑
@@ -49,6 +54,7 @@ export default {
       storage.setLocalStorage('userName',this.user.username);
       let qs = require('querystring')
       userApi.login(qs.stringify(this.user)).then((response) => {
+        console.log(response)
         localStorage.setItem('knock_knock',response.data.data.access_token);
 
         if (response.data.errno === 0) {
@@ -133,7 +139,7 @@ export default {
               break
             }
           }
-          this.$router.push(this.$data.routeName);
+          this.$router.replace(this.$data.routeName);
         }
       })
     },

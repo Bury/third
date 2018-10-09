@@ -10,7 +10,8 @@ const COMMON = 'v1/'
 global.LOADUP_IMAGES = `${SERVER_IP}${COMMON}test-face/upload`
 
 // post /v1/user/access-token 登录
-global.GET_LOGIN = `${SERVER_IP}${COMMON}user/access-token`
+// global.GET_LOGIN = `${SERVER_IP}${COMMON}user/access-token`
+global.GET_LOGIN = `${SERVER_IP}${COMMON}user/login`
 //左侧菜单
 global.GET_MENU = `${SERVER_IP}${COMMON}user/left-menu`
 
