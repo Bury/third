@@ -70,7 +70,7 @@ export default {
 <style scoped>
 .home {
   color: black;
-  position: absol/ute;
+  /*position: absolute;*/
   top: 0px;
   bottom: 0px;
   width: 100%;
@@ -79,7 +79,7 @@ export default {
   z-index: -1;
 }
 .home .table {
-  
+
   position: absolute;
   display: table;
   margin: 0 auto;

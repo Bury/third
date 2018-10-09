@@ -57,12 +57,16 @@ import ActualArgument from '../views/dataCollect/actualArgument'
 import ObservationSetting from '../views/dataCollect/observationSetting'
 import DistinguishStatistics from '../views/dataCollect/distinguishStatistics'
 
+//清理数据
+import MerchantList from '../views/clearData/merchantList'
+import StoreList from '../views/clearData/storeList'
+
 Vue.use(Router)
 
 const router = new Router({
   routes: [
     {
-      path: '/login',
+      path: '',
       name: 'Login',
       component: Home,
       meta: { auth: false }
@@ -71,7 +75,7 @@ const router = new Router({
     path: '/',
     component: Main,
     children: [{
-      path: '',
+      path: '/Dashboard',
       name: 'Dashboard',
       component: Dashboard
     },{
@@ -154,6 +158,14 @@ const router = new Router({
           { path: 'loginlist', name: 'LoginList', component: LoginList },
           { path: 'activelist', name: 'ActiveList', component: ActiveList }
       ]
+    },{
+      path: 'clearData',
+      component: Templates,
+      children: [
+        // 日志
+        { path: 'merchantList', name: 'MerchantList', component: MerchantList },
+        { path: 'storeList/:id', name: 'StoreList', component: StoreList }
+    ]
     }]
   }]
 })

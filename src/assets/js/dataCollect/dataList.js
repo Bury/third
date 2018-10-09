@@ -201,9 +201,9 @@ export default {
     this.$data.routerId = this.$route.params.id;
     if(this.$data.routerId === 1){
       this.$data.PostLocalList = storage.getLocalStorage('postList');
-      console.log(this.$data.PostLocalList);
-      console.log(this.$data.PostLocalList.st_pitch);
-      console.log(this.$data.PostLocalList.ed_pitch);
+      // console.log(this.$data.PostLocalList);
+      // console.log(this.$data.PostLocalList.st_pitch);
+      // console.log(this.$data.PostLocalList.ed_pitch);
       //填充取到的数据
       //-商家联动
       this.$data.merchantId = this.$data.PostLocalList.merchant_id;
@@ -240,12 +240,12 @@ export default {
       this.$data.ruleForm.chin_contour_st=this.$data.PostLocalList.chin_contour_st;
       this.$data.ruleForm.chin_contour_ed=this.$data.PostLocalList.chin_contour_ed;
       //  -时间
-      console.log(storage.getLocalStorage('timeType'));
+      // console.log(storage.getLocalStorage('timeType'));
       this.$data.timeType = storage.getLocalStorage('timeType');
       if(this.$data.timeType === 'month'){
         this.$data.ctrlTimeType = [false,false,false,true,false,false];
-        console.log(this.$data.PostLocalList.st_time);
-        console.log(this.TimeOut(this.$data.PostLocalList.st_time,4))
+        // console.log(this.$data.PostLocalList.st_time);
+        // console.log(this.TimeOut(this.$data.PostLocalList.st_time,4))
         if(this.$data.PostLocalList.st_time == null || this.$data.PostLocalList.st_time == 0){
           this.$data.month = '';
         }else{
@@ -254,8 +254,8 @@ export default {
 
       }else if(this.$data.timeType === 'all'){
         this.$data.ctrlTimeType = [true,false,false,false,false,false];
-        console.log(this.$data.PostLocalList.st_time);
-        console.log(this.$data.PostLocalList.ed_time);
+        // console.log(this.$data.PostLocalList.st_time);
+        // console.log(this.$data.PostLocalList.ed_time);
         // console.log(this.TimeOut(this.$data.PostLocalList.st_time,4))
         // console.log(this.TimeOut(this.$data.PostLocalList.ed_time,4))
         if(this.$data.PostLocalList.st_time == null || this.$data.PostLocalList.st_time == 0){
@@ -359,7 +359,7 @@ export default {
       // this.handleCurrentChange(this.$data.PostLocalList.page);
       this.LocalList();
     }else{
-      console.log('原始');
+      // console.log('原始');
       this.dataList();
     }
     this.$data.checkListId = [];
@@ -466,13 +466,13 @@ mounted(){
       //this.$data.routerId === 1   storage.getLocalStorage('postList') === ''
       console.log(val);
       if(this.$data.routerId === 1){
-        console.log('我走了存储')
+        // console.log('我走了存储')
         this.$data.PostLocalList.page = val;
         this.$data.currentPage = val;
         this.LocalList();
         // this.dataList();
       }else{
-        console.log('我走了原生');
+        // console.log('我走了原生');
         this.$data.list.page = val;
         this.$data.currentPage = val;
         this.dataList();
@@ -485,7 +485,7 @@ mounted(){
     //直接跳转分页
     handleSizeChange(val){
       if(this.$data.routerId === 1){
-        console.log('我调动了点击事件')
+        // console.log('我调动了点击事件')
         this.$data.PostLocalList.page = val;
         this.$data.currentPage = val;
         this.LocalList();
@@ -531,15 +531,15 @@ mounted(){
         this.$data.list.ed_time = parameters.end_time;
         this.dataList();
       }
-      console.log(this.TimeOut(parameters.begin_time,4));
-      console.log(this.TimeOut(parameters.end_time,4));
+      // console.log(this.TimeOut(parameters.begin_time,4));
+      // console.log(this.TimeOut(parameters.end_time,4));
     },
 
     //查询
     onSubmit(){
-      console.log(this.$data.userDefined);
+      // console.log(this.$data.userDefined);
       // this.statisticsFeature();
-      console.log(this.$data.timeType);
+      // console.log(this.$data.timeType);
       if(this.$data.timeType == 'all'){
         this.$data.list.st_time = this.$data.userDefined[0] /1000;
         this.$data.list.ed_time = this.$data.userDefined[1]/1000;
@@ -569,12 +569,12 @@ mounted(){
         this.$data.list.ed_time = this.$data.userDefined[1]/1000;
       }
 
-      console.log(this.$data.list);
+      // console.log(this.$data.list);
       this.$data.list.merchant_id = this.$data.merchantId;
       // this.$data.list.store_id = '';
       // this.$data.list.device_id = '';
       //传分页
-      console.log('分页' + this.$data.currentPage);
+      // console.log('分页' + this.$data.currentPage);
       if(this.$data.currentPage == '' || this.$data.currentPage == undefined){
         this.$data.list.page = this.$data.PostLocalList.page;
       }else{
@@ -633,9 +633,9 @@ mounted(){
       this.$data.ctrlTimeType[nowIdx] = true;
       (nowIdx !== 5) && (this.$data.noTimeHide = false);
       this.setData();
-      console.log(nowIdx)
-      console.log(this.$data.ctrlTimeType)
-      console.log(tab)
+      // console.log(nowIdx)
+      // console.log(this.$data.ctrlTimeType)
+      // console.log(tab)
     },
 
     //绑定默认时间
@@ -644,7 +644,7 @@ mounted(){
       return d;
     },
     getBeginEnd(val){
-      console.log(val);
+      // console.log(val);
       let t = new Date();
       let y = t.getFullYear();
       let m = t.getMonth() + 1;
@@ -698,8 +698,8 @@ mounted(){
     },
 
     setData(){
-      console.log(this.$data.ctrlTimeType[0])
-      console.log(this.$data.ctrlTimeType[1])
+      // console.log(this.$data.ctrlTimeType[0])
+      // console.log(this.$data.ctrlTimeType[1])
       if(this.$data.ctrlTimeType[0]){
         //all
         this.$data.list.st_time = '';
@@ -745,7 +745,7 @@ mounted(){
     },
 
     requestData(){
-      console.log(this.$data.guestParameters)
+      // console.log(this.$data.guestParameters)
       this.getCustomer(this.$data.guestParameters);
       this.statisticsFeature(this.$data.guestParameters, 'all');
       this.statisticsFeature(this.$data.guestParameters, 'face');
@@ -764,9 +764,9 @@ mounted(){
           center: true
         });
       }else{
-        console.log(this.$data.checkListId);
+        // console.log(this.$data.checkListId);
         let deleArry = this.$data.checkListId.join(',');
-        console.log(deleArry)
+        // console.log(deleArry)
         //合并之前调一次查询，防止上次已经进行一次存了
         this.onSubmit();
         //存储所有填入的值
@@ -780,18 +780,18 @@ mounted(){
     },
     //勾选状态
     handleSelectionChange(val){
-      console.log(val);
+      // console.log(val);
       this.$data.checkList = val;
       // this.$data.checkListId = [];
       for(let i = 0; this.$data.checkList.length > 0; i ++){
         let ids = this.$data.checkList[i].id;
         this.$data.checkListId.push(ids);
-        console.log(this.$data.checkListId);
+        // console.log(this.$data.checkListId);
       }
     },
   //是否过滤异常
     filterBtn(){
-      console.log(this.$data.radio)
+      // console.log(this.$data.radio)
       if(this.$data.radio == 1){
         this.$data.yesFilter = true;
         this.$data.noFilter = false;
@@ -808,7 +808,7 @@ mounted(){
     },
     //复选框
     handleCheckAllChange(val) {
-      console.log(val);
+      // console.log(val);
       // console.log(this.checkedCities)
       this.checkedCities = val ? cityOptions : [];
       this.isIndeterminate = false;
@@ -817,7 +817,7 @@ mounted(){
       }else if(this.$data.checkAll == true){
         this.$data.checkedCities = [1,2,3,4,5]
       }
-      console.log(this.$data.checkedCities);
+      // console.log(this.$data.checkedCities);
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
@@ -1061,7 +1061,7 @@ mounted(){
       }
       let qs = require('querystring')
       dataCollectApi.deletFasce(qs.stringify(list)).then((response) => {
-        console.log(response.data.errno);
+        // console.log(response.data.errno);
         if(response.data.errno === 0){
           this.$message({
             message: '删除成功',
@@ -1094,7 +1094,7 @@ mounted(){
       }
       let qs = require('querystring')
       dataCollectApi.getBaiduFace(qs.stringify(list)).then((response) => {
-        console.log(response.data.data);
+        // console.log(response.data.data);
         if(response.data.data == ''){
           this.$message({
             message: '暂无百度图片信息',
@@ -1123,7 +1123,7 @@ mounted(){
       document.onkeydown=e=>{
         let _key=window.event.keyCode;
         if(_key===13){
-          console.log('v');
+          // console.log('v');
           this.submitForm();
         }
       }

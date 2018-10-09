@@ -7,6 +7,9 @@ import '../static/css/iconfont.css'
 import '../static/css/home.css'
 import '../static/css/main.css'
 import '../static/font/iconfont.css'
+import '../static/font/iconfont1.css'
+
+import http from './api/http.js'
 
 import App from './App'
 import router from './router'

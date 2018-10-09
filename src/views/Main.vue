@@ -38,7 +38,7 @@ export default {
       if (usercenter) {
         usercenter.navMenu = pathName
       }
-      
+
       switch (pathName) {
         // 商家
         case 'BusinessList':
@@ -114,7 +114,7 @@ export default {
         case 'RecognitionResultDetail':
           sidebar.defaultActive = '6-2'
           sidebar.imgSrcHome = 'static/images/main/home.png'
-          break  
+          break
         case 'RecognitionResultsFound':
         //  鹰眼数据
         case 'ActualArgument':
@@ -177,13 +177,13 @@ export default {
 }
 
 .main-box .sidebar {
-  width: 190px;
-  min-width: 190px;
+  width: 197px;
+  min-width: 197px;
 }
 
 .main-box .content {
   color: black;
-  margin-left: 190px;
+  margin-left: 197px;
   margin-top: 45px;
   background-color: #f9f9f9;
   overflow-y: auto;

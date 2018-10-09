@@ -83,5 +83,35 @@ export default {
         reject(error)
       })
     })
-  }
+  },
+  // 获取权限
+  powerRole (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.POWER_ROLE,list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  // 确认分配权限
+  editPowerRole (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.EDIT_POWER_ROLE,list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  // 获取个人权限信息
+  editPowerPersonal (list) {
+    return new Promise((resolve, reject) => {
+      axios.post(global.PERSION_POWER_ROLE,list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
 }

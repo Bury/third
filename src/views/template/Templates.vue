@@ -55,7 +55,7 @@
           </el-breadcrumb-item>
           <el-breadcrumb-item>识别结果查看</el-breadcrumb-item>
         </el-breadcrumb>
-        
+
         <el-breadcrumb v-if="navMenu === 'RecognitionResultDetail'" separator="/">
           <el-breadcrumb-item>鹰眼人脸数据测试</el-breadcrumb-item>
           <el-breadcrumb-item>
@@ -178,7 +178,7 @@
 
         <el-breadcrumb v-if="navMenu === 'Role'" separator="/">
           <el-breadcrumb-item>设置</el-breadcrumb-item>
-          <el-breadcrumb-item>角色列表</el-breadcrumb-item>
+          <el-breadcrumb-item>岗位列表</el-breadcrumb-item>
         </el-breadcrumb>
 
         <el-breadcrumb v-if="navMenu === 'Power'" separator="/">
@@ -195,6 +195,15 @@
         <el-breadcrumb v-if="navMenu === 'ActiveList'" separator="/">
           <el-breadcrumb-item>工作日志</el-breadcrumb-item>
           <el-breadcrumb-item>操作日志</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'MerchantList'" separator="/">
+          <el-breadcrumb-item>数据清理</el-breadcrumb-item>
+          <el-breadcrumb-item>商家列表</el-breadcrumb-item>
+        </el-breadcrumb>
+        <el-breadcrumb v-if="navMenu === 'StoreList'" separator="/">
+          <el-breadcrumb-item>数据清理</el-breadcrumb-item>
+          <el-breadcrumb-item>商家列表</el-breadcrumb-item>
+          <el-breadcrumb-item>门店列表</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <!-- 导航 end -->

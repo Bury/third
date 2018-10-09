@@ -7,7 +7,7 @@
           <el-input placeholder="账号" auto-complete="off" name="username" v-model="user.username"></el-input>
         </div>
         <div class="password">
-          <el-input placeholder="密码" auto-complete="off" v-model="user.password"></el-input>
+          <el-input placeholder="密码" type="password" auto-complete="off" v-model="user.password"></el-input>
         </div>
         <div class="remember-forget">
           <div class="remember-me">
@@ -37,31 +37,30 @@ export default {
     }
   },
   created: function () {
-
+    // this.$router.replace({name: 'Login'})
   },
   mounted: function () {
   },
   methods: {
     login () {
+
       // 登录逻辑
       console.log(this.user.username);
       storage.setLocalStorage('userName',this.user.username);
       let qs = require('querystring')
       userApi.login(qs.stringify(this.user)).then((response) => {
-        let returnData = response.data;
-        console.log(returnData.errno);
+        localStorage.setItem('knock_knock',response.data.data.access_token);
 
-        if (returnData.errno === 0) {
-          let userToken = returnData.data
-          console.log(userToken)
+        if (response.data.errno === 0) {
+          this.$router.replace({name: 'Dashboard'})
           // 判断是否记住我
           if (this.user.rememberMe) {
-            storage.setLocalStorage('user-token', userToken)
+            storage.setLocalStorage('user-token',response.data.data.access_token)
           } else {
-            storage.setSessionStorage('user-token', userToken)
+            storage.setSessionStorage('user-token',response.data.data.access_token)
           }
         } else {
-          this.$alert(returnData.msg, {
+          this.$alert(response.data.msg, {
             type: 'error',
             callback: action => {
             }
@@ -69,7 +68,7 @@ export default {
         }
       })
 
-      this.$router.replace({name: 'Dashboard'})
+
     }
   }
 }

@@ -2,7 +2,7 @@
 <template>
   <div class="role">
     <div class="search">
-      <el-button type="primary" class="add" @click="addRole = true">新增角色</el-button>
+      <el-button type="primary" class="add" @click="addForm()">新增角色</el-button>
     </div>
     <div class="table">
       <el-table :data="tableData" stripe style="width: 100%">
@@ -20,7 +20,7 @@
         </el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
-            <el-button type="text" size="small">分配权限</el-button>
+            <el-button type="text" size="small" @click="powerEdit(scope.row)">分配权限</el-button>
             <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
             <el-button type="text" size="small" @click="dele(scope.row)">删除</el-button>
           </template>
@@ -32,13 +32,34 @@
       </div>
     </div>
     <!-- 新增角色 -->
-    <el-dialog :title="title" :visible.sync="addRole">
+    <el-dialog title="新增岗位" :visible.sync="addRole">
       <el-form label-width="80px" :model="add" :rules="rules" ref="add">
         <el-form-item label="角色名称" prop="name">
           <el-input style="width:400px;" v-model="add.name"></el-input>
         </el-form-item>
-
-        <el-form-item label="状态" required v-if="!addButton">
+        <el-form-item label="权限">
+          <div style="margin:20px 0;overflow:hidden;">
+            <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree"
+                     highlight-current
+                     @check-change="change"
+                     :default-checked-keys="checkedIds"
+                     class="permission-tree">
+            </el-tree>
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addRole = false">取 消</el-button>
+        <el-button type="primary" @click="addRoleAccount('add')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 编辑角色 -->
+    <el-dialog title="编辑岗位" :visible.sync="editRole">
+      <el-form label-width="80px" :model="add" :rules="rules" ref="edit">
+        <el-form-item label="角色名称" prop="name">
+          <el-input style="width:400px;" v-model="add.name"></el-input>
+        </el-form-item>
+        <el-form-item label="状态" required>
           <el-radio-group v-model="add.status">
             <el-radio label="1">启用</el-radio>
             <el-radio label="0">禁用</el-radio>
@@ -46,9 +67,26 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addRole = false">取 消</el-button>
-        <el-button type="primary" @click="addRoleAccount('add')" v-if="addButton === true">确 定</el-button>
-        <el-button type="primary" @click="editRoleAccount('add')" v-else>修 改</el-button>
+        <el-button @click="editCancle">取 消</el-button>
+        <el-button type="primary" @click="editRoleAccount()">修 改</el-button>
+      </div>
+    </el-dialog>
+    <!--分配权限-->
+    <el-dialog title="分配权限" :visible.sync="powerEditForm" :before-close="closeDialog">
+      <el-form label-width="80px" :model="powerData" ref="powerEdit">
+        <el-form-item label="权限">
+          <div style="margin:20px 0;overflow:hidden;">
+            <el-tree :data="dialogForm2" show-checkbox default-expand-all node-key="id" ref="editTree"
+                     highlight-current
+                     :default-checked-keys="editCheckedIds"
+                     class="permission-tree">
+            </el-tree>
+          </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="powerEditCancle">取 消</el-button>
+        <el-button type="primary" @click="powerEditSubmit()">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -61,19 +99,29 @@ export default {
   data () {
     return {
       addRole: false,
-      addButton: true,
-      title: '新增角色',
+      editRole:false,
+      powerEditForm:false,
       tableData: [],
       pages: {},
       add: {
         name: '',
-        status: '1'
+        status: '1',
+        permission_ids:'',
       },
       rules: {
         name: [
           { required: true, message: '请输入角色名称', trigger: 'blur' }
         ]
-      }
+      },
+    dialogForm:[],
+    dialogForm2:[],
+      checkedIds:[],
+      editCheckedIds:[],
+      powerData:{
+        role_id:'',
+        permission_ids:'',
+      },
+      roleId:'',
     }
   },
   created: function () {
@@ -81,13 +129,15 @@ export default {
     let templates = this.$parent
     templates.navMenu = this.$route.name
     templates.upperLevelMenu = ''
-    this.request()
+    this.request();
+
   },
   methods: {
     closeDialog () {
-      this.addRole = false
-      this.title = '新增角色'
-      this.addButton = true
+      this.$data.powerEditForm = false;
+      setTimeout(() => {
+        this.$data.editCheckedIds = [];
+      },0)
     },
     request () {
       setupApi.roleList().then((response) => {
@@ -104,16 +154,43 @@ export default {
         }
       })
     },
-    // 添加
+    //获取权限
+    power(){
+      let qs = require('querystring');
+      setupApi.powerRole(qs.stringify()).then((res) => {
+        this.$data.dialogForm = res.data.data
+      })
+    },
+    change(data, val, child) {
+      // console.log(data)
+      // console.log(val)
+      // console.log(child)
+      // //data该节点的对象，val自身是否被选中，child子节点是否被选中
+      // this.$data.nodeId = data.id;
+      // if(val == true && data.parent_id != 0) {
+      //   this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
+      //   this.$data.checkedIds.push(this.$data.parentId);
+      // }
+      // console.log(this.$data.checkedIds);
+    },
+    //添加
+    addForm(){
+      this.$data.addRole = true;
+      this.power();
+    },
     addRoleAccount (formName) {
+      this.$data.checkedIds = this.$refs.tree.getCheckedKeys();
+      this.$data.add.permission_ids = this.$data.checkedIds.toString();
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let qs = require('querystring')
           setupApi.addRole(qs.stringify(this.add)).then((response) => {
-            let returnData = response.data
+            let returnData = response.data;
             if (returnData.errno === 0) {
-              this.addRole = false
-              this.request()
+              this.addRole = false;
+              this.request();
+              this.$data.add = {};
+              this.$data.checkedIds = [];
             } else {
               this.$alert(returnData.msg, {
                 type: 'error',
@@ -127,35 +204,77 @@ export default {
         }
       })
     },
-    // 修改
-    edit (row) {
-      console.log(row)
-      this.title = '修改角色'
-      this.id = row.id
-      this.add.name = row.name
-      this.add.status = row.status.toString()
-      this.addRole = true
-      this.addButton = false
+
+    //修改权限
+    powerEdit(row){
+      this.$data.powerEditForm = true;
+      this.$data.roleId = row.id;
+      let list = {
+        'role_id':row.id,
+      };
+      let qs = require('querystring');
+      setupApi.editPowerPersonal(qs.stringify(list)).then((res) => {
+        this.$data.dialogForm2 = res.data.data;
+        for(let item of res.data.data){
+          if(item.is_permission === 1){
+            this.$data.editCheckedIds.push(item.id);
+          }
+        }
+
+      })
     },
-    editRoleAccount (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          let qs = require('querystring')
-          setupApi.editRole(qs.stringify(this.add), this.id).then((response) => {
-            let returnData = response.data
-            if (returnData.errno === 0) {
-              this.addRole = false
-              this.request()
-            } else {
-              this.$alert(returnData.msg, {
-                type: 'error',
-                callback: action => {
-                }
-              })
+    powerEditCancle(){
+      this.$data.powerEditForm = false;
+      setTimeout(() => {
+        this.$data.editCheckedIds = [];
+      },0)
+    },
+    powerEditSubmit(){
+      this.$data.powerData.role_id = this.$data.roleId;
+      this.$data.editCheckedIds = this.$refs.editTree.getCheckedKeys();
+      this.$data.powerData.permission_ids = this.$data.editCheckedIds.toString()
+      let qs = require('querystring');
+      setupApi.editPowerRole(qs.stringify(this.$data.powerData)).then((response) => {
+        let returnData = response.data;
+        if (returnData.errno === 0) {
+          this.$data.powerEditForm = false;
+          this.request();
+          this.$data.editCheckedIds = [];
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
             }
           })
+        }
+      })
+
+    },
+    // 编辑
+    edit (row) {
+      console.log(row)
+      this.id = row.id;
+      this.add.name = row.name;
+      this.add.status = row.status.toString();
+      this.$data.editRole = true;
+    },
+    editCancle(){
+      this.$data.editRole = false;
+    },
+    editRoleAccount () {
+      let qs = require('querystring')
+      setupApi.editRole(qs.stringify(this.add), this.id).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.$data.editRole = false;
+          this.$message.success('修改成功！')
+          this.request()
         } else {
-          return false
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
         }
       })
     },
@@ -186,7 +305,7 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        })     
+        })
       })
     },
     status (row) {
@@ -226,4 +345,12 @@ export default {
   text-align:center;
   margin-top:30px;
 }
+.permission-tree{
+  float:left;
+  padding:20px 40px 20px 20px;
+  height:260px;
+  overflow:auto;
+  border:1px solid #EEEEEE;
+}
+
 </style>

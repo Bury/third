@@ -11,6 +11,8 @@ global.LOADUP_IMAGES = `${SERVER_IP}${COMMON}test-face/upload`
 
 // post /v1/user/access-token 登录
 global.GET_LOGIN = `${SERVER_IP}${COMMON}user/access-token`
+//左侧菜单
+global.GET_MENU = `${SERVER_IP}${COMMON}user/left-menu`
 
 // post /v1/merchant/list 获取商家列表
 global.GET_BUSINESS_LIST = `${SERVER_IP}${COMMON}merchant/list`
@@ -78,6 +80,12 @@ global.DELETE_USER = `${SERVER_IP}${COMMON}user/delete/`
 global.GET_ROLE_LIST = `${SERVER_IP}${COMMON}role/list`
 // post /v1/role/create 新增角色
 global.ADD_ROLE = `${SERVER_IP}${COMMON}role/create`
+//权限
+global.POWER_ROLE = `${SERVER_IP}${COMMON}role/permission-list`
+//修改权限
+global.EDIT_POWER_ROLE = `${SERVER_IP}${COMMON}role/edit-permission`
+//获取个人权限信息
+global.PERSION_POWER_ROLE = `${SERVER_IP}${COMMON}role/view-permission`
 // post /v1/role/update/:id 修改角色
 global.EDIT_ROLE = `${SERVER_IP}${COMMON}role/update/`
 // post /v1/role/update/:id 删除角色
@@ -193,3 +201,9 @@ global.MONITORING_SDETAIL = `${SERVER_IP}hawkeye/face/msd-detail`
 global.TAG_PARENT_LIST = `${SERVER_IP}hawkeye/tag/parent-list` //父级标签
 global.TAG_CHILDS_LIST = `${SERVER_IP}hawkeye/tag/childs-list` //子级标签
 global.TAG_CHILDS_EDIT = `${SERVER_IP}hawkeye/tag/childs-edit` //子级标签
+
+//数据清理
+global.CLEAR_STORE_LIST = `${SERVER_IP}${COMMON}cleanup/store-list`
+global.CLEAR_MERCHANT_LIST = `${SERVER_IP}${COMMON}cleanup/merchant-list`
+global.CLEAR_STORE_LISTDATA = `${SERVER_IP}${COMMON}cleanup/store-clean`
+global.CLEAR_MERCHANT_LISTDATA = `${SERVER_IP}${COMMON}cleanup/merchant-clean`
