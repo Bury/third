@@ -45,14 +45,15 @@ export default {
     login () {
 
       // 登录逻辑
-      console.log(this.user.username);
+      // console.log(this.user.username);
       storage.setLocalStorage('userName',this.user.username);
       let qs = require('querystring')
       userApi.login(qs.stringify(this.user)).then((response) => {
         localStorage.setItem('knock_knock',response.data.data.access_token);
 
         if (response.data.errno === 0) {
-          this.$router.replace({name: 'Dashboard'})
+          this.menu();
+          // this.$router.replace({name: 'Dashboard'})
           // 判断是否记住我
           if (this.user.rememberMe) {
             storage.setLocalStorage('user-token',response.data.data.access_token)
@@ -69,7 +70,73 @@ export default {
       })
 
 
-    }
+    },
+    menu() {
+      userApi.menu().then((res) => {
+        if(res.data.errno === 0){
+          if(res.data.data === null){
+            this.$message("此账号暂无权限！");
+            localStorage.setItem('knock_knock',null);
+            localStorage.setItem('username', '');
+            return false;
+          };
+          for(let i=0;i<res.data.data.length;i++){
+            if(res.data.data[i].no_child === true){
+              if(res.data.data[0].front_url == '1'){
+                this.$data.routeName = 'Dashboard';
+              }else if(res.data.data[0].front_url == '9'){
+                this.$data.routeName = 'tags/tagManage';
+              }
+              // this.$data.routeName = res.data.data[0].front_url;
+              break
+            }else if(res.data.data[i].no_child === false){
+              if(res.data.data[i].children[0].front_url == '2-1'){
+                this.$data.routeName = 'business/';
+              }else if(res.data.data[i].children[0].front_url == '6-1'){
+                this.$data.routeName = 'faceDataTest/FaceSampleGrouping';
+              }else if(res.data.data[i].children[0].front_url == '6-2'){
+                this.$data.routeName = 'faceDataTest/RecognitionList';
+              }else if(res.data.data[i].children[0].front_url == '3-3'){
+                this.$data.routeName = 'equipment/face';
+              }else if(res.data.data[i].children[0].front_url == '5-1'){
+                this.$data.routeName = 'worklog/loginlist';
+              }else if(res.data.data[i].children[0].front_url == '5-2'){
+                this.$data.routeName = 'worklog/activelist';
+              }else if(res.data.data[i].children[0].front_url == '4-1'){
+                this.$data.routeName = 'setup/accountNumber';
+              }else if(res.data.data[i].children[0].front_url == '4-2'){
+                this.$data.routeName = 'setup/role';
+              }else if(res.data.data[i].children[0].front_url == '7-0'){
+                this.$data.routeName = 'dataCollect/ActualArgument';
+              }else if(res.data.data[i].children[0].front_url == '7-1'){
+                this.$data.routeName = 'dataCollect/DataSetting';
+              }else if(res.data.data[i].children[0].front_url == '7-9'){
+                this.$data.routeName = 'dataCollect/ObservationSetting';
+              }else if(res.data.data[i].children[0].front_url == '7-2'){
+                this.$data.routeName = 'dataCollect/DataList';
+              }else if(res.data.data[i].children[0].front_url == '7-3'){
+                this.$data.routeName = 'dataCollect/AbnormalDataList';
+              }else if(res.data.data[i].children[0].front_url == '7-4'){
+                this.$data.routeName = 'dataCollect/DataStatistics';
+              }else if(res.data.data[i].children[0].front_url == '7-10'){
+                this.$data.routeName = 'dataCollect/DistinguishStatistics';
+              }else if(res.data.data[i].children[0].front_url == '7-6'){
+                this.$data.routeName = 'dataCollect/ErrorDataList';
+              }else if(res.data.data[i].children[0].front_url == '7-7'){
+                this.$data.routeName = 'dataCollect/DataRecyleBin';
+              }else if(res.data.data[i].children[0].front_url == '7-8'){
+                this.$data.routeName = 'eyeData/EyeDataList';
+              }else if(res.data.data[i].children[0].front_url == '10-1'){
+                this.$data.routeName = 'clearData/merchantList';
+              }
+              // this.$data.routeName = res.data.data[i].children[0].front_url;
+              break
+            }
+          }
+          this.$router.push(this.$data.routeName);
+        }
+      })
+    },
   }
 }
 </script>

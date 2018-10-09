@@ -35,7 +35,7 @@ axios.interceptors.response.use(function (res) {
             // localStorage.setItem('domain', '');
             // window.location.href = '/';
          router.replace({
-             path: '/Login',
+             path: '',
              query: {redirect: router.currentRoute.fullPath}
          })
         }
@@ -47,7 +47,7 @@ axios.interceptors.response.use(function (res) {
             // localStorage.setItem('domain', '')
             // window.location.href = '/';
          router.replace({
-             path: '/Login',
+             path: '',
              query: {redirect: router.currentRoute.fullPath}
          })
         }
