@@ -12,6 +12,7 @@ global.LOADUP_IMAGES = `${SERVER_IP}${COMMON}test-face/upload`
 // post /v1/user/access-token 登录
 // global.GET_LOGIN = `${SERVER_IP}${COMMON}user/access-token`
 global.GET_LOGIN = `${SERVER_IP}${COMMON}user/login`
+global.GET_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
 //左侧菜单
 global.GET_MENU = `${SERVER_IP}${COMMON}user/left-menu`
 
@@ -72,6 +73,8 @@ global.FACE_LIST_MERCHANT_STORE = `${SERVER_IP}${COMMON}device-face/list-by-merc
 global.GET_USER_LIST = `${SERVER_IP}${COMMON}user/list`
 // post /v1/user/create 添加账号
 global.ADD_USER = `${SERVER_IP}${COMMON}user/create`
+//更新状态
+global.CHANGE_USER_STATUS = `${SERVER_IP}${COMMON}user/chgstatus`
 // post /v1/user/update/:id 修改账号
 global.EDIT_USER = `${SERVER_IP}${COMMON}user/update/`
 // post /v1/user/delete/:id 删除账号

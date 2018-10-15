@@ -29,6 +29,7 @@
 
 <script>
   import storage from '../../utils/storage'
+  import userApi from '../../api/user'
 export default {
   name: 'navbar',
   data () {
@@ -43,8 +44,17 @@ export default {
   },
   methods: {
      handleCommand(command) {
+       let qs = require('querystring');
       if (command === 'logout') {
-        this.$router.replace({name: 'Login'})
+        userApi.logout(qs.stringify()).then((res) => {
+          if(res.data.errno === 0){
+            localStorage.setItem('knock_knock', '');
+            localStorage.setItem('username', '');
+            this.$router.replace({name: 'Login'})
+          }else{
+            this.$message.error(res.data.msg);
+          }
+        })
       }
     }
   }
