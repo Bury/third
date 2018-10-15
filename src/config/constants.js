@@ -13,6 +13,7 @@ global.LOADUP_IMAGES = `${SERVER_IP}${COMMON}test-face/upload`
 // global.GET_LOGIN = `${SERVER_IP}${COMMON}user/access-token`
 global.GET_LOGIN = `${SERVER_IP}${COMMON}user/login`
 global.GET_LOGOUT = `${SERVER_IP}${COMMON}user/logout`
+global.USER_CHANGE_PASSWORD = `${SERVER_IP}${COMMON}user/change-password`
 //左侧菜单
 global.GET_MENU = `${SERVER_IP}${COMMON}user/left-menu`
 

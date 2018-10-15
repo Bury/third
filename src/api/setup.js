@@ -34,6 +34,24 @@ export default {
       })
     })
   },
+  changeUserStatus (list){
+    return new Promise((resolve, reject) => {
+      axios.post(global.CHANGE_USER_STATUS, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  changeUserPassword (list){
+    return new Promise((resolve, reject) => {
+      axios.post(global.USER_CHANGE_PASSWORD, list).then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
   // 删除账号
   deleUser (id) {
     return new Promise((resolve, reject) => {

@@ -2,7 +2,7 @@
 <template>
   <div class="role">
     <div class="search">
-      <el-button type="primary" class="add" @click="addForm()">新增角色</el-button>
+      <el-button type="primary" class="add" @click="addForm()">新增岗位</el-button>
     </div>
     <div class="table">
       <el-table :data="tableData" stripe style="width: 100%">
@@ -34,7 +34,7 @@
     <!-- 新增角色 -->
     <el-dialog title="新增岗位" :visible.sync="addRole">
       <el-form label-width="80px" :model="add" :rules="rules" ref="add">
-        <el-form-item label="角色名称" prop="name">
+        <el-form-item label="岗位名称" prop="name">
           <el-input style="width:400px;" v-model="add.name"></el-input>
         </el-form-item>
         <el-form-item label="权限">
@@ -56,7 +56,7 @@
     <!-- 编辑角色 -->
     <el-dialog title="编辑岗位" :visible.sync="editRole">
       <el-form label-width="80px" :model="add" :rules="rules" ref="edit">
-        <el-form-item label="角色名称" prop="name">
+        <el-form-item label="岗位名称" prop="name">
           <el-input style="width:400px;" v-model="add.name"></el-input>
         </el-form-item>
         <el-form-item label="状态" required>

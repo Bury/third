@@ -5,7 +5,7 @@
       <el-input placeholder="搜索账号" v-model="search.username" style="width:200px"></el-input>
       <el-input placeholder="搜索手机" v-model="search.mobile" style="width:200px"></el-input>
       <el-button icon="el-icon-search" @click="request"></el-button>
-      <el-button type="primary" class="add" @click="addAccount = true">新增</el-button>
+      <el-button type="primary" class="add" @click="add()">新增</el-button>
     </div>
     <div class="table">
       <el-table :data="tableData" stripe style="width: 100%;">
@@ -20,13 +20,13 @@
         </el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
-            <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`"></el-switch>
+            <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`" @change="status(scope.row)"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
-            <!--<el-button type="text" size="small">密码重置</el-button>-->
+            <!--<el-button type="text" size="small" @click="changePsd(scope.row)">密码重置</el-button>-->
             <el-button type="text" size="small" @click="dele(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -42,7 +42,7 @@
         <el-form-item label="账号" prop="username">
           <el-input style="width:400px;" v-model="roleForm.username"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码">
           <el-input type="password" style="width:400px;" v-model="roleForm.password"></el-input>
         </el-form-item>
         <el-form-item label="手机" prop="mobile">
@@ -136,7 +136,7 @@ export default {
   },
   methods: {
     closeDialog () {
-      this.addAccount = false
+      this.addAccount = false;
       this.title = '新增账号'
       this.addButton = true
       setTimeout( () => {
@@ -187,6 +187,16 @@ export default {
       })
     },
     // 添加
+    add(){
+      this.$data.addAccount = true;
+      this.$data.roleForm = {
+        username: '',
+        password: '',
+        mobile: '',
+        // role_id: '',
+        status: '1'
+      };
+    },
     submitAdd () {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
@@ -238,8 +248,9 @@ export default {
           setupApi.editUser(qs.stringify(list),this.id).then((response) => {
             let returnData = response.data
             if (returnData.errno === 0) {
-              this.addAccount = false
-              this.request()
+              this.addAccount = false;
+
+              this.request();
             } else {
               this.$alert(returnData.msg, {
                 type: 'error',
@@ -282,7 +293,29 @@ export default {
           message: '已取消删除'
         })
       })
-    }
+    },
+    status (row) {
+      let list = {
+        "id":row.id,
+        "status":row.status === 0 ? 1 : 0
+      }
+      let qs = require('querystring')
+      setupApi.changeUserStatus(qs.stringify(list)).then((response) => {
+        let returnData = response.data
+        if (returnData.errno === 0) {
+          this.request()
+        } else {
+          this.$alert(returnData.msg, {
+            type: 'error',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
+    // changePsd(row){
+    //   console.log(row);
+    // }
   }
 }
 </script>
