@@ -41,7 +41,6 @@
           <div style="margin:20px 0;overflow:hidden;">
             <el-tree :data="dialogForm" show-checkbox default-expand-all node-key="id" ref="tree"
                      highlight-current
-                     @check-change="change"
                      :default-checked-keys="checkedIds"
                      class="permission-tree">
             </el-tree>
@@ -161,18 +160,6 @@ export default {
         this.$data.dialogForm = res.data.data
       })
     },
-    change(data, val, child) {
-      // console.log(data)
-      // console.log(val)
-      // console.log(child)
-      // //data该节点的对象，val自身是否被选中，child子节点是否被选中
-      // this.$data.nodeId = data.id;
-      // if(val == true && data.parent_id != 0) {
-      //   this.$data.parentId = this.$refs.tree.getNode(this.$data.nodeId).parent.data.id;
-      //   this.$data.checkedIds.push(this.$data.parentId);
-      // }
-      // console.log(this.$data.checkedIds);
-    },
     //添加
     addForm(){
       this.$data.addRole = true;
@@ -219,6 +206,15 @@ export default {
           if(item.is_permission === 1){
             this.$data.editCheckedIds.push(item.id);
           }
+          if(item.children){
+            for(let item1 of item.children){
+              if(item1.is_permission === 1){
+                this.$data.editCheckedIds.push(item1.id);
+              }
+            }
+          }
+
+
         }
 
       })
@@ -252,7 +248,6 @@ export default {
     },
     // 编辑
     edit (row) {
-      console.log(row)
       this.id = row.id;
       this.add.name = row.name;
       this.add.status = row.status.toString();

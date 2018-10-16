@@ -7,7 +7,7 @@ import Dashboard from '../views/Dashboard'
 import Templates from '../views/template/Templates'
 
 // 登录页面
-import Home from '../views/Home'
+import Login from '../views/Home'
 
 //标签管理
 import tagManage from '../views/tags/tagManage'
@@ -66,13 +66,14 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '',
+      path: '/Login',
       name: 'Login',
-      component: Home,
-      meta: { auth: false }
+      component: Login,
+      meta: { requiresAuth: false }
     },
     {
     path: '/',
+      meta: { requiresAuth: true },
     component: Main,
     children: [{
       path: '/Dashboard',
@@ -168,5 +169,17 @@ const router = new Router({
     ]
     }]
   }]
+})
+
+router.beforeEach((to, from, next) => {
+  let knock_knock = window.localStorage.getItem('knock_knock')
+  if (to.matched.some(record => record.meta.requiresAuth)&& (!knock_knock || knock_knock === null)) {
+    next({
+      path: '/Login',
+      query: { redirect: to.fullPath }
+    })
+  } else {
+    next()
+  }
 })
 export default router

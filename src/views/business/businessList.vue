@@ -68,8 +68,8 @@
         <el-form-item label="账号" prop="username">
           <el-input v-model.trim="account.username"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model.trim="account.password"></el-input>
+        <el-form-item label="密码">
+          <el-input type="password" v-model.trim="account.password"></el-input>
         </el-form-item>
         <el-form-item label="手机"  prop="phone">
           <el-input v-model.trim="account.phone"></el-input>
@@ -229,7 +229,7 @@ export default {
       };
       this.$refs.add.clearValidate();
     },
-    clearAccount(){    	
+    clearAccount(){
       this.$data.account = {
       	mid: '',
         username: '',
