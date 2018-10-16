@@ -38,6 +38,7 @@ export default {
   },
   created: function () {
     // this.$router.replace({name: 'Login'})
+    this.cookieSet();
   },
   mounted: function () {
   },
@@ -45,6 +46,19 @@ export default {
     show:function (ev) {
       if(ev.keyCode == 13){
         this.login();
+      }
+    },
+    cookieSet(){
+      let username = localStorage.getItem('name');
+      let password = localStorage.getItem('password');
+      if(username != '' && username != null && password != ''){
+        this.$data.user.username = username;
+        this.$data.user.password = password;
+        this.$data.user.rememberMe = true;
+      }else{
+        this.$data.user.username = '';
+        this.$data.user.password = '';
+        this.$data.user.rememberMe = false;
       }
     },
     login () {
@@ -60,9 +74,13 @@ export default {
           // this.$router.replace({name: 'Dashboard'})
           // 判断是否记住我
           if (this.user.rememberMe) {
-            storage.setLocalStorage('user-token',response.data.data.access_token)
+            // storage.setLocalStorage('user-token',response.data.data.access_token)
+            localStorage.setItem('name',this.$data.user.username);
+            localStorage.setItem('password',this.$data.user.password);
           } else {
-            storage.setSessionStorage('user-token',response.data.data.access_token)
+            // storage.setSessionStorage('user-token',response.data.data.access_token)
+            localStorage.setItem('name',"");
+            localStorage.setItem('password',"");
           }
         }else if(response.data.msg === '此账号被禁用'){
           this.$message.error(response.data.msg);
