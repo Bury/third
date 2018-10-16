@@ -5,11 +5,11 @@
           <el-table-column prop="id" label="ID"></el-table-column>
           <el-table-column prop="name" label="商家名称"></el-table-column>
           <el-table-column prop="fullname" label="商家全称"></el-table-column>
-          <el-table-column label="状态">
-            <template slot-scope="scope">
-              <el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`"></el-switch>
-            </template>
-          </el-table-column>
+          <!--<el-table-column label="状态">-->
+            <!--<template slot-scope="scope">-->
+              <!--<el-switch inactive-value = "0" active-value="1" :value="`${scope.row.status}`"></el-switch>-->
+            <!--</template>-->
+          <!--</el-table-column>-->
           <el-table-column label="创建时间">
             <template slot-scope="scope" v-if="scope.row.created_at">
               {{scope.row.created_at | date(2)}}
