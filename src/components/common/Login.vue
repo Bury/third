@@ -48,9 +48,7 @@ export default {
       }
     },
     login () {
-
       // 登录逻辑
-      // console.log(this.user.username);
       storage.setLocalStorage('userName',this.user.username);
       let qs = require('querystring')
       userApi.login(qs.stringify(this.user)).then((response) => {
@@ -66,6 +64,9 @@ export default {
           } else {
             storage.setSessionStorage('user-token',response.data.data.access_token)
           }
+        }else if(response.data.msg === '此账号被禁用'){
+          this.$message.error(response.data.msg);
+          this.$data.status = 0;
         } else {
           this.$alert(response.data.msg, {
             type: 'error',
